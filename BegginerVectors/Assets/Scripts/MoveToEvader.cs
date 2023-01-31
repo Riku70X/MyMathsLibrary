@@ -9,14 +9,14 @@ public class MoveToEvader : MonoBehaviour
     private MyVector3 currentEvaderDirection;
     private MyVector3 normalisedEvaderDirection;
 
-    [SerializeField] private float speed;
+    private float speed;
 
     private MyVector3 previousEvaderPosition;
     private MyVector3 currentEvaderVelocity;
 
     MoveToEvader()
     {
-        speed = 0.005f;
+        speed = 5f;
     }
 
     void MoveTowardsEvader()

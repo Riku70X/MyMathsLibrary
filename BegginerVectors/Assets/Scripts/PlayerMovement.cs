@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
         relativeRightVector = new MyVector3(0, 0, -1);
         relativeUpVector = new MyVector3(0, 1, 0);
         eulerAngles = new MyVector3(0, 0, 0);
-        speed = 0.01f;
+        speed = 5f;
     }
 
     // Update is called once per frame
@@ -29,28 +29,32 @@ public class PlayerMovement : MonoBehaviour
         speed *= Time.deltaTime;
         if (Input.GetAxis("Mouse X") > 0)
         {
-            eulerAngles.y -= .025f;
-            transform.Rotate(new Vector3(0, -0.25f, 0));
+            eulerAngles.y -= 0.01221730476f;
+            transform.Rotate(new Vector3(0, 0.7f, 0));
         }
         if (Input.GetAxis("Mouse X") < 0)
         {
-            eulerAngles.y += .025f;
-            transform.Rotate(new Vector3(0, 0.25f, 0));
+            eulerAngles.y += 0.01221730476f;
+            transform.Rotate(new Vector3(0, -0.7f, 0));
         }
-        if (Input.GetAxis("Mouse Y") > 0)
-        {
-            eulerAngles.x += .025f;
-            transform.Rotate(new Vector3(0.25f, 0, 0));
-        }
-        if (Input.GetAxis("Mouse Y") < 0)
-        {
-            eulerAngles.x -= .025f;
-            transform.Rotate(new Vector3(-0.25f, 0, 0));
-        }
+
+        // The Camera Yaw movement changes relative to Pitch, while the Euler angle always uses the global Y-axis, so they become desynced
+
+        //if (Input.GetAxis("Mouse Y") > 0)
+        //{
+        //    eulerAngles.x += 0.01221730476f;
+        //    transform.Rotate(new Vector3(0, 0, 0.7f));
+        //}
+        //if (Input.GetAxis("Mouse Y") < 0)
+        //{
+        //    eulerAngles.x -= 0.01221730476f;
+        //    transform.Rotate(new Vector3(0, 0, -0.7f));
+        //}
 
         relativeForwardVector = MathsLibrary.ConvertEulerToDirection(eulerAngles);
         relativeForwardVelocity = relativeForwardVector.NormaliseVector() * speed;
 
+        Debug.DrawRay(transform.position, relativeForwardVector.ConvertToUnityVector(), Color.green, 0.0f);
 
         relativeRightVector = MathsLibrary.GetCrossProduct(constantUpVector, relativeForwardVector);
         relativeRightVelocity = relativeRightVector.NormaliseVector() * speed;
