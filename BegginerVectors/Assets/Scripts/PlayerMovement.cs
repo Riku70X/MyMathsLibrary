@@ -30,12 +30,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxis("Mouse X") > 0)
         {
             eulerAngles.y -= 0.01221730476f;
-            transform.Rotate(new Vector3(0, 0.7f, 0));
+            transform.Rotate(new MyVector3(0, 0.7f, 0).ConvertToUnityVector());
         }
         if (Input.GetAxis("Mouse X") < 0)
         {
             eulerAngles.y += 0.01221730476f;
-            transform.Rotate(new Vector3(0, -0.7f, 0));
+            transform.Rotate(new MyVector3(0, -0.7f, 0).ConvertToUnityVector());
         }
 
         // The Camera Yaw movement changes relative to Pitch, while the Euler angle always uses the global Y-axis, so they become desynced
@@ -43,12 +43,12 @@ public class PlayerMovement : MonoBehaviour
         //if (Input.GetAxis("Mouse Y") > 0)
         //{
         //    eulerAngles.x += 0.01221730476f;
-        //    transform.Rotate(new Vector3(0, 0, 0.7f));
+        //transform.Rotate(new MyVector3(0, 0, 0.7f).ConvertToUnityVector());
         //}
         //if (Input.GetAxis("Mouse Y") < 0)
         //{
         //    eulerAngles.x -= 0.01221730476f;
-        //    transform.Rotate(new Vector3(0, 0, -0.7f));
+        //transform.Rotate(new MyVector3(0, 0, -0.7f).ConvertToUnityVector());
         //}
 
         relativeForwardVector = MathsLibrary.ConvertEulerToDirection(eulerAngles);

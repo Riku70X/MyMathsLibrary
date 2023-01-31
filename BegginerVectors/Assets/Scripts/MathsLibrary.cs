@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class MathsLibrary
 {
-    public static float GetVector2Angle(Vector2 vector)
+    public static float GetVector2Angle(MyVector2 vector)
     {
         return Mathf.Atan2(vector.y, vector.x);
     }
 
-    public static Vector2 GetVector2Direction(float angle)
+    public static MyVector2 GetVector2Direction(float angle)
     {
-        Vector2 direction = Vector2.zero;
+        MyVector2 direction = new MyVector2(0, 0);
         direction.x = Mathf.Cos(angle);
         direction.y = Mathf.Sin(angle);
         return direction;
@@ -31,5 +31,23 @@ public class MathsLibrary
         vectorC.y = (vectorA.z * vectorB.x) - (vectorA.x * vectorB.z);
         vectorC.z = (vectorA.x * vectorB.y) - (vectorA.y * vectorB.x);
         return vectorC;
+    }
+
+    public static MyVector2 GetLerp(MyVector2 vectorA, MyVector2 vectorB, float t)
+    {
+        MyVector2 returnVector = new MyVector2(0, 0);
+        vectorA *= (1 - t);
+        vectorB *= (t);
+        returnVector = vectorA + vectorB;
+        return returnVector;
+    }
+
+    public static MyVector3 GetLerp(MyVector3 vectorA, MyVector3 vectorB, float t)
+    {
+        MyVector3 returnVector = new MyVector3(0, 0, 0);
+        vectorA *= (1 - t);
+        vectorB *= (t);
+        returnVector = vectorA + vectorB;
+        return returnVector;
     }
 }
