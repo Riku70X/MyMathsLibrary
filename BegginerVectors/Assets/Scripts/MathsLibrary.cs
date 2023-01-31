@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class MathsLibrary
 {
-    // Workshop 3
-
     public static float GetVector2Angle(Vector2 vector)
     {
         return Mathf.Atan2(vector.y, vector.x);

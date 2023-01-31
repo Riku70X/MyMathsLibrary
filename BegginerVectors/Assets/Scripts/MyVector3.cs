@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class MyVector3
 {
-    // Workshop 1
-
     public float x, y, z;
 
     public MyVector3(float x, float y, float z)
@@ -58,8 +56,6 @@ public class MyVector3
         MyVector3 returnVector = new MyVector3(vector.x, vector.y, vector.z);
         return returnVector;
     }
-
-    // Workshop 2
 
     public float GetVectorLengthSquared()
     {
