@@ -16,20 +16,20 @@ public class MoveToEvader : MonoBehaviour
 
     MoveToEvader()
     {
-        speed = 0.003f;
+        speed = 0.005f;
     }
 
     void MoveTowardsEvader()
     {
         currentPersuerPosition = MyVector3.ConvertToCustomVector(transform.position);
         currentEvaderPosition = MyVector3.ConvertToCustomVector(evader.transform.position);
-        currentEvaderDirection = MyVector3.SubtractVector(currentEvaderPosition, currentPersuerPosition);
-        currentEvaderVelocity = MyVector3.SubtractVector(currentEvaderPosition, previousEvaderPosition);
+        currentEvaderDirection = currentEvaderPosition - currentPersuerPosition;
+        currentEvaderVelocity = currentEvaderPosition - previousEvaderPosition;
 
         if (MyVector3.GetDotProduct(currentEvaderDirection, currentEvaderVelocity) > 0)
         {
             normalisedEvaderDirection = currentEvaderDirection.NormaliseVector();
-            currentPersuerPosition = MyVector3.AddVector(currentPersuerPosition, MyVector3.MultiplyVector(normalisedEvaderDirection, speed));
+            currentPersuerPosition += (normalisedEvaderDirection * speed);
             transform.position = currentPersuerPosition.ConvertToUnityVector();
         }
 

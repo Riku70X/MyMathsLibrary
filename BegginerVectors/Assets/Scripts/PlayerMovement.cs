@@ -44,45 +44,65 @@ public class PlayerMovement : MonoBehaviour
         }
 
         relativeForwardVector = MathsLibrary.ConvertEulerToDirection(eulerAngles);
-        relativeForwardVelocity = MyVector3.MultiplyVector(relativeForwardVector.NormaliseVector(), speed);
+        relativeForwardVelocity = relativeForwardVector.NormaliseVector() * speed;
 
         relativeRightVector = MathsLibrary.GetCrossProduct(constantUpVector, relativeForwardVector);
-        relativeRightVelocity = MyVector3.MultiplyVector(relativeRightVector.NormaliseVector(), speed);
+        relativeRightVelocity = relativeRightVector.NormaliseVector() * speed;
 
         relativeUpVector = MathsLibrary.GetCrossProduct(relativeForwardVector, relativeRightVector);
-        relativeUpVelocity = MyVector3.MultiplyVector(relativeUpVector.NormaliseVector(), speed);
+        relativeUpVelocity = relativeUpVector.NormaliseVector() * speed;
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
+            // Basic movement
             //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + .005f);
+
+            // Using AddVector
             //MyVector3 x = new MyVector3(0, 0, 0);
-            //x = MyVector3.AddVector(MyVector3.ConvertToCustomVector(transform.position), new MyVector3(0, 0, 0.005f));
+            //x = MyVector3.ConvertToCustomVector(transform.position) + new MyVector3(0, 0, 0.005f);
             //transform.position = x.ConvertToUnityVector();
+
+            // Using Euler
             transform.position += relativeForwardVelocity.ConvertToUnityVector();
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
+            // Basic movement
             //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - .005f);
+            
+            // Using Euler
             transform.position -= relativeForwardVelocity.ConvertToUnityVector();
         }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
+            // Basic movement
             //transform.position = new Vector3(transform.position.x + .005f, transform.position.y, transform.position.z);
+            
+            // Using Euler
             transform.position += relativeRightVelocity.ConvertToUnityVector();
         }
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
+            // Basic movement
             //transform.position = new Vector3(transform.position.x - .005f, transform.position.y, transform.position.z);
+            
+            // Using Euler
             transform.position -= relativeRightVelocity.ConvertToUnityVector();
         }
         if (Input.GetKey(KeyCode.E))
         {
+            // Basic movement
             //transform.position = new Vector3(transform.position.x, transform.position.y + .005f, transform.position.z);
+            
+            // Using Euler
             transform.position += relativeUpVelocity.ConvertToUnityVector();
         }
         if (Input.GetKey(KeyCode.Q))
         {
+            // Basic movement
             //transform.position = new Vector3(transform.position.x, transform.position.y - .005f, transform.position.z);
+            
+            // Using Euler
             transform.position -= relativeUpVelocity.ConvertToUnityVector();
         }
     }

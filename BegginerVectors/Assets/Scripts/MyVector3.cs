@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MyVector3
@@ -22,6 +23,11 @@ public class MyVector3
         return vectorSum;
     }
 
+    public static MyVector3 operator +(MyVector3 lhs, MyVector3 rhs)
+    {
+        return AddVector(lhs, rhs);
+    }
+
     public static MyVector3 SubtractVector(MyVector3 vectorA, MyVector3 vectorB)
     {
         MyVector3 vectorDifference = new MyVector3(0, 0, 0);
@@ -29,6 +35,11 @@ public class MyVector3
         vectorDifference.y = vectorA.y - vectorB.y;
         vectorDifference.z = vectorA.z - vectorB.z;
         return vectorDifference;
+    }
+
+    public static MyVector3 operator -(MyVector3 lhs, MyVector3 rhs)
+    {
+        return SubtractVector(lhs, rhs);
     }
 
     public float GetVectorLength()
@@ -64,6 +75,11 @@ public class MyVector3
         return returnVector;
     }
 
+    public static MyVector3 operator *(MyVector3 lhs, float rhs)
+    {
+        return MultiplyVector(lhs, rhs);
+    }
+
     public static MyVector3 DivideVector(MyVector3 vector, float divisor)
     {
         MyVector3 returnVector = new MyVector3(vector.x, vector.y, vector.z);
@@ -71,11 +87,15 @@ public class MyVector3
         return returnVector;
     }
 
+    public static MyVector3 operator /(MyVector3 lhs, float rhs)
+    {
+        return DivideVector(lhs, rhs);
+    }
+
     public MyVector3 NormaliseVector()
     {
         MyVector3 returnVector = new MyVector3(x, y, z);
-        float length = GetVectorLength();
-        returnVector.x /= length; returnVector.y /= length; returnVector.z /= length;
+        returnVector /= GetVectorLength();
         return returnVector;
     }
 
