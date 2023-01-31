@@ -46,9 +46,11 @@ public class MoveToEvader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        speed *= Time.deltaTime;
         //if (Input.GetKey(KeyCode.Space))
         {
             MoveTowardsEvader();
         }
+        speed /= Time.deltaTime;
     }
 }

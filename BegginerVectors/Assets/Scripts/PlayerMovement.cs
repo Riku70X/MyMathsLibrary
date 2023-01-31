@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    MyVector3 constantUpVector;
-    MyVector3 relativeForwardVector;
-    MyVector3 relativeForwardVelocity;
-    MyVector3 relativeRightVector;
-    MyVector3 relativeRightVelocity;
-    MyVector3 relativeUpVector;
-    MyVector3 relativeUpVelocity;
-    MyVector3 eulerAngles;
+    private MyVector3 constantUpVector;
+    private MyVector3 relativeForwardVector;
+    private MyVector3 relativeForwardVelocity;
+    private MyVector3 relativeRightVector;
+    private MyVector3 relativeRightVelocity;
+    private MyVector3 relativeUpVector;
+    private MyVector3 relativeUpVelocity;
+    private MyVector3 eulerAngles;
 
     float speed;
 
@@ -26,25 +26,31 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        speed *= Time.deltaTime;
         if (Input.GetAxis("Mouse X") > 0)
         {
             eulerAngles.y -= .025f;
+            transform.Rotate(new Vector3(0, -0.25f, 0));
         }
         if (Input.GetAxis("Mouse X") < 0)
         {
             eulerAngles.y += .025f;
+            transform.Rotate(new Vector3(0, 0.25f, 0));
         }
         if (Input.GetAxis("Mouse Y") > 0)
         {
             eulerAngles.x += .025f;
+            transform.Rotate(new Vector3(0.25f, 0, 0));
         }
         if (Input.GetAxis("Mouse Y") < 0)
         {
             eulerAngles.x -= .025f;
+            transform.Rotate(new Vector3(-0.25f, 0, 0));
         }
 
         relativeForwardVector = MathsLibrary.ConvertEulerToDirection(eulerAngles);
         relativeForwardVelocity = relativeForwardVector.NormaliseVector() * speed;
+
 
         relativeRightVector = MathsLibrary.GetCrossProduct(constantUpVector, relativeForwardVector);
         relativeRightVelocity = relativeRightVector.NormaliseVector() * speed;
@@ -105,5 +111,6 @@ public class PlayerMovement : MonoBehaviour
             // Using Euler
             transform.position -= relativeUpVelocity.ConvertToUnityVector();
         }
+        speed /= Time.deltaTime;
     }
 }
