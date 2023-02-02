@@ -66,6 +66,32 @@ public class MyMatrix4x4 : MonoBehaviour
         }
     }
 
+    public MyVector4 GetRow(int row)
+    {
+        MyVector4 returnVector = new MyVector4(0, 0, 0, 0)
+        {
+            x = values[row, 0],
+            y = values[row, 1],
+            z = values[row, 2],
+            w = values[row, 3]
+        };
+
+        return returnVector;
+    }
+
+    public MyVector4 GetColumn(int column)
+    {
+        MyVector4 returnVector = new MyVector4(0, 0, 0, 0)
+        {
+            x = values[0, column],
+            y = values[1, column],
+            z = values[2, column],
+            w = values[3, column]
+        };
+
+        return returnVector;
+    }
+
     public static MyVector4 MultiplyMatrices4x4by4x1 (MyMatrix4x4 matrix, MyVector4 vector)
     {
         MyVector4 returnVector = new MyVector4(0, 0, 0, 0)
@@ -86,7 +112,16 @@ public class MyMatrix4x4 : MonoBehaviour
 
     public static MyMatrix4x4 MultiplyMatrices4x4by4x4 (MyMatrix4x4 matrixA, MyMatrix4x4 matrixB)
     {
-        MyMatrix4x4 returnMatrix = MyMatrix4x4.Identity;
+        MyMatrix4x4 returnMatrix = MyMatrix4x4.identity;
+
+        for (int row = 0; row < 4; row++)
+        {
+            for (int column = 0; column < 4; column++)
+            {
+                returnMatrix.values[row, column] = MyVector4.GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column));
+            }
+        }
+        
         return returnMatrix;
     }
 
@@ -110,6 +145,29 @@ public class MyMatrix4x4 : MonoBehaviour
         return returnVector3;
     }
 
+    public static MyVector3 RotateVector(MyVector3 vector3, float pitch, float yaw, float roll)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new MyVector4(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+        MyMatrix4x4 rotateMatrix = new MyMatrix4x4(new MyVector3(Mathf.Cos(roll), Mathf.Sin(roll), 0), new MyVector3(-Mathf.Sin(roll), Mathf.Cos(roll), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+
+        returnVector4 = rotateMatrix * vector4;
+
+        rotateMatrix = new MyMatrix4x4(new MyVector3(Mathf.Cos(yaw), 0, -Mathf.Sin(yaw)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(yaw), 0, Mathf.Cos(yaw)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+
+        returnVector4 = rotateMatrix * returnVector4;
+
+        rotateMatrix = new MyMatrix4x4(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(pitch), Mathf.Sin(pitch)), new MyVector3(0, -Mathf.Sin(pitch), Mathf.Cos(pitch)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+
+        returnVector4 = rotateMatrix * returnVector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
     public static MyVector3 TranslateVector(MyVector3 vector3, float translateX, float translateY, float translateZ)
     {
         MyVector3 returnVector3;
@@ -125,26 +183,30 @@ public class MyMatrix4x4 : MonoBehaviour
         return returnVector3;
     }
 
-    public static MyVector3 RotateVector(MyVector3 vector3, float pitch, float yaw, float roll)
+    public MyMatrix4x4 ScaleInverse()
     {
-        MyVector3 returnVector3;
+        MyMatrix4x4 returnMatrix = identity;
 
-        MyVector4 vector4 = new MyVector4(vector3.x, vector3.y, vector3.z, 1);
-        MyVector4 returnVector4;
-        MyMatrix4x4 rotateMatrix = new MyMatrix4x4(new MyVector3(Mathf.Cos(roll), Mathf.Sin(roll), 0), new MyVector3(-Mathf.Sin(roll), Mathf.Cos(roll), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        returnMatrix.values[0, 0] = 1 / values[0, 0];
+        returnMatrix.values[1, 1] = 1 / values[1, 1];
+        returnMatrix.values[2, 2] = 1 / values[2, 2];
 
-        returnVector4 = rotateMatrix * vector4;
+        return returnMatrix;
+    }
 
-        rotateMatrix = new MyMatrix4x4(new MyVector3(Mathf.Cos(yaw), 0, -Mathf.Sin(yaw)),new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(yaw), 0, Mathf.Cos(yaw)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+    public MyMatrix4x4 RotationInverse()
+    {
+        return new MyMatrix4x4(GetRow(0), GetRow(1), GetRow(2), GetRow(3)); // gives a warning about "new MyMatrix4x4", not sure why
+    }
 
-        returnVector4 = rotateMatrix * returnVector4;
+    public MyMatrix4x4 TranslationInverse()
+    {
+        MyMatrix4x4 returnMatrix = identity;
 
-        rotateMatrix = new MyMatrix4x4(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(pitch), Mathf.Sin(pitch)), new MyVector3(0, -Mathf.Sin(pitch), Mathf.Cos(pitch)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        returnMatrix.values[0, 3] = -values[0, 3];
+        returnMatrix.values[1, 3] = -values[1, 3];
+        returnMatrix.values[2, 3] = -values[2, 3];
 
-        returnVector4 = rotateMatrix * returnVector4;
-
-        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
-
-        return returnVector3;
+        return returnMatrix;
     }
 }
