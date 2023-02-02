@@ -57,6 +57,16 @@ public class MyVector3
         return returnVector;
     }
 
+    public static MyVector3[] ConvertToCustomVectorArray(Vector3[] vectorArray)
+    {
+        MyVector3[] returnVectorArray = new MyVector3[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = ConvertToCustomVector(vectorArray[i]);
+        }
+        return returnVectorArray;
+    }
+
     public float GetVectorLengthSquared()
     {
         float length = (x * x) + (y * y) + (z * z);

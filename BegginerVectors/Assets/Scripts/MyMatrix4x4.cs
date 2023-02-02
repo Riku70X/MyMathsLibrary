@@ -70,4 +70,43 @@ public class MyMatrix4x4 : MonoBehaviour
     {
         return MultiplyMatrices4x4by4x1(lhs, rhs);
     }
+
+    public static MyVector3 ScaleVector (MyVector3 vector3, float scalarX, float scalarY, float scalarZ)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new MyVector4(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4 = new MyVector4(0, 0, 0, 0);
+        MyMatrix4x4 scaleMatrix = new MyMatrix4x4(returnVector4, returnVector4, returnVector4, returnVector4);
+
+        scaleMatrix.values[0, 0] = scalarX;
+        scaleMatrix.values[1, 1] = scalarY;
+        scaleMatrix.values[2, 2] = scalarZ;
+        scaleMatrix.values[3, 3] = 1;
+        returnVector4 = scaleMatrix * vector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
+    public static MyVector3 TranslateVector(MyVector3 vector3, float translateX, float translateY, float translateZ)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new MyVector4(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4 = new MyVector4(0, 0, 0, 0);
+        MyMatrix4x4 translateMatrix = new MyMatrix4x4(returnVector4, returnVector4, returnVector4, returnVector4);
+
+        translateMatrix.values[0, 0] = 1; translateMatrix.values[1, 1] = 1; translateMatrix.values[2, 2] = 1;
+        translateMatrix.values[0, 3] = translateX;
+        translateMatrix.values[1, 3] = translateY;
+        translateMatrix.values[2, 3] = translateZ;
+        translateMatrix.values[3, 3] = 1;
+        returnVector4 = translateMatrix * vector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
 }
