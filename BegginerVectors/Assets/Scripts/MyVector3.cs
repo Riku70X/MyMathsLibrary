@@ -51,6 +51,16 @@ public class MyVector3
         return returnVector;
     }
 
+    public static Vector3[] ConvertToUnityVectorArray(MyVector3[] vectorArray)
+    {
+        Vector3[] returnVectorArray = new Vector3[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i].ConvertToUnityVector();
+        }
+        return returnVectorArray;
+    }
+
     public static MyVector3 ConvertToCustomVector(Vector3 vector)
     {
         MyVector3 returnVector = new MyVector3(vector.x, vector.y, vector.z);

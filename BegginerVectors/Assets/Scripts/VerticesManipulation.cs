@@ -2,21 +2,37 @@ using UnityEngine;
 
 public class VerticesManipulation : MonoBehaviour
 {
-    MyVector3[] ModelSpaceVertices;
+    MyVector3[] modelSpaceVertices;
+
+    // Mesh filter is a component which stores information about the current mesh
+    MeshFilter meshFilter;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Mesh filter is a component which stores information about the current mesh
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        meshFilter = GetComponent<MeshFilter>();
 
         // We get a copy of all the vertices
-        ModelSpaceVertices = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
+        modelSpaceVertices = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // Define a new array with the correct size
+        MyVector3[] transformedVertices = new MyVector3[modelSpaceVertices.Length];
+
+        // Transform each individual vertex
+        for (int i = 0; i < transformedVertices.Length; i++) 
+        {
+            transformedVertices[i] = MyMatrix4x4.ScaleVector(modelSpaceVertices[i], 2, 1, 1);
+        }
+
+        // Assign our new vertices
+        meshFilter.mesh.vertices = MyVector3.ConvertToUnityVectorArray(transformedVertices);
+
+        // These final steps are sometimes necessary to make the mesh look correct
+        meshFilter.mesh.RecalculateNormals();
+        meshFilter.mesh.RecalculateBounds();
     }
 }
