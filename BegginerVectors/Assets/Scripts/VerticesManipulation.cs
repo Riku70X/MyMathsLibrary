@@ -23,9 +23,14 @@ public class VerticesManipulation : MonoBehaviour
         MyVector3[] transformedVertices = new MyVector3[modelSpaceVertices.Length];
 
         // Transform each individual vertex
-        for (int i = 0; i < transformedVertices.Length; i++) 
+        //for (int i = 0; i < transformedVertices.Length; i++) 
+        //{
+        //    transformedVertices[i] = MyMatrix4x4.ScaleVector(modelSpaceVertices[i], 1, 1, 1);
+        //}
+
+        for (int i = 0; i < transformedVertices.Length; i++)
         {
-            transformedVertices[i] = MyMatrix4x4.ScaleVector(modelSpaceVertices[i], 2, 1, 1);
+            transformedVertices[i] = MyMatrix4x4.TranslateVector(modelSpaceVertices[i], 0, 0, 0);
         }
 
         // Assign our new vertices

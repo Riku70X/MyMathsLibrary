@@ -77,7 +77,7 @@ public class MyMatrix4x4 : MonoBehaviour
 
         MyVector4 vector4 = new MyVector4(vector3.x, vector3.y, vector3.z, 1);
         MyVector4 returnVector4 = new MyVector4(0, 0, 0, 0);
-        MyMatrix4x4 scaleMatrix = new MyMatrix4x4(returnVector4, returnVector4, returnVector4, returnVector4);
+        MyMatrix4x4 scaleMatrix = new MyMatrix4x4(returnVector4, returnVector4, returnVector4, returnVector4); // gives a warning about "new MyMatrix4x4", not sure why
 
         scaleMatrix.values[0, 0] = scalarX;
         scaleMatrix.values[1, 1] = scalarY;
@@ -94,9 +94,9 @@ public class MyMatrix4x4 : MonoBehaviour
     {
         MyVector3 returnVector3;
 
-        MyVector4 vector4 = new MyVector4(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 vector4 = new MyVector4(vector3.x, vector3.y, vector3.z, 1); 
         MyVector4 returnVector4 = new MyVector4(0, 0, 0, 0);
-        MyMatrix4x4 translateMatrix = new MyMatrix4x4(returnVector4, returnVector4, returnVector4, returnVector4);
+        MyMatrix4x4 translateMatrix = new MyMatrix4x4(returnVector4, returnVector4, returnVector4, returnVector4); // gives a warning about "new MyMatrix4x4", not sure why
 
         translateMatrix.values[0, 0] = 1; translateMatrix.values[1, 1] = 1; translateMatrix.values[2, 2] = 1;
         translateMatrix.values[0, 3] = translateX;
