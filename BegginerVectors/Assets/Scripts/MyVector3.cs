@@ -13,10 +13,12 @@ public class MyVector3
 
     public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
     {
-        MyVector3 vectorSum = new MyVector3(0, 0, 0);
-        vectorSum.x = vectorA.x + vectorB.x;
-        vectorSum.y = vectorA.y + vectorB.y;
-        vectorSum.z = vectorA.z + vectorB.z;
+        MyVector3 vectorSum = new MyVector3(0, 0, 0)
+        {
+            x = vectorA.x + vectorB.x,
+            y = vectorA.y + vectorB.y,
+            z = vectorA.z + vectorB.z
+        };
         return vectorSum;
     }
 
@@ -27,10 +29,12 @@ public class MyVector3
 
     public static MyVector3 SubtractVector(MyVector3 vectorA, MyVector3 vectorB)
     {
-        MyVector3 vectorDifference = new MyVector3(0, 0, 0);
-        vectorDifference.x = vectorA.x - vectorB.x;
-        vectorDifference.y = vectorA.y - vectorB.y;
-        vectorDifference.z = vectorA.z - vectorB.z;
+        MyVector3 vectorDifference = new MyVector3(0, 0, 0)
+        {
+            x = vectorA.x - vectorB.x,
+            y = vectorA.y - vectorB.y,
+            z = vectorA.z - vectorB.z
+        };
         return vectorDifference;
     }
 

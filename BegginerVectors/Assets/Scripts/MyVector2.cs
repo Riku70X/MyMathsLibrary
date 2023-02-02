@@ -12,9 +12,11 @@ public class MyVector2
 
     public static MyVector2 AddVector(MyVector2 vectorA, MyVector2 vectorB)
     {
-        MyVector2 vectorSum = new MyVector2(0, 0);
-        vectorSum.x = vectorA.x + vectorB.x;
-        vectorSum.y = vectorA.y + vectorB.y;
+        MyVector2 vectorSum = new MyVector2(0, 0)
+        {
+            x = vectorA.x + vectorB.x,
+            y = vectorA.y + vectorB.y
+        };
         return vectorSum;
     }
 
@@ -25,9 +27,11 @@ public class MyVector2
 
     public static MyVector2 SubtractVector(MyVector2 vectorA, MyVector2 vectorB)
     {
-        MyVector2 vectorDifference = new MyVector2(0, 0);
-        vectorDifference.x = vectorA.x - vectorB.x;
-        vectorDifference.y = vectorA.y - vectorB.y;
+        MyVector2 vectorDifference = new MyVector2(0, 0)
+        {
+            x = vectorA.x - vectorB.x,
+            y = vectorA.y - vectorB.y
+        };
         return vectorDifference;
     }
 
@@ -48,10 +52,30 @@ public class MyVector2
         return returnVector;
     }
 
+    public static Vector2[] ConvertToUnityVectorArray(MyVector2[] vectorArray)
+    {
+        Vector2[] returnVectorArray = new Vector2[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i].ConvertToUnityVector();
+        }
+        return returnVectorArray;
+    }
+
     public static MyVector2 ConvertToCustomVector(Vector2 vector)
     {
         MyVector2 returnVector = new MyVector2(vector.x, vector.y);
         return returnVector;
+    }
+
+    public static MyVector2[] ConvertToCustomVectorArray(Vector2[] vectorArray)
+    {
+        MyVector2[] returnVectorArray = new MyVector2[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = ConvertToCustomVector(vectorArray[i]);
+        }
+        return returnVectorArray;
     }
 
     public float GetVectorLengthSquared()

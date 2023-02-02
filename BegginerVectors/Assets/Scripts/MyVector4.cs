@@ -14,11 +14,13 @@ public class MyVector4
 
     public static MyVector4 AddVector(MyVector4 vectorA, MyVector4 vectorB)
     {
-        MyVector4 vectorSum = new MyVector4(0, 0, 0, 0);
-        vectorSum.x = vectorA.x + vectorB.x;
-        vectorSum.y = vectorA.y + vectorB.y;
-        vectorSum.z = vectorA.z + vectorB.z;
-        vectorSum.w = vectorA.w + vectorB.w;
+        MyVector4 vectorSum = new MyVector4(0, 0, 0, 0)
+        {
+            x = vectorA.x + vectorB.x,
+            y = vectorA.y + vectorB.y,
+            z = vectorA.z + vectorB.z,
+            w = vectorA.w + vectorB.w
+        };
         return vectorSum;
     }
 
@@ -29,11 +31,13 @@ public class MyVector4
 
     public static MyVector4 SubtractVector(MyVector4 vectorA, MyVector4 vectorB)
     {
-        MyVector4 vectorDifference = new MyVector4(0, 0, 0, 0);
-        vectorDifference.x = vectorA.x - vectorB.x;
-        vectorDifference.y = vectorA.y - vectorB.y;
-        vectorDifference.z = vectorA.z - vectorB.z;
-        vectorDifference.w = vectorA.w - vectorB.w;
+        MyVector4 vectorDifference = new MyVector4(0, 0, 0, 0)
+        {
+            x = vectorA.x - vectorB.x,
+            y = vectorA.y - vectorB.y,
+            z = vectorA.z - vectorB.z,
+            w = vectorA.w - vectorB.w
+        };
         return vectorDifference;
     }
 
@@ -54,10 +58,30 @@ public class MyVector4
         return returnVector;
     }
 
+    public static Vector4[] ConvertToUnityVectorArray(MyVector4[] vectorArray)
+    {
+        Vector4[] returnVectorArray = new Vector4[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i].ConvertToUnityVector();
+        }
+        return returnVectorArray;
+    }
+
     public static MyVector4 ConvertToCustomVector(Vector4 vector)
     {
         MyVector4 returnVector = new MyVector4(vector.x, vector.y, vector.z, vector.w);
         return returnVector;
+    }
+
+    public static MyVector4[] ConvertToCustomVectorArray(Vector4[] vectorArray)
+    {
+        MyVector4[] returnVectorArray = new MyVector4[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = ConvertToCustomVector(vectorArray[i]);
+        }
+        return returnVectorArray;
     }
 
     public float GetVectorLengthSquared()
