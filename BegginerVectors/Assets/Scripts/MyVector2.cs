@@ -2,13 +2,22 @@ using UnityEngine;
 
 public class MyVector2
 {
-    public float x, y, z;
+    public float x, y;
 
     public MyVector2(float x, float y)
     {
         this.x = x;
         this.y = y;
     }
+
+    public static MyVector2 zero
+    { get { return new MyVector2(0, 0); } }
+
+    public static MyVector2 right
+    { get { return new MyVector2(1, 0); } }
+
+    public static MyVector2 up
+    { get { return new MyVector2(0, 1); } }
 
     public static MyVector2 AddVector(MyVector2 vectorA, MyVector2 vectorB)
     {

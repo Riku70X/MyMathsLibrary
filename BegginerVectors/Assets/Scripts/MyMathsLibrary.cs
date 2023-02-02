@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MathsLibrary
+public class MyMathsLibrary
 {
     public static float GetVector2Angle(MyVector2 vector)
     {

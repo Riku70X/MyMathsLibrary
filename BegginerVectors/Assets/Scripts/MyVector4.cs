@@ -12,6 +12,9 @@ public class MyVector4
         this.w = w;
     }
 
+    public static MyVector4 zero
+    { get { return new MyVector4(0, 0, 0, 0); } }
+    
     public static MyVector4 AddVector(MyVector4 vectorA, MyVector4 vectorB)
     {
         MyVector4 vectorSum = new MyVector4(0, 0, 0, 0)

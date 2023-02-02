@@ -54,6 +54,18 @@ public class MyMatrix4x4 : MonoBehaviour
         values[3, 3] = 1;
     }
 
+    public static MyMatrix4x4 identity
+    {
+        get
+        {
+            return new MyMatrix4x4(
+                new MyVector4(1, 0, 0, 0),
+                new MyVector4(0, 1, 0, 0),
+                new MyVector4(0, 0, 1, 0),
+                new MyVector4(0, 0, 0, 1));
+        }
+    }
+
     public static MyVector4 MultiplyMatrices4x4by4x1 (MyMatrix4x4 matrix, MyVector4 vector)
     {
         MyVector4 returnVector = new MyVector4(0, 0, 0, 0)
@@ -70,6 +82,17 @@ public class MyMatrix4x4 : MonoBehaviour
     public static MyVector4 operator *(MyMatrix4x4 lhs, MyVector4 rhs)
     {
         return MultiplyMatrices4x4by4x1(lhs, rhs);
+    }
+
+    public static MyMatrix4x4 MultiplyMatrices4x4by4x4 (MyMatrix4x4 matrixA, MyMatrix4x4 matrixB)
+    {
+        MyMatrix4x4 returnMatrix = MyMatrix4x4.Identity;
+        return returnMatrix;
+    }
+
+    public static MyMatrix4x4 operator *(MyMatrix4x4 lhs, MyMatrix4x4 rhs)
+    {
+        return MultiplyMatrices4x4by4x4(lhs, rhs);
     }
 
     public static MyVector3 ScaleVector (MyVector3 vector3, float scalarX, float scalarY, float scalarZ)
@@ -107,7 +130,7 @@ public class MyMatrix4x4 : MonoBehaviour
         MyVector3 returnVector3;
 
         MyVector4 vector4 = new MyVector4(vector3.x, vector3.y, vector3.z, 1);
-        MyVector4 returnVector4 = new MyVector4(0, 0, 0, 0);
+        MyVector4 returnVector4;
         MyMatrix4x4 rotateMatrix = new MyMatrix4x4(new MyVector3(Mathf.Cos(roll), Mathf.Sin(roll), 0), new MyVector3(-Mathf.Sin(roll), Mathf.Cos(roll), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
 
         returnVector4 = rotateMatrix * vector4;

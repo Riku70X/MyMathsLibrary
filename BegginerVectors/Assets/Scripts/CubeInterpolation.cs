@@ -15,7 +15,7 @@ public class CubeInterpolation : MonoBehaviour
     void Update()
     {
         currentPosition = MyVector3.ConvertToCustomVector(transform.position);
-        currentPosition = MathsLibrary.GetLerp(currentPosition, destination, Time.deltaTime);
+        currentPosition = MyMathsLibrary.GetLerp(currentPosition, destination, Time.deltaTime);
         transform.position = currentPosition.ConvertToUnityVector();
     }
 }

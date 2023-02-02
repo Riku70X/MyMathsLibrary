@@ -10,6 +10,17 @@ public class MyVector3
         this.y = y;
         this.z = z;
     }
+    public static MyVector3 zero
+    { get { return new MyVector3(0, 0, 0); } }
+
+    public static MyVector3 right
+    { get { return new MyVector3(1, 0, 0); } }
+
+    public static MyVector3 up
+    { get { return new MyVector3(0, 1, 0); } }
+
+    public static MyVector3 forward
+    { get { return new MyVector3(0, 0, 1); } }
 
     public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
     {
