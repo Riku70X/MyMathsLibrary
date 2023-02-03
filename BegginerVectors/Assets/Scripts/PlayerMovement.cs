@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         speed *= Time.deltaTime;
+
         if (Input.GetAxis("Mouse X") > 0)
         {
             eulerAngles.y -= 0.01221730476f;
@@ -68,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
             //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + .005f);
 
             // Using AddVector
-            //MyVector3 x = new MyVector3(0, 0, 0);
+            //MyVector3 x = new(0, 0, 0);
             //x = MyVector3.ConvertToCustomVector(transform.position) + new MyVector3(0, 0, 0.005f);
             //transform.position = x.ConvertToUnityVector();
 
@@ -115,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
             // Using Euler
             transform.position -= relativeUpVelocity.ConvertToUnityVector();
         }
+
         speed /= Time.deltaTime;
     }
 }

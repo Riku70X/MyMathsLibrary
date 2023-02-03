@@ -21,7 +21,7 @@ public class MyVector2
 
     public static MyVector2 AddVector(MyVector2 vectorA, MyVector2 vectorB)
     {
-        MyVector2 vectorSum = new MyVector2(0, 0)
+        MyVector2 vectorSum = new(0, 0)
         {
             x = vectorA.x + vectorB.x,
             y = vectorA.y + vectorB.y
@@ -36,7 +36,7 @@ public class MyVector2
 
     public static MyVector2 SubtractVector(MyVector2 vectorA, MyVector2 vectorB)
     {
-        MyVector2 vectorDifference = new MyVector2(0, 0)
+        MyVector2 vectorDifference = new(0, 0)
         {
             x = vectorA.x - vectorB.x,
             y = vectorA.y - vectorB.y
@@ -57,7 +57,7 @@ public class MyVector2
 
     public Vector2 ConvertToUnityVector()
     {
-        Vector2 returnVector = new Vector2(x, y);
+        Vector2 returnVector = new(x, y);
         return returnVector;
     }
 
@@ -73,7 +73,7 @@ public class MyVector2
 
     public static MyVector2 ConvertToCustomVector(Vector2 vector)
     {
-        MyVector2 returnVector = new MyVector2(vector.x, vector.y);
+        MyVector2 returnVector = new(vector.x, vector.y);
         return returnVector;
     }
 
@@ -95,7 +95,7 @@ public class MyVector2
 
     public static MyVector2 MultiplyVector(MyVector2 vector, float multiplier)
     {
-        MyVector2 returnVector = new MyVector2(vector.x, vector.y);
+        MyVector2 returnVector = new(vector.x, vector.y);
         returnVector.x *= multiplier; returnVector.y *= multiplier;
         return returnVector;
     }
@@ -107,7 +107,7 @@ public class MyVector2
 
     public static MyVector2 DivideVector(MyVector2 vector, float divisor)
     {
-        MyVector2 returnVector = new MyVector2(vector.x, vector.y);
+        MyVector2 returnVector = new(vector.x, vector.y);
         returnVector.x /= divisor; returnVector.y /= divisor;
         return returnVector;
     }
@@ -119,7 +119,7 @@ public class MyVector2
 
     public MyVector2 NormaliseVector()
     {
-        MyVector2 returnVector = new MyVector2(x, y);
+        MyVector2 returnVector = new(x, y);
         returnVector /= GetVectorLength();
         return returnVector;
     }

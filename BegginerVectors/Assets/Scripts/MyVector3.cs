@@ -24,7 +24,7 @@ public class MyVector3
 
     public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
     {
-        MyVector3 vectorSum = new MyVector3(0, 0, 0)
+        MyVector3 vectorSum = new(0, 0, 0)
         {
             x = vectorA.x + vectorB.x,
             y = vectorA.y + vectorB.y,
@@ -40,7 +40,7 @@ public class MyVector3
 
     public static MyVector3 SubtractVector(MyVector3 vectorA, MyVector3 vectorB)
     {
-        MyVector3 vectorDifference = new MyVector3(0, 0, 0)
+        MyVector3 vectorDifference = new(0, 0, 0)
         {
             x = vectorA.x - vectorB.x,
             y = vectorA.y - vectorB.y,
@@ -62,7 +62,7 @@ public class MyVector3
 
     public Vector3 ConvertToUnityVector()
     {
-        Vector3 returnVector = new Vector3(x, y, z);
+        Vector3 returnVector = new(x, y, z);
         return returnVector;
     }
 
@@ -78,7 +78,7 @@ public class MyVector3
 
     public static MyVector3 ConvertToCustomVector(Vector3 vector)
     {
-        MyVector3 returnVector = new MyVector3(vector.x, vector.y, vector.z);
+        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
         return returnVector;
     }
 
@@ -100,7 +100,7 @@ public class MyVector3
 
     public static MyVector3 MultiplyVector(MyVector3 vector, float multiplier)
     {
-        MyVector3 returnVector = new MyVector3(vector.x, vector.y, vector.z);
+        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
         returnVector.x *= multiplier; returnVector.y *= multiplier; returnVector.z *= multiplier;
         return returnVector;
     }
@@ -112,7 +112,7 @@ public class MyVector3
 
     public static MyVector3 DivideVector(MyVector3 vector, float divisor)
     {
-        MyVector3 returnVector = new MyVector3(vector.x, vector.y, vector.z);
+        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
         returnVector.x /= divisor; returnVector.y /= divisor; returnVector.z /= divisor;
         return returnVector;
     }
@@ -124,7 +124,7 @@ public class MyVector3
 
     public MyVector3 NormaliseVector()
     {
-        MyVector3 returnVector = new MyVector3(x, y, z);
+        MyVector3 returnVector = new(x, y, z);
         returnVector /= GetVectorLength();
         return returnVector;
     }

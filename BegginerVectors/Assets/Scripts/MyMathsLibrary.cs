@@ -9,7 +9,7 @@ public class MyMathsLibrary
 
     public static MyVector2 GetVector2Direction(float angle)
     {
-        MyVector2 direction = new MyVector2(0, 0)
+        MyVector2 direction = new(0, 0)
         {
             x = Mathf.Cos(angle),
             y = Mathf.Sin(angle)
@@ -19,7 +19,7 @@ public class MyMathsLibrary
 
     public static MyVector3 ConvertEulerToDirection(MyVector3 euler)
     {
-        MyVector3 direction = new MyVector3(0, 0, 0)
+        MyVector3 direction = new(0, 0, 0)
         {
             x = Mathf.Cos(euler.y) * Mathf.Cos(euler.x),
             y = Mathf.Sin(euler.x),
@@ -30,7 +30,7 @@ public class MyMathsLibrary
 
     public static MyVector3 GetCrossProduct(MyVector3 vectorA, MyVector3 vectorB)
     {
-        MyVector3 vectorC = new MyVector3(0, 0, 0)
+        MyVector3 vectorC = new(0, 0, 0)
         {
             x = (vectorA.y * vectorB.z) - (vectorA.z * vectorB.y),
             y = (vectorA.z * vectorB.x) - (vectorA.x * vectorB.z),

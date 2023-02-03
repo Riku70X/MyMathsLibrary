@@ -17,7 +17,7 @@ public class MyVector4
     
     public static MyVector4 AddVector(MyVector4 vectorA, MyVector4 vectorB)
     {
-        MyVector4 vectorSum = new MyVector4(0, 0, 0, 0)
+        MyVector4 vectorSum = new(0, 0, 0, 0)
         {
             x = vectorA.x + vectorB.x,
             y = vectorA.y + vectorB.y,
@@ -34,7 +34,7 @@ public class MyVector4
 
     public static MyVector4 SubtractVector(MyVector4 vectorA, MyVector4 vectorB)
     {
-        MyVector4 vectorDifference = new MyVector4(0, 0, 0, 0)
+        MyVector4 vectorDifference = new(0, 0, 0, 0)
         {
             x = vectorA.x - vectorB.x,
             y = vectorA.y - vectorB.y,
@@ -57,7 +57,7 @@ public class MyVector4
 
     public Vector4 ConvertToUnityVector()
     {
-        Vector4 returnVector = new Vector4(x, y, z, w);
+        Vector4 returnVector = new(x, y, z, w);
         return returnVector;
     }
 
@@ -73,7 +73,7 @@ public class MyVector4
 
     public static MyVector4 ConvertToCustomVector(Vector4 vector)
     {
-        MyVector4 returnVector = new MyVector4(vector.x, vector.y, vector.z, vector.w);
+        MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
         return returnVector;
     }
 
@@ -95,7 +95,7 @@ public class MyVector4
 
     public static MyVector4 MultiplyVector(MyVector4 vector, float multiplier)
     {
-        MyVector4 returnVector = new MyVector4(vector.x, vector.y, vector.z, vector.w);
+        MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
         returnVector.x *= multiplier; returnVector.y *= multiplier; returnVector.z *= multiplier; returnVector.w *= multiplier;
         return returnVector;
     }
@@ -107,7 +107,7 @@ public class MyVector4
 
     public static MyVector4 DivideVector(MyVector4 vector, float divisor)
     {
-        MyVector4 returnVector = new MyVector4(vector.x, vector.y, vector.z, vector.w);
+        MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
         returnVector.x /= divisor; returnVector.y /= divisor; returnVector.z /= divisor; returnVector.w /= divisor;
         return returnVector;
     }
@@ -119,7 +119,7 @@ public class MyVector4
 
     public MyVector4 NormaliseVector()
     {
-        MyVector4 returnVector = new MyVector4(x, y, z, w);
+        MyVector4 returnVector = new(x, y, z, w);
         returnVector /= GetVectorLength();
         return returnVector;
     }
