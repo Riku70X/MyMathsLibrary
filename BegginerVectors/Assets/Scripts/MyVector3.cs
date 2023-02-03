@@ -22,6 +22,42 @@ public class MyVector3
     public static MyVector3 forward
     { get { return new MyVector3(0, 0, 1); } }
 
+    public Vector3 ConvertToUnityVector()
+    {
+        return new Vector3(x, y, z);
+    }
+
+    public static Vector3[] ConvertToUnityVectorArray(MyVector3[] vectorArray)
+    {
+        Vector3[] returnVectorArray = new Vector3[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i].ConvertToUnityVector();
+        }
+        return returnVectorArray;
+    }
+
+    public static MyVector3 ConvertToCustomVector(Vector3 vector)
+    {
+        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
+        return returnVector;
+    }
+
+    public static MyVector3[] ConvertToCustomVectorArray(Vector3[] vectorArray)
+    {
+        MyVector3[] returnVectorArray = new MyVector3[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = ConvertToCustomVector(vectorArray[i]);
+        }
+        return returnVectorArray;
+    }
+
+    public MyVector4 ConvertToMyVector4()
+    {
+        return new MyVector4(x, y, z, 1);
+    }
+
     public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
     {
         MyVector3 vectorSum = new(0, 0, 0)
@@ -58,38 +94,6 @@ public class MyVector3
     {
         float length = Mathf.Sqrt((x * x) + (y * y) + (z * z));
         return length;
-    }
-
-    public Vector3 ConvertToUnityVector()
-    {
-        Vector3 returnVector = new(x, y, z);
-        return returnVector;
-    }
-
-    public static Vector3[] ConvertToUnityVectorArray(MyVector3[] vectorArray)
-    {
-        Vector3[] returnVectorArray = new Vector3[vectorArray.Length];
-        for (int i = 0; i < vectorArray.Length; i++)
-        {
-            returnVectorArray[i] = vectorArray[i].ConvertToUnityVector();
-        }
-        return returnVectorArray;
-    }
-
-    public static MyVector3 ConvertToCustomVector(Vector3 vector)
-    {
-        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
-        return returnVector;
-    }
-
-    public static MyVector3[] ConvertToCustomVectorArray(Vector3[] vectorArray)
-    {
-        MyVector3[] returnVectorArray = new MyVector3[vectorArray.Length];
-        for (int i = 0; i < vectorArray.Length; i++)
-        {
-            returnVectorArray[i] = ConvertToCustomVector(vectorArray[i]);
-        }
-        return returnVectorArray;
     }
 
     public float GetVectorLengthSquared()

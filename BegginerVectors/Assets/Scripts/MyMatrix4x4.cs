@@ -130,79 +130,36 @@ public class MyMatrix4x4 : MonoBehaviour
         return MultiplyMatrices4x4by4x4(lhs, rhs);
     }
 
-    public static MyVector3 ScaleVector (MyVector3 vector3, MyVector3 scalar)
+    public static MyMatrix4x4 GetScaleMatrix(MyVector3 scalar)
     {
-        MyVector3 returnVector3;
-
-        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
-        MyVector4 returnVector4;
-        MyMatrix4x4 scaleMatrix = new(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-
-        returnVector4 = scaleMatrix * vector4;
-
-        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
-
-        return returnVector3;
+        return new(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
     }
 
-    public static MyVector3 RotateVector(MyVector3 vector3, float pitch, float yaw, float roll)
+    public static MyMatrix4x4 GetRotationMatrix(MyVector3 eulerAngles)
     {
-        MyVector3 returnVector3;
+        MyMatrix4x4 rollMatrix = new(new MyVector3(Mathf.Cos(eulerAngles.z), Mathf.Sin(eulerAngles.z), 0), new MyVector3(-Mathf.Sin(eulerAngles.z), Mathf.Cos(eulerAngles.z), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
 
-        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
-        MyVector4 returnVector4;
-        MyMatrix4x4 rotateMatrix = new(new MyVector3(Mathf.Cos(roll), Mathf.Sin(roll), 0), new MyVector3(-Mathf.Sin(roll), Mathf.Cos(roll), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 yawMatrix = new(new MyVector3(Mathf.Cos(eulerAngles.y), 0, -Mathf.Sin(eulerAngles.y)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(eulerAngles.y), 0, Mathf.Cos(eulerAngles.y)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
 
-        returnVector4 = rotateMatrix * vector4;
+        MyMatrix4x4 pitchMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(eulerAngles.x), Mathf.Sin(eulerAngles.x)), new MyVector3(0, -Mathf.Sin(eulerAngles.x), Mathf.Cos(eulerAngles.x)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
 
-        rotateMatrix = new MyMatrix4x4(new MyVector3(Mathf.Cos(yaw), 0, -Mathf.Sin(yaw)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(yaw), 0, Mathf.Cos(yaw)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-
-        returnVector4 = rotateMatrix * returnVector4;
-
-        rotateMatrix = new MyMatrix4x4(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(pitch), Mathf.Sin(pitch)), new MyVector3(0, -Mathf.Sin(pitch), Mathf.Cos(pitch)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-
-        returnVector4 = rotateMatrix * returnVector4;
-
-        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
-
-        return returnVector3;
+        return pitchMatrix * (yawMatrix * rollMatrix);
     }
 
-    public static MyVector3 TranslateVector(MyVector3 vector3, MyVector3 translation)
+    public static MyMatrix4x4 GetTranslationMatrix(MyVector3 translation)
     {
-        MyVector3 returnVector3;
-
-        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
-        MyVector4 returnVector4;
-        MyMatrix4x4 translateMatrix = new(new MyVector3(1,0,0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z)); // gives a warning about "new MyMatrix4x4", not sure why
-
-        returnVector4 = translateMatrix * vector4;
-
-        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
-
-        return returnVector3;
+        return new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z)); // gives a warning about "new MyMatrix4x4", not sure why
     }
 
-    public static MyVector3 TransformVector(MyVector3 vector3, MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
+    public static MyMatrix4x4 GetTransformationMatrix(MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
     {
-        MyVector3 returnVector3;
+        MyMatrix4x4 scaleMatrix = GetScaleMatrix(scalar);
+        MyMatrix4x4 rotationMatrix = GetRotationMatrix(rotation);
+        MyMatrix4x4 translationMatrix = GetTranslationMatrix(translation);
 
-        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
-        MyVector4 returnVector4;
-
-        MyMatrix4x4 scaleMatrix = new(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-        MyMatrix4x4 rollMatrix = new(new MyVector3(Mathf.Cos(rotation.z), Mathf.Sin(rotation.z), 0), new MyVector3(-Mathf.Sin(rotation.z), Mathf.Cos(rotation.z), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-        MyMatrix4x4 yawMatrix = new(new MyVector3(Mathf.Cos(rotation.y), 0, -Mathf.Sin(rotation.y)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(rotation.y), 0, Mathf.Cos(rotation.y)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-        MyMatrix4x4 pitchMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(rotation.x), Mathf.Sin(rotation.x)), new MyVector3(0, -Mathf.Sin(rotation.x), Mathf.Cos(rotation.x)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-        MyMatrix4x4 translateMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z)); // gives a warning about "new MyMatrix4x4", not sure why
-
-        MyMatrix4x4 transformMatrix = translateMatrix * (pitchMatrix * (yawMatrix * (rollMatrix * scaleMatrix)));
-
-        returnVector4 = transformMatrix * vector4;
-
-        returnVector3 = new(returnVector4.x, returnVector4.y, returnVector4.z);
-        return returnVector3;
+        return translationMatrix * (rotationMatrix * scaleMatrix);
     }
+
     public MyMatrix4x4 ScaleInverse()
     {
         MyMatrix4x4 returnMatrix = identity;
@@ -226,5 +183,76 @@ public class MyMatrix4x4 : MonoBehaviour
         returnMatrix.values[2, 3] = -values[2, 3];
 
         return returnMatrix;
+    }
+
+    public static MyVector3 ScaleVector(MyVector3 vector3, MyVector3 scalar)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+
+        MyMatrix4x4 scaleMatrix = GetScaleMatrix(scalar);
+
+        returnVector4 = scaleMatrix * vector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
+    public static MyVector3 RotateVector(MyVector3 vector3, float pitch, float yaw, float roll)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+
+        returnVector4 = GetRotationMatrix(new MyVector3(pitch, yaw, roll)) * vector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
+    public static MyVector3 TranslateVector(MyVector3 vector3, MyVector3 translation)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+
+        MyMatrix4x4 translateMatrix = GetTranslationMatrix(translation);
+
+        returnVector4 = translateMatrix * vector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
+    public static MyVector3 TransformVector(MyVector3 vector3, MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+
+        MyMatrix4x4 scaleMatrix = new(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 rollMatrix = new(new MyVector3(Mathf.Cos(rotation.z), Mathf.Sin(rotation.z), 0), new MyVector3(-Mathf.Sin(rotation.z), Mathf.Cos(rotation.z), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 yawMatrix = new(new MyVector3(Mathf.Cos(rotation.y), 0, -Mathf.Sin(rotation.y)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(rotation.y), 0, Mathf.Cos(rotation.y)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 pitchMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(rotation.x), Mathf.Sin(rotation.x)), new MyVector3(0, -Mathf.Sin(rotation.x), Mathf.Cos(rotation.x)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 translateMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z)); // gives a warning about "new MyMatrix4x4", not sure why
+
+        returnVector4 = translateMatrix * (pitchMatrix * (yawMatrix * (rollMatrix * (scaleMatrix * vector4))));
+
+        //MyMatrix4x4 transformMatrix = GetTransformationMatrix(scalar, rotation, translation);
+
+        //returnVector4 = transformMatrix * vector4;
+
+        //returnVector4 = translateMatrix * scaleMatrix * vector4;
+
+        returnVector3 = new(returnVector4.x, returnVector4.y, returnVector4.z);
+        return returnVector3;
     }
 }

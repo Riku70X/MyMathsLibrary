@@ -14,6 +14,11 @@ public class MyVector4
 
     public static MyVector4 zero
     { get { return new MyVector4(0, 0, 0, 0); } }
+
+    public MyVector3 ConvertToMyVector3()
+    {
+        return new MyVector3(x, y, z);
+    }
     
     public static MyVector4 AddVector(MyVector4 vectorA, MyVector4 vectorB)
     {

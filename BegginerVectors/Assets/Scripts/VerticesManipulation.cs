@@ -22,20 +22,13 @@ public class VerticesManipulation : MonoBehaviour
         // Define a new array with the correct size
         MyVector3[] transformedVertices = new MyVector3[modelSpaceVertices.Length];
 
+        //MyMatrix4x4 transformMatrix = MyMatrix4x4.GetTransformationMatrix(new MyVector3(2, 1, 1), new MyVector3(0, 0, Mathf.PI / 2), new MyVector3(1, 0, 0));
+
         // Transform each individual vertex
         for (int i = 0; i < transformedVertices.Length; i++)
         {
-            transformedVertices[i] = MyMatrix4x4.ScaleVector(modelSpaceVertices[i], new MyVector3(1, 1, 1));
-        }
-
-        for (int i = 0; i < transformedVertices.Length; i++)
-        {
-            transformedVertices[i] = MyMatrix4x4.RotateVector(modelSpaceVertices[i], 0, 0, 0);
-        }
-
-        for (int i = 0; i < transformedVertices.Length; i++)
-        {
-            transformedVertices[i] = MyMatrix4x4.TranslateVector(modelSpaceVertices[i], new MyVector3(0, 0, 0));
+            transformedVertices[i] = MyMatrix4x4.TransformVector(modelSpaceVertices[i], new MyVector3(3, 1, 1), new MyVector3(0, 0, Mathf.PI/2), new MyVector3(2, 0, 0));
+            //transformedVertices[i] = (transformMatrix * modelSpaceVertices[i].ConvertToMyVector4()).ConvertToMyVector3();
         }
 
         // Assign our new vertices
