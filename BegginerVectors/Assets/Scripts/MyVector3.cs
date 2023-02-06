@@ -13,6 +13,9 @@ public class MyVector3
     public static MyVector3 zero
     { get { return new MyVector3(0, 0, 0); } }
 
+    public static MyVector3 one
+    { get { return new MyVector3(1, 1, 1); } }
+
     public static MyVector3 right
     { get { return new MyVector3(1, 0, 0); } }
 

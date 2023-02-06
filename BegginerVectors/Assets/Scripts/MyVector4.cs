@@ -15,6 +15,9 @@ public class MyVector4
     public static MyVector4 zero
     { get { return new MyVector4(0, 0, 0, 0); } }
 
+    public static MyVector4 one
+    { get { return new MyVector4(1, 1, 1, 1); } }
+
     public MyVector3 ConvertToMyVector3()
     {
         return new MyVector3(x, y, z);
