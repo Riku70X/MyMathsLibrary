@@ -118,7 +118,7 @@ public class MyMatrix4x4 : MonoBehaviour
         {
             for (int column = 0; column < 4; column++)
             {
-                returnMatrix.values[row, column] = MyVector4.GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column));
+                returnMatrix.values[row, column] = MyVector4.GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column), false);
             }
         }
         
@@ -238,21 +238,12 @@ public class MyMatrix4x4 : MonoBehaviour
         MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
         MyVector4 returnVector4;
 
-        MyMatrix4x4 scaleMatrix = new(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-        MyMatrix4x4 rollMatrix = new(new MyVector3(Mathf.Cos(rotation.z), Mathf.Sin(rotation.z), 0), new MyVector3(-Mathf.Sin(rotation.z), Mathf.Cos(rotation.z), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-        MyMatrix4x4 yawMatrix = new(new MyVector3(Mathf.Cos(rotation.y), 0, -Mathf.Sin(rotation.y)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(rotation.y), 0, Mathf.Cos(rotation.y)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-        MyMatrix4x4 pitchMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(rotation.x), Mathf.Sin(rotation.x)), new MyVector3(0, -Mathf.Sin(rotation.x), Mathf.Cos(rotation.x)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
-        MyMatrix4x4 translateMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 transformMatrix = GetTransformationMatrix(scalar, rotation, translation);
 
-        returnVector4 = translateMatrix * (pitchMatrix * (yawMatrix * (rollMatrix * (scaleMatrix * vector4))));
-
-        //MyMatrix4x4 transformMatrix = GetTransformationMatrix(scalar, rotation, translation);
-
-        //returnVector4 = transformMatrix * vector4;
-
-        //returnVector4 = translateMatrix * scaleMatrix * vector4;
+        returnVector4 = transformMatrix * vector4;
 
         returnVector3 = new(returnVector4.x, returnVector4.y, returnVector4.z);
+
         return returnVector3;
     }
 }
