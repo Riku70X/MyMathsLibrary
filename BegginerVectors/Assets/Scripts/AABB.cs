@@ -71,9 +71,16 @@ public class AABB
         if (minimum > highest)
             return false;
 
-        lowest = Mathf.Max(lowest, minimum);
-        highest = Mathf.Max(highest, maximum);
-
+        // Check to ensure min and max are between 0-1, otherwise the optimisation would actually INCREASE the length of the vector, not decrease it
+        if (minimum > 0)
+        {
+            lowest = Mathf.Max(lowest, minimum);
+        }
+        if (maximum < 1)
+        {
+            highest = Mathf.Max(highest, maximum);
+        }
+        
         if (lowest > highest)
             return false;
 
@@ -84,7 +91,7 @@ public class AABB
     {
         // Define our initial lowest and highest
         float lowest = 0.0f;
-        float highest = 0.0f;
+        float highest = 1.0f;
 
         // Default value for intersection point is needed
         intersectionPoint = MyVector3.zero;

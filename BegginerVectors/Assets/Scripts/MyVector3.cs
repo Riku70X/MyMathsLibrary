@@ -109,7 +109,7 @@ public class MyVector3
 
     public static MyVector3 MultiplyVector(MyVector3 vector, float multiplier)
     {
-        MyVector3 returnVector = new MyVector3(vector.x, vector.y, vector.z);
+        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
         returnVector.x *= multiplier; returnVector.y *= multiplier; returnVector.z *= multiplier;
         return returnVector;
     }
@@ -129,6 +129,28 @@ public class MyVector3
     public static MyVector3 operator /(MyVector3 lhs, float rhs)
     {
         return DivideVector(lhs, rhs);
+    }
+
+    public static bool CheckIfIdentical(MyVector3 vectorA, MyVector3 vectorB)
+    {
+        if (vectorA.x == vectorB.x && vectorA.y == vectorB.y && vectorA.z == vectorB.z)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool operator ==(MyVector3 lhs, MyVector3 rhs)
+    {
+        return CheckIfIdentical(lhs, rhs);
+    }
+
+    public static bool operator !=(MyVector3 lhs, MyVector3 rhs)
+    {
+        return !CheckIfIdentical(lhs, rhs);
     }
 
     public MyVector3 NormaliseVector()
