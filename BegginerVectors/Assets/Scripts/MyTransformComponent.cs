@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MyTransformComponent : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class MyTransformComponent : MonoBehaviour
     MyVector3[] globalStartVerticesCoordinates;
     MyVector3[] globalCurrentVerticesCoordinates;
 
+    public AABB boundingBox;
+    MyVector3 minExtent;
+    MyVector3 maxExtent;
+
     public MyTransformComponent()
     {
         position = MyVector3.zero;
@@ -20,6 +25,8 @@ public class MyTransformComponent : MonoBehaviour
         scale = MyVector3.one;
 
         transformMatrix = MyMatrix4x4.identity;
+        
+
     }
 
     // Start is called before the first frame update
@@ -29,6 +36,41 @@ public class MyTransformComponent : MonoBehaviour
 
         globalStartVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
         globalCurrentVerticesCoordinates = new MyVector3[globalStartVerticesCoordinates.Length];
+
+        minExtent = new MyVector3(globalStartVerticesCoordinates[0].x, globalStartVerticesCoordinates[0].y, globalStartVerticesCoordinates[0].z);
+        maxExtent = new MyVector3(globalStartVerticesCoordinates[0].x, globalStartVerticesCoordinates[0].y, globalStartVerticesCoordinates[0].z);
+
+        for (int i = 0; i < globalStartVerticesCoordinates.Length; i++)
+        {
+            if (globalStartVerticesCoordinates[i].x < minExtent.x)
+            {
+                minExtent.x = globalStartVerticesCoordinates[i].x;
+            }
+            else if (globalStartVerticesCoordinates[i].x > maxExtent.x)
+            {
+                maxExtent.x = globalStartVerticesCoordinates[i].x;
+            }
+
+            if (globalStartVerticesCoordinates[i].y < minExtent.y)
+            {
+                minExtent.y = globalStartVerticesCoordinates[i].y;
+            }
+            else if (globalStartVerticesCoordinates[i].y > maxExtent.y)
+            {
+                maxExtent.y = globalStartVerticesCoordinates[i].y;
+            }
+
+            if (globalStartVerticesCoordinates[i].z < minExtent.z)
+            {
+                minExtent.z = globalStartVerticesCoordinates[i].z;
+            }
+            else if (globalStartVerticesCoordinates[i].z > maxExtent.z)
+            {
+                maxExtent.z = globalStartVerticesCoordinates[i].z;
+            }
+        }
+
+        boundingBox = new AABB(minExtent, maxExtent);
     }
 
     // Update is called once per frame
