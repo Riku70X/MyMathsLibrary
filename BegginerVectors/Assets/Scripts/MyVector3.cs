@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class MyVector3
 {
-    public float x, y, z;
+    [SerializeField] public float x, y, z;
 
     public MyVector3(float x, float y, float z)
     {
@@ -107,7 +109,7 @@ public class MyVector3
 
     public static MyVector3 MultiplyVector(MyVector3 vector, float multiplier)
     {
-        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
+        MyVector3 returnVector = new MyVector3(vector.x, vector.y, vector.z);
         returnVector.x *= multiplier; returnVector.y *= multiplier; returnVector.z *= multiplier;
         return returnVector;
     }

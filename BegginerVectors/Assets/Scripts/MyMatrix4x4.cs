@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MyMatrix4x4 : MonoBehaviour
+public class MyMatrix4x4
 {
     public float[,] values;
 
@@ -62,7 +62,7 @@ public class MyMatrix4x4 : MonoBehaviour
                 new MyVector4(1, 0, 0, 0),
                 new MyVector4(0, 1, 0, 0),
                 new MyVector4(0, 0, 1, 0),
-                new MyVector4(0, 0, 0, 1)); // gives a warning about "new MyMatrix4x4", not sure why
+                new MyVector4(0, 0, 0, 1));
         }
     }
 
@@ -132,23 +132,23 @@ public class MyMatrix4x4 : MonoBehaviour
 
     public static MyMatrix4x4 GetScaleMatrix(MyVector3 scalar)
     {
-        return new(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        return new MyMatrix4x4(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0));
     }
 
     public static MyMatrix4x4 GetRotationMatrix(MyVector3 eulerAngles)
     {
-        MyMatrix4x4 rollMatrix = new(new MyVector3(Mathf.Cos(eulerAngles.z), Mathf.Sin(eulerAngles.z), 0), new MyVector3(-Mathf.Sin(eulerAngles.z), Mathf.Cos(eulerAngles.z), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 rollMatrix = new(new MyVector3(Mathf.Cos(eulerAngles.z), Mathf.Sin(eulerAngles.z), 0), new MyVector3(-Mathf.Sin(eulerAngles.z), Mathf.Cos(eulerAngles.z), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0));
 
-        MyMatrix4x4 yawMatrix = new(new MyVector3(Mathf.Cos(eulerAngles.y), 0, -Mathf.Sin(eulerAngles.y)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(eulerAngles.y), 0, Mathf.Cos(eulerAngles.y)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 yawMatrix = new(new MyVector3(Mathf.Cos(eulerAngles.y), 0, -Mathf.Sin(eulerAngles.y)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(eulerAngles.y), 0, Mathf.Cos(eulerAngles.y)), new MyVector3(0, 0, 0));
 
-        MyMatrix4x4 pitchMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(eulerAngles.x), Mathf.Sin(eulerAngles.x)), new MyVector3(0, -Mathf.Sin(eulerAngles.x), Mathf.Cos(eulerAngles.x)), new MyVector3(0, 0, 0)); // gives a warning about "new MyMatrix4x4", not sure why
+        MyMatrix4x4 pitchMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(eulerAngles.x), Mathf.Sin(eulerAngles.x)), new MyVector3(0, -Mathf.Sin(eulerAngles.x), Mathf.Cos(eulerAngles.x)), new MyVector3(0, 0, 0));
 
         return pitchMatrix * (yawMatrix * rollMatrix);
     }
 
     public static MyMatrix4x4 GetTranslationMatrix(MyVector3 translation)
     {
-        return new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z)); // gives a warning about "new MyMatrix4x4", not sure why
+        return new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z));
     }
 
     public static MyMatrix4x4 GetTransformationMatrix(MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
@@ -171,7 +171,7 @@ public class MyMatrix4x4 : MonoBehaviour
 
     public MyMatrix4x4 RotationInverse()
     {
-        return new MyMatrix4x4(GetRow(0), GetRow(1), GetRow(2), GetRow(3)); // gives a warning about "new MyMatrix4x4", not sure why
+        return new MyMatrix4x4(GetRow(0), GetRow(1), GetRow(2), GetRow(3));
     }
 
     public MyMatrix4x4 TranslationInverse()
