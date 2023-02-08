@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MyTransformComponent : MonoBehaviour
 {
-    [SerializeField] MyVector3 position;
-    [SerializeField] MyVector3 rotation;
-    [SerializeField] MyVector3 scale;
+    public MyVector3 position;
+    public MyVector3 rotation;
+    public MyVector3 scale;
 
     MyMatrix4x4 transformMatrix;
 
@@ -25,8 +24,6 @@ public class MyTransformComponent : MonoBehaviour
         scale = MyVector3.one;
 
         transformMatrix = MyMatrix4x4.identity;
-        
-
     }
 
     // Start is called before the first frame update
@@ -76,8 +73,6 @@ public class MyTransformComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // POSITION CALCULATIONS
-
         transformMatrix = MyMatrix4x4.GetTransformationMatrix(scale, rotation, position);
 
         for (int i = 0; i < globalStartVerticesCoordinates.Length; i++)

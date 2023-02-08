@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AABB
+public class AABB : MonoBehaviour
 {
     MyVector3 minExtent;
     MyVector3 maxExtent;
@@ -78,7 +78,7 @@ public class AABB
         }
         if (maximum < 1)
         {
-            highest = Mathf.Max(highest, maximum);
+            highest = Mathf.Min(highest, maximum);
         }
         
         if (lowest > highest)
