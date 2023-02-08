@@ -30,6 +30,8 @@ public class AABB
 
     public static bool Intersects(AABB box1, AABB box2)
     {
+        Debug.LogWarning($"{box2.left > box1.right} || {box2.right < box1.left} || {box2.top < box1.bottom} || {box2.bottom > box1.top} || {box2.back > box1.front} || {box2.front < box1.back}");
+        Debug.LogError($"{box2.right} < {box1.left}");
         return !(box2.left > box1.right
             || box2.right < box1.left
             || box2.top < box1.bottom
