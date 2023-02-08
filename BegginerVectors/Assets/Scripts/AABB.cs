@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AABB : MonoBehaviour
+public class AABB
 {
     MyVector3 minExtent;
     MyVector3 maxExtent;

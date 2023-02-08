@@ -92,6 +92,11 @@ public class MyMatrix4x4
         return returnVector;
     }
 
+    public string ToString()
+    {
+        return ($"({GetRow(0).ToString()}\n{GetRow(1).ToString()}\n{GetRow(2).ToString()}\n{GetRow(3).ToString()})");
+    }
+
     public static MyVector4 MultiplyMatrices4x4by4x1 (MyMatrix4x4 matrix, MyVector4 vector)
     {
         MyVector4 returnVector = new(0, 0, 0, 0)

@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class MyVector3
 {
-    [SerializeField] public float x, y, z;
+    public float x, y, z;
 
     public MyVector3(float x, float y, float z)
     {
@@ -12,6 +12,7 @@ public class MyVector3
         this.y = y;
         this.z = z;
     }
+
     public static MyVector3 zero
     { get { return new MyVector3(0, 0, 0); } }
 
@@ -26,6 +27,11 @@ public class MyVector3
 
     public static MyVector3 forward
     { get { return new MyVector3(0, 0, 1); } }
+
+    public string ToString()
+    {
+        return ($"({x}, {y}, {z})");
+    }
 
     public Vector3 ConvertToUnityVector()
     {
@@ -58,9 +64,26 @@ public class MyVector3
         return returnVectorArray;
     }
 
+    public MyVector2 ConvertToMyVector2()
+    {
+        return new MyVector2(x, y);
+    }
+
     public MyVector4 ConvertToMyVector4()
     {
         return new MyVector4(x, y, z, 1);
+    }
+
+    public float GetVectorLength()
+    {
+        float length = Mathf.Sqrt((x * x) + (y * y) + (z * z));
+        return length;
+    }
+
+    public float GetVectorLengthSquared()
+    {
+        float length = (x * x) + (y * y) + (z * z);
+        return length;
     }
 
     public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
@@ -93,18 +116,6 @@ public class MyVector3
     public static MyVector3 operator -(MyVector3 lhs, MyVector3 rhs)
     {
         return SubtractVector(lhs, rhs);
-    }
-
-    public float GetVectorLength()
-    {
-        float length = Mathf.Sqrt((x * x) + (y * y) + (z * z));
-        return length;
-    }
-
-    public float GetVectorLengthSquared()
-    {
-        float length = (x * x) + (y * y) + (z * z);
-        return length;
     }
 
     public static MyVector3 MultiplyVector(MyVector3 vector, float multiplier)

@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class MyVector2
 {
     public float x, y;
@@ -22,40 +24,9 @@ public class MyVector2
     public static MyVector2 up
     { get { return new MyVector2(0, 1); } }
 
-    public static MyVector2 AddVector(MyVector2 vectorA, MyVector2 vectorB)
+    public string ToString()
     {
-        MyVector2 vectorSum = new(0, 0)
-        {
-            x = vectorA.x + vectorB.x,
-            y = vectorA.y + vectorB.y
-        };
-        return vectorSum;
-    }
-
-    public static MyVector2 operator +(MyVector2 lhs, MyVector2 rhs)
-    {
-        return AddVector(lhs, rhs);
-    }
-
-    public static MyVector2 SubtractVector(MyVector2 vectorA, MyVector2 vectorB)
-    {
-        MyVector2 vectorDifference = new(0, 0)
-        {
-            x = vectorA.x - vectorB.x,
-            y = vectorA.y - vectorB.y
-        };
-        return vectorDifference;
-    }
-
-    public static MyVector2 operator -(MyVector2 lhs, MyVector2 rhs)
-    {
-        return SubtractVector(lhs, rhs);
-    }
-
-    public float GetVectorLength()
-    {
-        float length = Mathf.Sqrt((x * x) + (y * y));
-        return length;
+        return ($"({x}, {y})");
     }
 
     public Vector2 ConvertToUnityVector()
@@ -90,12 +61,58 @@ public class MyVector2
         return returnVectorArray;
     }
 
+    public MyVector3 ConvertToMyVector3()
+    {
+        return new MyVector3(x, y, 1);
+    }
+
+    public MyVector4 ConvertToMyVector4()
+    {
+        return new MyVector4(x, y, 1, 1);
+    }
+
+    public float GetVectorLength()
+    {
+        float length = Mathf.Sqrt((x * x) + (y * y));
+        return length;
+    }
+
     public float GetVectorLengthSquared()
     {
         float length = (x * x) + (y * y);
         return length;
     }
 
+    public static MyVector2 AddVector(MyVector2 vectorA, MyVector2 vectorB)
+    {
+        MyVector2 vectorSum = new(0, 0)
+        {
+            x = vectorA.x + vectorB.x,
+            y = vectorA.y + vectorB.y
+        };
+        return vectorSum;
+    }
+
+    public static MyVector2 operator +(MyVector2 lhs, MyVector2 rhs)
+    {
+        return AddVector(lhs, rhs);
+    }
+
+    public static MyVector2 SubtractVector(MyVector2 vectorA, MyVector2 vectorB)
+    {
+        MyVector2 vectorDifference = new(0, 0)
+        {
+            x = vectorA.x - vectorB.x,
+            y = vectorA.y - vectorB.y
+        };
+        return vectorDifference;
+    }
+
+    public static MyVector2 operator -(MyVector2 lhs, MyVector2 rhs)
+    {
+        return SubtractVector(lhs, rhs);
+    }
+    
     public static MyVector2 MultiplyVector(MyVector2 vector, float multiplier)
     {
         MyVector2 returnVector = new(vector.x, vector.y);
@@ -118,6 +135,28 @@ public class MyVector2
     public static MyVector2 operator /(MyVector2 lhs, float rhs)
     {
         return DivideVector(lhs, rhs);
+    }
+
+    public static bool CheckIfIdentical(MyVector2 vectorA, MyVector2 vectorB)
+    {
+        if (vectorA.x == vectorB.x && vectorA.y == vectorB.y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool operator ==(MyVector2 lhs, MyVector2 rhs)
+    {
+        return CheckIfIdentical(lhs, rhs);
+    }
+
+    public static bool operator !=(MyVector2 lhs, MyVector2 rhs)
+    {
+        return !CheckIfIdentical(lhs, rhs);
     }
 
     public MyVector2 NormaliseVector()

@@ -19,14 +19,11 @@ public class LineTraceTest : MonoBehaviour
     MyVector3 localEndPosition;
 
     MyVector3 intersectionPoint;
-    bool intersected;
 
     public LineTraceTest()
     {
         globalStartPosition = MyVector3.zero;
         globalEndPosition = MyVector3.zero;
-
-        inverseTransformMatrix = MyMatrix4x4.identity;
     }
 
     // Start is called before the first frame update
@@ -50,13 +47,10 @@ public class LineTraceTest : MonoBehaviour
 
         localStartPosition = (inverseTransformMatrix * globalStartPosition.ConvertToMyVector4()).ConvertToMyVector3();
         localEndPosition = (inverseTransformMatrix * globalEndPosition.ConvertToMyVector4()).ConvertToMyVector3();
-
-        Debug.LogWarning($"global: {globalStartPosition.x}, {globalStartPosition.y}, {globalStartPosition.z} to {globalEndPosition.x}, {globalEndPosition.y}, {globalEndPosition.z}");
-        Debug.LogWarning($"local: {localStartPosition.x}, {localStartPosition.y}, {localStartPosition.z} to {localEndPosition.x}, {localEndPosition.y}, {localEndPosition.z}");
-
-
-        intersected = AABB.LineIntersection(box, localStartPosition, localEndPosition, out intersectionPoint);
-
-        Debug.Log($"intersected = {intersected}, point = ({intersectionPoint.x}, {intersectionPoint.y}, {intersectionPoint.z})");
+        
+        if (AABB.LineIntersection(box, localStartPosition, localEndPosition, out intersectionPoint))
+        {
+            Debug.Log($"Intersection! Local point : {intersectionPoint.ToString()}, Global point : {((cubeTransform.transformMatrix * intersectionPoint.ConvertToMyVector4()).ConvertToMyVector3()).ToString()}");
+        }
     }
 }

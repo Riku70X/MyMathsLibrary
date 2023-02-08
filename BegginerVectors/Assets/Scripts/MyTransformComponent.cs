@@ -6,7 +6,7 @@ public class MyTransformComponent : MonoBehaviour
     public MyVector3 rotation;
     public MyVector3 scale;
 
-    MyMatrix4x4 transformMatrix;
+    public MyMatrix4x4 transformMatrix;
 
     MeshFilter meshFilter;
 
@@ -22,8 +22,6 @@ public class MyTransformComponent : MonoBehaviour
         position = MyVector3.zero;
         rotation = MyVector3.zero;
         scale = MyVector3.one;
-
-        transformMatrix = MyMatrix4x4.identity;
     }
 
     // Start is called before the first frame update

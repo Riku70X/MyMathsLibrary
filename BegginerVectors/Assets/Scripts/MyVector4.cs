@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class MyVector4
 {
     public float x, y, z, w;
@@ -18,9 +20,63 @@ public class MyVector4
     public static MyVector4 one
     { get { return new MyVector4(1, 1, 1, 1); } }
 
+    public string ToString()
+    {
+        return ($"({x}, {y}, {z}, {w})");
+    }
+
+    public Vector4 ConvertToUnityVector()
+    {
+        Vector4 returnVector = new(x, y, z, w);
+        return returnVector;
+    }
+
+    public static Vector4[] ConvertToUnityVectorArray(MyVector4[] vectorArray)
+    {
+        Vector4[] returnVectorArray = new Vector4[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i].ConvertToUnityVector();
+        }
+        return returnVectorArray;
+    }
+
+    public static MyVector4 ConvertToCustomVector(Vector4 vector)
+    {
+        MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
+        return returnVector;
+    }
+
+    public static MyVector4[] ConvertToCustomVectorArray(Vector4[] vectorArray)
+    {
+        MyVector4[] returnVectorArray = new MyVector4[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = ConvertToCustomVector(vectorArray[i]);
+        }
+        return returnVectorArray;
+    }
+
+    public MyVector2 ConvertToMyVector2()
+    {
+        return new MyVector2(x, y);
+    }
+
     public MyVector3 ConvertToMyVector3()
     {
         return new MyVector3(x, y, z);
+    }
+
+    public float GetVectorLength()
+    {
+        float length = Mathf.Sqrt((x * x) + (y * y) + (z * z) + (w * w));
+        return length;
+    }
+
+    public float GetVectorLengthSquared()
+    {
+        float length = (x * x) + (y * y) + (z * z) + (w * w);
+        return length;
     }
     
     public static MyVector4 AddVector(MyVector4 vectorA, MyVector4 vectorB)
@@ -56,51 +112,7 @@ public class MyVector4
     {
         return SubtractVector(lhs, rhs);
     }
-
-    public float GetVectorLength()
-    {
-        float length = Mathf.Sqrt((x * x) + (y * y) + (z * z) + (w * w));
-        return length;
-    }
-
-    public Vector4 ConvertToUnityVector()
-    {
-        Vector4 returnVector = new(x, y, z, w);
-        return returnVector;
-    }
-
-    public static Vector4[] ConvertToUnityVectorArray(MyVector4[] vectorArray)
-    {
-        Vector4[] returnVectorArray = new Vector4[vectorArray.Length];
-        for (int i = 0; i < vectorArray.Length; i++)
-        {
-            returnVectorArray[i] = vectorArray[i].ConvertToUnityVector();
-        }
-        return returnVectorArray;
-    }
-
-    public static MyVector4 ConvertToCustomVector(Vector4 vector)
-    {
-        MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
-        return returnVector;
-    }
-
-    public static MyVector4[] ConvertToCustomVectorArray(Vector4[] vectorArray)
-    {
-        MyVector4[] returnVectorArray = new MyVector4[vectorArray.Length];
-        for (int i = 0; i < vectorArray.Length; i++)
-        {
-            returnVectorArray[i] = ConvertToCustomVector(vectorArray[i]);
-        }
-        return returnVectorArray;
-    }
-
-    public float GetVectorLengthSquared()
-    {
-        float length = (x * x) + (y * y) + (z * z) + (w * w);
-        return length;
-    }
-
+    
     public static MyVector4 MultiplyVector(MyVector4 vector, float multiplier)
     {
         MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
@@ -123,6 +135,28 @@ public class MyVector4
     public static MyVector4 operator /(MyVector4 lhs, float rhs)
     {
         return DivideVector(lhs, rhs);
+    }
+
+    public static bool CheckIfIdentical(MyVector4 vectorA, MyVector4 vectorB)
+    {
+        if (vectorA.x == vectorB.x && vectorA.y == vectorB.y && vectorA.z == vectorB.z && vectorA.w == vectorB.w)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool operator ==(MyVector4 lhs, MyVector4 rhs)
+    {
+        return CheckIfIdentical(lhs, rhs);
+    }
+
+    public static bool operator !=(MyVector4 lhs, MyVector4 rhs)
+    {
+        return !CheckIfIdentical(lhs, rhs);
     }
 
     public MyVector4 NormaliseVector()
