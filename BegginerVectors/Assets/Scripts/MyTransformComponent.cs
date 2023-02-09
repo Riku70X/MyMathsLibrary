@@ -1,6 +1,5 @@
 using UnityEngine;
 
-//[ExecuteInEditMode]
 public class MyTransformComponent : MonoBehaviour
 {
     public MyVector3 position;
@@ -11,7 +10,6 @@ public class MyTransformComponent : MonoBehaviour
 
     MeshFilter meshFilter;
 
-    MyVector3[] localStartVerticesCoordinates;
     MyVector3[] globalStartVerticesCoordinates;
     MyVector3[] globalCurrentVerticesCoordinates;
 
@@ -19,17 +17,11 @@ public class MyTransformComponent : MonoBehaviour
     MyVector3 minExtent;
     MyVector3 maxExtent;
 
-    MyMatrix4x4 unityTranslateMatrix;
-    MyMatrix4x4 unityRotateMatrix;
-    MyMatrix4x4 unityScaleMatrix;
-    MyMatrix4x4 unityInverseTransformMatrix;
-
     public MyTransformComponent()
     {
         position = MyVector3.zero;
         rotation = MyVector3.zero;
         scale = MyVector3.one;
-
     }
 
     // Start is called before the first frame update
@@ -37,21 +29,8 @@ public class MyTransformComponent : MonoBehaviour
     {
         meshFilter = GetComponent<MeshFilter>();
 
-        localStartVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
-        globalStartVerticesCoordinates = new MyVector3[localStartVerticesCoordinates.Length];
+        globalStartVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
         globalCurrentVerticesCoordinates = new MyVector3[globalStartVerticesCoordinates.Length];
-
-        unityTranslateMatrix = MyMatrix4x4.GetTranslationMatrix(MyVector3.ConvertToCustomVector(transform.position));
-        unityRotateMatrix = MyMatrix4x4.GetRotationMatrix(MyVector3.ConvertToCustomVector(transform.rotation.eulerAngles));
-        unityScaleMatrix = MyMatrix4x4.GetScaleMatrix(MyVector3.ConvertToCustomVector(transform.localScale));
-        unityInverseTransformMatrix = unityScaleMatrix.ScaleInverse() * unityRotateMatrix.RotationInverse() * unityTranslateMatrix.TranslationInverse();
-
-        for (int i = 0; i < localStartVerticesCoordinates.Length; i++) 
-        {
-            globalStartVerticesCoordinates[i] = (unityInverseTransformMatrix * localStartVerticesCoordinates[i].ConvertToMyVector4()).ConvertToMyVector3();
-        }
-
-        Debug.Log(globalStartVerticesCoordinates[12].ToString());
 
         minExtent = new MyVector3(globalStartVerticesCoordinates[0].x, globalStartVerticesCoordinates[0].y, globalStartVerticesCoordinates[0].z);
         maxExtent = new MyVector3(globalStartVerticesCoordinates[0].x, globalStartVerticesCoordinates[0].y, globalStartVerticesCoordinates[0].z);
@@ -99,10 +78,10 @@ public class MyTransformComponent : MonoBehaviour
             globalCurrentVerticesCoordinates[i] = (transformMatrix * globalStartVerticesCoordinates[i].ConvertToMyVector4()).ConvertToMyVector3();
         }
 
-        meshFilter.sharedMesh.vertices = MyVector3.ConvertToUnityVectorArray(globalCurrentVerticesCoordinates);
+        meshFilter.mesh.vertices = MyVector3.ConvertToUnityVectorArray(globalCurrentVerticesCoordinates);
 
         // These final steps are sometimes necessary to make the mesh look correct
-        meshFilter.sharedMesh.RecalculateNormals();
-        meshFilter.sharedMesh.RecalculateBounds();
+        meshFilter.mesh.RecalculateNormals();
+        meshFilter.mesh.RecalculateBounds();
     }
 }

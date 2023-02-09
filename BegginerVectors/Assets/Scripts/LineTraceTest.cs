@@ -6,10 +6,6 @@ public class LineTraceTest : MonoBehaviour
     MyTransformComponent cubeTransform;
     AABB box;
 
-    GameObject Sphere;
-    MyTransformComponent sphereTransform;
-    AABB sphereBox;
-
     MyMatrix4x4 scaleMatrix;
     MyMatrix4x4 rotationMatrix;
     MyMatrix4x4 translationMatrix;
@@ -36,10 +32,6 @@ public class LineTraceTest : MonoBehaviour
         Cube = GameObject.Find("Cube");
         cubeTransform = Cube.GetComponent<MyTransformComponent>();
         box = cubeTransform.boundingBox;
-
-        Sphere = GameObject.Find("Sphere");
-        sphereTransform = Sphere.GetComponent<MyTransformComponent>();
-        sphereBox = sphereTransform.boundingBox;
     }
 
     // Update is called once per frame
@@ -58,12 +50,7 @@ public class LineTraceTest : MonoBehaviour
         
         if (AABB.LineIntersection(box, localStartPosition, localEndPosition, out intersectionPoint))
         {
-            Debug.Log($"Line intersection! Local point : {intersectionPoint.ToString()}, Global point : {((cubeTransform.transformMatrix * intersectionPoint.ConvertToMyVector4()).ConvertToMyVector3()).ToString()}");
-        }
-
-        if (AABB.Intersects(box, sphereBox))
-        {
-            Debug.Log("Sphere intersection!");
+            Debug.Log($"Intersection! Local point : {intersectionPoint.ToString()}, Global point : {((cubeTransform.transformMatrix * intersectionPoint.ConvertToMyVector4()).ConvertToMyVector3()).ToString()}");
         }
     }
 }
