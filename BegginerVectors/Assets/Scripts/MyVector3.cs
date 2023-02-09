@@ -12,6 +12,13 @@ public class MyVector3
         this.y = y;
         this.z = z;
     }
+    
+    public MyVector3(Vector3 vector)
+    {
+        this.x = vector.x;
+        this.y = vector.y;
+        this.z = vector.z;
+    }
 
     public static MyVector3 zero
     { get { return new MyVector3(0, 0, 0); } }
