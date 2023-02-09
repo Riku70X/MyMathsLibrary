@@ -11,6 +11,12 @@ public class MyVector2
         this.x = x;
         this.y = y;
     }
+    
+    public MyVector2(Vector2 vector)
+    {
+        this.x = vector.x;
+        this.y = vector.y;
+    }
 
     public static MyVector2 zero
     { get { return new MyVector2(0, 0); } }
