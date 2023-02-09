@@ -10,10 +10,11 @@ public class MyTransformComponent : MonoBehaviour
 
     MeshFilter meshFilter;
 
-    MyVector3[] globalStartVerticesCoordinates;
-    MyVector3[] globalCurrentVerticesCoordinates;
+    MyVector3[] localVerticesCoordinates;
+    MyVector3[] globalVerticesCoordinates;
 
-    public AABB boundingBox;
+    public AABB localBoundingBox;
+    public AABB globalBoundingBox;
     MyVector3 minExtent;
     MyVector3 maxExtent;
 
@@ -29,43 +30,44 @@ public class MyTransformComponent : MonoBehaviour
     {
         meshFilter = GetComponent<MeshFilter>();
 
-        globalStartVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
-        globalCurrentVerticesCoordinates = new MyVector3[globalStartVerticesCoordinates.Length];
+        localVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
+        globalVerticesCoordinates = new MyVector3[localVerticesCoordinates.Length];
 
-        minExtent = new MyVector3(globalStartVerticesCoordinates[0].x, globalStartVerticesCoordinates[0].y, globalStartVerticesCoordinates[0].z);
-        maxExtent = new MyVector3(globalStartVerticesCoordinates[0].x, globalStartVerticesCoordinates[0].y, globalStartVerticesCoordinates[0].z);
+        minExtent = new MyVector3(localVerticesCoordinates[0].x, localVerticesCoordinates[0].y, localVerticesCoordinates[0].z);
+        maxExtent = new MyVector3(localVerticesCoordinates[0].x, localVerticesCoordinates[0].y, localVerticesCoordinates[0].z);
 
-        for (int i = 0; i < globalStartVerticesCoordinates.Length; i++)
+        for (int i = 0; i < localVerticesCoordinates.Length; i++)
         {
-            if (globalStartVerticesCoordinates[i].x < minExtent.x)
+            if (localVerticesCoordinates[i].x < minExtent.x)
             {
-                minExtent.x = globalStartVerticesCoordinates[i].x;
+                minExtent.x = localVerticesCoordinates[i].x;
             }
-            else if (globalStartVerticesCoordinates[i].x > maxExtent.x)
+            else if (localVerticesCoordinates[i].x > maxExtent.x)
             {
-                maxExtent.x = globalStartVerticesCoordinates[i].x;
-            }
-
-            if (globalStartVerticesCoordinates[i].y < minExtent.y)
-            {
-                minExtent.y = globalStartVerticesCoordinates[i].y;
-            }
-            else if (globalStartVerticesCoordinates[i].y > maxExtent.y)
-            {
-                maxExtent.y = globalStartVerticesCoordinates[i].y;
+                maxExtent.x = localVerticesCoordinates[i].x;
             }
 
-            if (globalStartVerticesCoordinates[i].z < minExtent.z)
+            if (localVerticesCoordinates[i].y < minExtent.y)
             {
-                minExtent.z = globalStartVerticesCoordinates[i].z;
+                minExtent.y = localVerticesCoordinates[i].y;
             }
-            else if (globalStartVerticesCoordinates[i].z > maxExtent.z)
+            else if (localVerticesCoordinates[i].y > maxExtent.y)
             {
-                maxExtent.z = globalStartVerticesCoordinates[i].z;
+                maxExtent.y = localVerticesCoordinates[i].y;
+            }
+
+            if (localVerticesCoordinates[i].z < minExtent.z)
+            {
+                minExtent.z = localVerticesCoordinates[i].z;
+            }
+            else if (localVerticesCoordinates[i].z > maxExtent.z)
+            {
+                maxExtent.z = localVerticesCoordinates[i].z;
             }
         }
 
-        boundingBox = new AABB(minExtent, maxExtent);
+        localBoundingBox = new AABB(minExtent, maxExtent);
+        globalBoundingBox = new AABB(minExtent, maxExtent);
     }
 
     // Update is called once per frame
@@ -73,12 +75,47 @@ public class MyTransformComponent : MonoBehaviour
     {
         transformMatrix = MyMatrix4x4.GetTransformationMatrix(scale, rotation, position);
 
-        for (int i = 0; i < globalStartVerticesCoordinates.Length; i++)
+        for (int i = 0; i < localVerticesCoordinates.Length; i++)
         {
-            globalCurrentVerticesCoordinates[i] = (transformMatrix * globalStartVerticesCoordinates[i].ConvertToMyVector4()).ConvertToMyVector3();
+            globalVerticesCoordinates[i] = (transformMatrix * localVerticesCoordinates[i].ConvertToMyVector4()).ConvertToMyVector3();
         }
 
-        meshFilter.mesh.vertices = MyVector3.ConvertToUnityVectorArray(globalCurrentVerticesCoordinates);
+        minExtent = new MyVector3(globalVerticesCoordinates[0].x, globalVerticesCoordinates[0].y, globalVerticesCoordinates[0].z);
+        maxExtent = new MyVector3(globalVerticesCoordinates[0].x, globalVerticesCoordinates[0].y, globalVerticesCoordinates[0].z);
+
+        for (int i = 0; i < globalVerticesCoordinates.Length; i++)
+        {
+            if (globalVerticesCoordinates[i].x < minExtent.x)
+            {
+                minExtent.x = globalVerticesCoordinates[i].x;
+            }
+            else if (globalVerticesCoordinates[i].x > maxExtent.x)
+            {
+                maxExtent.x = globalVerticesCoordinates[i].x;
+            }
+
+            if (globalVerticesCoordinates[i].y < minExtent.y)
+            {
+                minExtent.y = globalVerticesCoordinates[i].y;
+            }
+            else if (globalVerticesCoordinates[i].y > maxExtent.y)
+            {
+                maxExtent.y = globalVerticesCoordinates[i].y;
+            }
+
+            if (globalVerticesCoordinates[i].z < minExtent.z)
+            {
+                minExtent.z = globalVerticesCoordinates[i].z;
+            }
+            else if (globalVerticesCoordinates[i].z > maxExtent.z)
+            {
+                maxExtent.z = globalVerticesCoordinates[i].z;
+            }
+        }
+        
+        globalBoundingBox = new AABB(minExtent, maxExtent);
+
+        meshFilter.mesh.vertices = MyVector3.ConvertToUnityVectorArray(globalVerticesCoordinates);
 
         // These final steps are sometimes necessary to make the mesh look correct
         meshFilter.mesh.RecalculateNormals();
