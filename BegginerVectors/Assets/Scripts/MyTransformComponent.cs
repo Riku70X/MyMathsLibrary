@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//[ExecuteInEditMode]
 public class MyTransformComponent : MonoBehaviour
 {
     public MyVector3 position;
@@ -28,6 +29,8 @@ public class MyTransformComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.LogWarning("Ask Jay about sharedMesh");
+
         meshFilter = GetComponent<MeshFilter>();
 
         localVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
