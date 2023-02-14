@@ -48,7 +48,7 @@ public class LineTraceTest : MonoBehaviour
         globalBox = cubeTransform.globalBoundingBox;
         otherBox = OtherCubeTransform.globalBoundingBox;
 
-        Debug.DrawLine(globalStartPosition.ConvertToUnityVector(), globalEndPosition.ConvertToUnityVector());
+        Debug.DrawLine(globalStartPosition, globalEndPosition);
 
         scaleMatrix = MyMatrix4x4.GetScaleMatrix(cubeTransform.scale);
         rotationMatrix = MyMatrix4x4.GetRotationMatrix(cubeTransform.rotation);
@@ -56,12 +56,12 @@ public class LineTraceTest : MonoBehaviour
 
         inverseTransformMatrix = scaleMatrix.ScaleInverse() * rotationMatrix.RotationInverse() * translationMatrix.TranslationInverse();
 
-        localStartPosition = (inverseTransformMatrix * globalStartPosition.ConvertToMyVector4()).ConvertToMyVector3();
-        localEndPosition = (inverseTransformMatrix * globalEndPosition.ConvertToMyVector4()).ConvertToMyVector3();
+        localStartPosition = inverseTransformMatrix * globalStartPosition;
+        localEndPosition = inverseTransformMatrix * globalEndPosition;
         
         if (MyAABB.LineIntersection(localBox, localStartPosition, localEndPosition, out intersectionPoint))
         {
-            Debug.Log($"Line Intersection! Local point : {intersectionPoint.ToString()}, Global point : {((cubeTransform.transformMatrix * intersectionPoint.ConvertToMyVector4()).ConvertToMyVector3()).ToString()}");
+            Debug.Log($"Line Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.transformMatrix * intersectionPoint}");
         }
 
         if (MyAABB.Intersects(globalBox, otherBox))

@@ -22,71 +22,44 @@ public class MyVector4
         this.w = vector.w;
     }
 
-    public static MyVector4 zero
-    { get { return new MyVector4(0, 0, 0, 0); } }
+    public static MyVector4 zero => new MyVector4(0, 0, 0, 0);
 
-    public static MyVector4 one
-    { get { return new MyVector4(1, 1, 1, 1); } }
+    public static MyVector4 one => new MyVector4(1, 1, 1, 1);
 
-    public override string ToString()
-    {
-        return ($"({x}, {y}, {z}, {w})");
-    }
+    public override string ToString() => ($"({x}, {y}, {z}, {w})");
 
-    public Vector4 ConvertToUnityVector()
-    {
-        Vector4 returnVector = new(x, y, z, w);
-        return returnVector;
-    }
+    public static implicit operator Vector4(MyVector4 vector) => new(vector.x, vector.y, vector.z, vector.w);
 
     public static Vector4[] ConvertToUnityVectorArray(MyVector4[] vectorArray)
     {
         Vector4[] returnVectorArray = new Vector4[vectorArray.Length];
         for (int i = 0; i < vectorArray.Length; i++)
         {
-            returnVectorArray[i] = vectorArray[i].ConvertToUnityVector();
+            returnVectorArray[i] = vectorArray[i];
         }
         return returnVectorArray;
     }
 
-    public static MyVector4 ConvertToCustomVector(Vector4 vector)
-    {
-        MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
-        return returnVector;
-    }
+    public static implicit operator MyVector4(Vector4 vector) => new(vector.x, vector.y, vector.z, vector.w);
 
     public static MyVector4[] ConvertToCustomVectorArray(Vector4[] vectorArray)
     {
         MyVector4[] returnVectorArray = new MyVector4[vectorArray.Length];
         for (int i = 0; i < vectorArray.Length; i++)
         {
-            returnVectorArray[i] = ConvertToCustomVector(vectorArray[i]);
+            returnVectorArray[i] = vectorArray[i];
         }
         return returnVectorArray;
     }
 
-    public MyVector2 ConvertToMyVector2()
-    {
-        return new MyVector2(x, y);
-    }
+    public static implicit operator MyVector2(MyVector4 vector) => new(vector.x, vector.y);
 
-    public MyVector3 ConvertToMyVector3()
-    {
-        return new MyVector3(x, y, z);
-    }
+    public static implicit operator MyVector3(MyVector4 vector) => new(vector.x, vector.y, vector.z);
 
-    public float GetVectorLength()
-    {
-        float length = Mathf.Sqrt((x * x) + (y * y) + (z * z) + (w * w));
-        return length;
-    }
+    public float GetVectorLength() => Mathf.Sqrt((x * x) + (y * y) + (z * z) + (w * w));
 
-    public float GetVectorLengthSquared()
-    {
-        float length = (x * x) + (y * y) + (z * z) + (w * w);
-        return length;
-    }
-    
+    public float GetVectorLengthSquared() => (x * x) + (y * y) + (z * z) + (w * w);
+
     public static MyVector4 AddVector(MyVector4 vectorA, MyVector4 vectorB)
     {
         MyVector4 vectorSum = new(0, 0, 0, 0)
@@ -99,10 +72,7 @@ public class MyVector4
         return vectorSum;
     }
 
-    public static MyVector4 operator +(MyVector4 lhs, MyVector4 rhs)
-    {
-        return AddVector(lhs, rhs);
-    }
+    public static MyVector4 operator +(MyVector4 lhs, MyVector4 rhs) => AddVector(lhs, rhs);
 
     public static MyVector4 SubtractVector(MyVector4 vectorA, MyVector4 vectorB)
     {
@@ -116,11 +86,8 @@ public class MyVector4
         return vectorDifference;
     }
 
-    public static MyVector4 operator -(MyVector4 lhs, MyVector4 rhs)
-    {
-        return SubtractVector(lhs, rhs);
-    }
-    
+    public static MyVector4 operator -(MyVector4 lhs, MyVector4 rhs) => SubtractVector(lhs, rhs);
+
     public static MyVector4 MultiplyVector(MyVector4 vector, float multiplier)
     {
         MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
@@ -128,10 +95,7 @@ public class MyVector4
         return returnVector;
     }
 
-    public static MyVector4 operator *(MyVector4 lhs, float rhs)
-    {
-        return MultiplyVector(lhs, rhs);
-    }
+    public static MyVector4 operator *(MyVector4 lhs, float rhs) => MultiplyVector(lhs, rhs);
 
     public static MyVector4 DivideVector(MyVector4 vector, float divisor)
     {
@@ -140,10 +104,7 @@ public class MyVector4
         return returnVector;
     }
 
-    public static MyVector4 operator /(MyVector4 lhs, float rhs)
-    {
-        return DivideVector(lhs, rhs);
-    }
+    public static MyVector4 operator /(MyVector4 lhs, float rhs) => DivideVector(lhs, rhs);
 
     public static bool CheckIfIdentical(MyVector4 vectorA, MyVector4 vectorB)
     {
@@ -157,15 +118,9 @@ public class MyVector4
         }
     }
 
-    public static bool operator ==(MyVector4 lhs, MyVector4 rhs)
-    {
-        return CheckIfIdentical(lhs, rhs);
-    }
+    public static bool operator ==(MyVector4 lhs, MyVector4 rhs) => CheckIfIdentical(lhs, rhs);
 
-    public static bool operator !=(MyVector4 lhs, MyVector4 rhs)
-    {
-        return !CheckIfIdentical(lhs, rhs);
-    }
+    public static bool operator !=(MyVector4 lhs, MyVector4 rhs) => !CheckIfIdentical(lhs, rhs);
 
     public MyVector4 NormaliseVector()
     {

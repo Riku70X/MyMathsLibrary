@@ -14,8 +14,8 @@ public class CubeInterpolation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentPosition = MyVector3.ConvertToCustomVector(transform.position);
+        currentPosition = transform.position;
         currentPosition = MyVector3.GetLerp(currentPosition, destination, Time.deltaTime);
-        transform.position = currentPosition.ConvertToUnityVector();
+        transform.position = currentPosition;
     }
 }

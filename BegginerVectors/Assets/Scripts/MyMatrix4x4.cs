@@ -94,7 +94,7 @@ public class MyMatrix4x4
 
     public override string ToString()
     {
-        return ($"({GetRow(0).ToString()}\n{GetRow(1).ToString()}\n{GetRow(2).ToString()}\n{GetRow(3).ToString()})");
+        return ($"({GetRow(0)}\n{GetRow(1)}\n{GetRow(2)}\n{GetRow(3)})");
     }
 
     public static MyVector4 MultiplyMatrices4x4by4x1 (MyMatrix4x4 matrix, MyVector4 vector)
@@ -110,10 +110,7 @@ public class MyMatrix4x4
         return returnVector;
     }
 
-    public static MyVector4 operator *(MyMatrix4x4 lhs, MyVector4 rhs)
-    {
-        return MultiplyMatrices4x4by4x1(lhs, rhs);
-    }
+    public static MyVector4 operator *(MyMatrix4x4 lhs, MyVector4 rhs) => MultiplyMatrices4x4by4x1(lhs, rhs);
 
     public static MyMatrix4x4 MultiplyMatrices4x4by4x4 (MyMatrix4x4 matrixA, MyMatrix4x4 matrixB)
     {
@@ -130,15 +127,9 @@ public class MyMatrix4x4
         return returnMatrix;
     }
 
-    public static MyMatrix4x4 operator *(MyMatrix4x4 lhs, MyMatrix4x4 rhs)
-    {
-        return MultiplyMatrices4x4by4x4(lhs, rhs);
-    }
+    public static MyMatrix4x4 operator *(MyMatrix4x4 lhs, MyMatrix4x4 rhs) => MultiplyMatrices4x4by4x4(lhs, rhs);
 
-    public static MyMatrix4x4 GetScaleMatrix(MyVector3 scalar)
-    {
-        return new MyMatrix4x4(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0));
-    }
+    public static MyMatrix4x4 GetScaleMatrix(MyVector3 scalar) => new MyMatrix4x4(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0));
 
     public static MyMatrix4x4 GetRotationMatrix(MyVector3 eulerAngles)
     {
@@ -151,10 +142,7 @@ public class MyMatrix4x4
         return pitchMatrix * (yawMatrix * rollMatrix);
     }
 
-    public static MyMatrix4x4 GetTranslationMatrix(MyVector3 translation)
-    {
-        return new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z));
-    }
+    public static MyMatrix4x4 GetTranslationMatrix(MyVector3 translation) => new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z));
 
     public static MyMatrix4x4 GetTransformationMatrix(MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
     {
@@ -174,10 +162,7 @@ public class MyMatrix4x4
         return returnMatrix;
     }
 
-    public MyMatrix4x4 RotationInverse()
-    {
-        return new MyMatrix4x4(GetRow(0), GetRow(1), GetRow(2), GetRow(3));
-    }
+    public MyMatrix4x4 RotationInverse() => new MyMatrix4x4(GetRow(0), GetRow(1), GetRow(2), GetRow(3));
 
     public MyMatrix4x4 TranslationInverse()
     {

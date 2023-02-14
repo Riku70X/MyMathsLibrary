@@ -27,7 +27,7 @@ public class VerticesManipulation : MonoBehaviour
         // Transform each individual vertex
         for (int i = 0; i < transformedVertices.Length; i++)
         {
-            transformedVertices[i] = (transformMatrix * modelSpaceVertices[i].ConvertToMyVector4()).ConvertToMyVector3();
+            transformedVertices[i] = transformMatrix * modelSpaceVertices[i];
         }
 
         // Assign our new vertices

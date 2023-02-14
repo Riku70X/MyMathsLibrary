@@ -31,12 +31,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxis("Mouse X") > 0)
         {
             eulerAngles.y -= 0.01221730476f;
-            transform.Rotate(new MyVector3(0, 0.7f, 0).ConvertToUnityVector());
+            transform.Rotate(new MyVector3(0, 0.7f, 0));
         }
         if (Input.GetAxis("Mouse X") < 0)
         {
             eulerAngles.y += 0.01221730476f;
-            transform.Rotate(new MyVector3(0, -0.7f, 0).ConvertToUnityVector());
+            transform.Rotate(new MyVector3(0, -0.7f, 0));
         }
 
         // The Camera Yaw movement changes relative to Pitch, while the Euler angle always uses the global Y-axis, so they become desynced
@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         relativeForwardVector = MyMathsLibrary.ConvertEulerToDirection(eulerAngles);
         relativeForwardVelocity = relativeForwardVector.NormaliseVector() * speed;
 
-        Debug.DrawRay(transform.position, relativeForwardVector.ConvertToUnityVector(), Color.green, 0.0f);
+        Debug.DrawRay(transform.position, relativeForwardVector, Color.green, 0.0f);
 
         relativeRightVector = MyMathsLibrary.GetCrossProduct(constantUpVector, relativeForwardVector);
         relativeRightVelocity = relativeRightVector.NormaliseVector() * speed;
@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
             //transform.position = x.ConvertToUnityVector();
 
             // Using Euler
-            transform.position += relativeForwardVelocity.ConvertToUnityVector();
+            transform.position += relativeForwardVelocity;
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
             //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - .005f);
             
             // Using Euler
-            transform.position -= relativeForwardVelocity.ConvertToUnityVector();
+            transform.position -= relativeForwardVelocity;
         }
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
@@ -90,15 +90,15 @@ public class PlayerMovement : MonoBehaviour
             //transform.position = new Vector3(transform.position.x + .005f, transform.position.y, transform.position.z);
             
             // Using Euler
-            transform.position += relativeRightVelocity.ConvertToUnityVector();
+            transform.position += relativeRightVelocity;
         }
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             // Basic movement
             //transform.position = new Vector3(transform.position.x - .005f, transform.position.y, transform.position.z);
-            
+
             // Using Euler
-            transform.position -= relativeRightVelocity.ConvertToUnityVector();
+            transform.position -= relativeRightVelocity;
         }
         if (Input.GetKey(KeyCode.E))
         {
@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
             //transform.position = new Vector3(transform.position.x, transform.position.y + .005f, transform.position.z);
             
             // Using Euler
-            transform.position += relativeUpVelocity.ConvertToUnityVector();
+            transform.position += relativeUpVelocity;
         }
         if (Input.GetKey(KeyCode.Q))
         {
@@ -114,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
             //transform.position = new Vector3(transform.position.x, transform.position.y - .005f, transform.position.z);
             
             // Using Euler
-            transform.position -= relativeUpVelocity.ConvertToUnityVector();
+            transform.position -= relativeUpVelocity;
         }
 
         speed /= Time.deltaTime;

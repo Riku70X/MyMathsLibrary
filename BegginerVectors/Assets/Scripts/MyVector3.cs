@@ -75,7 +75,19 @@ public class MyVector3
         return vectorSum;
     }
 
+    public static MyVector3 AddVector(Vector3 vectorA, MyVector3 vectorB)
+    {
+        MyVector3 vectorSum = new(0, 0, 0)
+        {
+            x = vectorA.x + vectorB.x,
+            y = vectorA.y + vectorB.y,
+            z = vectorA.z + vectorB.z
+        };
+        return vectorSum;
+    }
+
     public static MyVector3 operator +(MyVector3 lhs, MyVector3 rhs) => AddVector(lhs, rhs);
+    public static MyVector3 operator +(Vector3 lhs, MyVector3 rhs) => AddVector(lhs, rhs);
 
     public static MyVector3 SubtractVector(MyVector3 vectorA, MyVector3 vectorB)
     {
@@ -88,7 +100,19 @@ public class MyVector3
         return vectorDifference;
     }
 
+    public static MyVector3 SubtractVector(Vector3 vectorA, MyVector3 vectorB)
+    {
+        MyVector3 vectorDifference = new(0, 0, 0)
+        {
+            x = vectorA.x - vectorB.x,
+            y = vectorA.y - vectorB.y,
+            z = vectorA.z - vectorB.z
+        };
+        return vectorDifference;
+    }
+
     public static MyVector3 operator -(MyVector3 lhs, MyVector3 rhs) => SubtractVector(lhs, rhs);
+    public static MyVector3 operator -(Vector3 lhs, MyVector3 rhs) => SubtractVector(lhs, rhs);
 
     public static MyVector3 MultiplyVector(MyVector3 vector, float multiplier)
     {

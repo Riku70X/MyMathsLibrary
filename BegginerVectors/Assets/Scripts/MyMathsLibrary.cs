@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class MyMathsLibrary
 {
-    public static float GetVector2Angle(MyVector2 vector)
-    {
-        return Mathf.Atan2(vector.y, vector.x);
-    }
+    public static float GetVector2Angle(MyVector2 vector) => Mathf.Atan2(vector.y, vector.x);
 
     public static MyVector2 GetVector2Direction(float angle)
     {

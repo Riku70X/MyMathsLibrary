@@ -21,8 +21,8 @@ public class MoveToEvader : MonoBehaviour
 
     void MoveTowardsEvader()
     {
-        currentPersuerPosition = MyVector3.ConvertToCustomVector(transform.position);
-        currentEvaderPosition = MyVector3.ConvertToCustomVector(evader.transform.position);
+        currentPersuerPosition = transform.position;
+        currentEvaderPosition = evader.transform.position;
         currentEvaderDirection = currentEvaderPosition - currentPersuerPosition;
         currentEvaderVelocity = currentEvaderPosition - previousEvaderPosition;
 
@@ -30,7 +30,7 @@ public class MoveToEvader : MonoBehaviour
         {
             normalisedEvaderDirection = currentEvaderDirection.NormaliseVector();
             currentPersuerPosition += (normalisedEvaderDirection * speed);
-            transform.position = currentPersuerPosition.ConvertToUnityVector();
+            transform.position = currentPersuerPosition;
         }
 
         previousEvaderPosition = currentEvaderPosition;
@@ -40,7 +40,7 @@ public class MoveToEvader : MonoBehaviour
     void Start()
     {
         evader = GameObject.Find("Evader");
-        previousEvaderPosition = MyVector3.ConvertToCustomVector(evader.transform.position);
+        previousEvaderPosition = evader.transform.position;
     }
 
     // Update is called once per frame
