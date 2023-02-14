@@ -38,22 +38,4 @@ public class MyMathsLibrary
         };
         return vectorC;
     }
-
-    public static MyVector2 GetLerp(MyVector2 vectorA, MyVector2 vectorB, float t)
-    {
-        MyVector2 returnVector;
-        vectorA *= (1 - t);
-        vectorB *= (t);
-        returnVector = vectorA + vectorB;
-        return returnVector;
-    }
-
-    public static MyVector3 GetLerp(MyVector3 vectorA, MyVector3 vectorB, float t)
-    {
-        MyVector3 returnVector;
-        vectorA *= (1 - t);
-        vectorB *= (t);
-        returnVector = vectorA + vectorB;
-        return returnVector;
-    }
 }

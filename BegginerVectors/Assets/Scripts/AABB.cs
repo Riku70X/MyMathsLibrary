@@ -107,7 +107,7 @@ public class AABB
             return false;
 
         // Calculate our intersection point through interpolation
-        intersectionPoint = MyMathsLibrary.GetLerp(startPoint, endPoint, lowest);
+        intersectionPoint = MyVector3.GetLerp(startPoint, endPoint, lowest);
 
         return true;
     }

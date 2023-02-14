@@ -186,4 +186,13 @@ public class MyVector4
 
         return dotProduct;
     }
+
+    public static MyVector4 GetLerp(MyVector4 vectorA, MyVector4 vectorB, float t)
+    {
+        MyVector4 returnVector;
+        vectorA *= (1 - t);
+        vectorB *= (t);
+        returnVector = vectorA + vectorB;
+        return returnVector;
+    }
 }
