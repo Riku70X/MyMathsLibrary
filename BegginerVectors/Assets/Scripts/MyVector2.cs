@@ -30,7 +30,7 @@ public class MyVector2
     public static MyVector2 up
     { get { return new MyVector2(0, 1); } }
 
-    public string ToString()
+    public override string ToString()
     {
         return ($"({x}, {y})");
     }

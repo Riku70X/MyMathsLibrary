@@ -10,12 +10,13 @@ public class MyTransformComponent : MonoBehaviour
     public MyMatrix4x4 transformMatrix;
 
     MeshFilter meshFilter;
+    public Mesh mesh;
 
     MyVector3[] localVerticesCoordinates;
     MyVector3[] globalVerticesCoordinates;
 
-    public AABB localBoundingBox;
-    public AABB globalBoundingBox;
+    public MyAABB localBoundingBox;
+    public MyAABB globalBoundingBox;
     MyVector3 minExtent;
     MyVector3 maxExtent;
 
@@ -33,7 +34,9 @@ public class MyTransformComponent : MonoBehaviour
 
         meshFilter = GetComponent<MeshFilter>();
 
-        localVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
+        meshFilter.sharedMesh = Instantiate(mesh);
+
+        localVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
         globalVerticesCoordinates = new MyVector3[localVerticesCoordinates.Length];
 
         minExtent = new MyVector3(localVerticesCoordinates[0].x, localVerticesCoordinates[0].y, localVerticesCoordinates[0].z);
@@ -69,8 +72,8 @@ public class MyTransformComponent : MonoBehaviour
             }
         }
 
-        localBoundingBox = new AABB(minExtent, maxExtent);
-        globalBoundingBox = new AABB(minExtent, maxExtent);
+        localBoundingBox = new MyAABB(minExtent, maxExtent);
+        globalBoundingBox = new MyAABB(minExtent, maxExtent);
     }
 
     // Update is called once per frame
@@ -116,7 +119,7 @@ public class MyTransformComponent : MonoBehaviour
             }
         }
         
-        globalBoundingBox = new AABB(minExtent, maxExtent);
+        globalBoundingBox = new MyAABB(minExtent, maxExtent);
 
         meshFilter.mesh.vertices = MyVector3.ConvertToUnityVectorArray(globalVerticesCoordinates);
 

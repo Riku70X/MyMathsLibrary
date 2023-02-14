@@ -35,7 +35,7 @@ public class MyVector3
     public static MyVector3 forward
     { get { return new MyVector3(0, 0, 1); } }
 
-    public string ToString()
+    public override string ToString()
     {
         return ($"({x}, {y}, {z})");
     }

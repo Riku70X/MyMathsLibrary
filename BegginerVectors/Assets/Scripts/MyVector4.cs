@@ -28,7 +28,7 @@ public class MyVector4
     public static MyVector4 one
     { get { return new MyVector4(1, 1, 1, 1); } }
 
-    public string ToString()
+    public override string ToString()
     {
         return ($"({x}, {y}, {z}, {w})");
     }

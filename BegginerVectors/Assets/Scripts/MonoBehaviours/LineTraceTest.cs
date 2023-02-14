@@ -4,8 +4,8 @@ public class LineTraceTest : MonoBehaviour
 {
     GameObject Cube;
     MyTransformComponent cubeTransform;
-    AABB localBox;
-    AABB globalBox;
+    MyAABB localBox;
+    MyAABB globalBox;
 
     MyMatrix4x4 scaleMatrix;
     MyMatrix4x4 rotationMatrix;
@@ -23,7 +23,7 @@ public class LineTraceTest : MonoBehaviour
 
     GameObject OtherCube;
     MyTransformComponent OtherCubeTransform;
-    AABB otherBox;
+    MyAABB otherBox;
 
     public LineTraceTest()
     {
@@ -59,12 +59,12 @@ public class LineTraceTest : MonoBehaviour
         localStartPosition = (inverseTransformMatrix * globalStartPosition.ConvertToMyVector4()).ConvertToMyVector3();
         localEndPosition = (inverseTransformMatrix * globalEndPosition.ConvertToMyVector4()).ConvertToMyVector3();
         
-        if (AABB.LineIntersection(localBox, localStartPosition, localEndPosition, out intersectionPoint))
+        if (MyAABB.LineIntersection(localBox, localStartPosition, localEndPosition, out intersectionPoint))
         {
             Debug.Log($"Line Intersection! Local point : {intersectionPoint.ToString()}, Global point : {((cubeTransform.transformMatrix * intersectionPoint.ConvertToMyVector4()).ConvertToMyVector3()).ToString()}");
         }
 
-        if (AABB.Intersects(globalBox, otherBox))
+        if (MyAABB.Intersects(globalBox, otherBox))
         {
             Debug.Log($"Box Intersection!");
         }

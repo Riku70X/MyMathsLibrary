@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class AABB
+public class MyAABB // Axis Alligned Bounding Box
 {
     MyVector3 minExtent;
     MyVector3 maxExtent;
-    public AABB(MyVector3 min, MyVector3 max)
+    public MyAABB(MyVector3 min, MyVector3 max)
     {
         minExtent = min;
         maxExtent = max;
@@ -28,7 +28,7 @@ public class AABB
     public float back
     { get { return minExtent.z; } }
 
-    public static bool Intersects(AABB box1, AABB box2)
+    public static bool Intersects(MyAABB box1, MyAABB box2)
     {
         return !(box2.left > box1.right
             || box2.right < box1.left
@@ -38,7 +38,7 @@ public class AABB
             || box2.front < box1.back);
     }
 
-    public static bool IntersectingAxis(MyVector3 axis, AABB box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
+    public static bool IntersectingAxis(MyVector3 axis, MyAABB box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
     {
         // Calculate our Minimum and Maximum based on the current axis
         float minimum = 0.0f, maximum = 1.0f;
@@ -87,7 +87,7 @@ public class AABB
         return true;
     }
 
-    public static bool LineIntersection(AABB box, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    public static bool LineIntersection(MyAABB box, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
     {
         // Define our initial lowest and highest
         float lowest = 0.0f;
