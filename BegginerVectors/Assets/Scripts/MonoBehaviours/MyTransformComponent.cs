@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class MyTransformComponent : MonoBehaviour
 {
     public MyVector3 position;
@@ -30,10 +30,9 @@ public class MyTransformComponent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.LogWarning("Ask Jay about sharedMesh");
-
         meshFilter = GetComponent<MeshFilter>();
 
+        // make a copy of the shared Mesh to prevent corrupting Unity's pre-made meshes
         meshFilter.sharedMesh = Instantiate(mesh);
 
         localVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
@@ -121,10 +120,10 @@ public class MyTransformComponent : MonoBehaviour
         
         globalBoundingBox = new MyAABB(minExtent, maxExtent);
 
-        meshFilter.mesh.vertices = MyVector3.ConvertToUnityVectorArray(globalVerticesCoordinates);
+        meshFilter.sharedMesh.vertices = MyVector3.ConvertToUnityVectorArray(globalVerticesCoordinates);
 
         // These final steps are sometimes necessary to make the mesh look correct
-        meshFilter.mesh.RecalculateNormals();
-        meshFilter.mesh.RecalculateBounds();
+        meshFilter.sharedMesh.RecalculateNormals();
+        meshFilter.sharedMesh.RecalculateBounds();
     }
 }
