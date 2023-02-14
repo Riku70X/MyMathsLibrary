@@ -72,6 +72,11 @@ public class MyVector2
         return new MyVector3(x, y, 1);
     }
 
+    public static implicit operator MyVector3(MyVector2 vector)
+    {
+        return new MyVector3(vector.x, vector.y, 1);
+    }
+
     public MyVector4 ConvertToMyVector4()
     {
         return new MyVector4(x, y, 1, 1);

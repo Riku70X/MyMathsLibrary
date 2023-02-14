@@ -82,7 +82,7 @@ public class MyTransformComponent : MonoBehaviour
 
         for (int i = 0; i < localVerticesCoordinates.Length; i++)
         {
-            globalVerticesCoordinates[i] = (transformMatrix * localVerticesCoordinates[i].ConvertToMyVector4()).ConvertToMyVector3();
+            globalVerticesCoordinates[i] = (transformMatrix * localVerticesCoordinates[i]).ConvertToMyVector3();
         }
 
         minExtent = new MyVector3(globalVerticesCoordinates[0].x, globalVerticesCoordinates[0].y, globalVerticesCoordinates[0].z);
