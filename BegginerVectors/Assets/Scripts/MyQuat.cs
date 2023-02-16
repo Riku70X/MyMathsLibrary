@@ -68,8 +68,8 @@ public class MyQuat
 
     public static MyQuat MultiplyQuaternions(MyQuat quatA, MyQuat quatB)
     {
-        MyQuat returnQuat = new((quatA.w * quatB.w) - MyVector3.GetDotProduct(quatA.axis, quatB.axis),
-                                (quatA.axis * quatB.w) + (quatB.axis * quatA.w) + MyMathsLibrary.GetCrossProduct(quatA.axis, quatB.axis));
+        MyQuat returnQuat = new((quatA.w * quatB.w) - MyVector3.GetDotProduct(quatA.GetAxis(), quatB.GetAxis()),
+                                (quatA.GetAxis() * quatB.w) + (quatB.GetAxis() * quatA.w) + MyMathsLibrary.GetCrossProduct(quatA.GetAxis(), quatB.GetAxis()));
         return returnQuat;
     }
 
@@ -89,6 +89,7 @@ public class MyQuat
     public static MyVector3 Rotate(MyVector3 vertex, MyQuat rotationQuat)
     {
         MyQuat vertexQuat = new(vertex);
+        Debug.LogWarning($"vertex: ({vertex/*vertexQuat.GetAxis()*/})");
         vertexQuat = rotationQuat * vertexQuat * rotationQuat.GetInverse();
         return vertexQuat.GetAxis();
     }

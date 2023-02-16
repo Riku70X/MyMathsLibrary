@@ -12,7 +12,7 @@ public class MyVector3
         this.y = y;
         this.z = z;
     }
-    
+
     public MyVector3(Vector3 vector)
     {
         this.x = vector.x;
@@ -159,6 +159,7 @@ public class MyVector3
     {
         if (shouldNormalise)
         {
+            Debug.Log($"vectorA: {vectorA}, vectorB: {vectorB}");
             vectorA = vectorA.NormaliseVector();
             vectorB = vectorB.NormaliseVector();
         }
