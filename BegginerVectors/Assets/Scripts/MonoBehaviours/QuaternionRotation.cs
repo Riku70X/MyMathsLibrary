@@ -17,6 +17,7 @@ public class QuaternionRotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.LogError($"axis: {rotationQuat.GetAxis()}"); // issue is that x y and z are calculated using *=sin(angle), so if angle is 0 then I can't /= xyz to find axis.
         angle += Time.deltaTime;
         position = MyQuat.Rotate(position, rotationQuat);
         transform.position = position;

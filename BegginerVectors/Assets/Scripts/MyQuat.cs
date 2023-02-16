@@ -89,7 +89,7 @@ public class MyQuat
     public static MyVector3 Rotate(MyVector3 vertex, MyQuat rotationQuat)
     {
         MyQuat vertexQuat = new(vertex);
-        Debug.LogWarning($"vertex: ({vertex/*vertexQuat.GetAxis()*/})");
+        Debug.LogWarning($"axis: ({rotationQuat.GetAxis()})");
         vertexQuat = rotationQuat * vertexQuat * rotationQuat.GetInverse();
         return vertexQuat.GetAxis();
     }
