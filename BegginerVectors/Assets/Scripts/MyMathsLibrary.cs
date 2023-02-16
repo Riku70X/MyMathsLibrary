@@ -18,9 +18,9 @@ public class MyMathsLibrary
     {
         MyVector3 direction = new(0, 0, 0)
         {
-            x = Mathf.Cos(euler.y) * Mathf.Cos(euler.x),
-            y = Mathf.Sin(euler.x),
-            z = Mathf.Cos(euler.x) * Mathf.Sin(euler.y)
+            x = Mathf.Cos(euler.x) * Mathf.Sin(euler.y),
+            y = -Mathf.Sin(euler.x),
+            z = Mathf.Cos(euler.y) * Mathf.Cos(euler.x)
         };
         return direction;
     }

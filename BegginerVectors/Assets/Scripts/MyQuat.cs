@@ -50,7 +50,21 @@ public class MyQuat
         return returnVector;
     }
 
-    public MyQuat Inverse() => new(w, -x, -y, -z);
+    public MyVector3 GetAxis()
+    {
+        float halfAngle = Mathf.Acos(w);
+
+        MyVector3 returnVector = new(0, 0, 0)
+        {
+            x = x / Mathf.Sin(halfAngle),
+            y = y / Mathf.Sin(halfAngle),
+            z = z / Mathf.Sin(halfAngle)
+        };
+
+        return returnVector;
+    }
+
+    public MyQuat GetInverse() => new(w, -x, -y, -z);
 
     public static MyQuat MultiplyQuaternions(MyQuat quatA, MyQuat quatB)
     {
@@ -65,10 +79,17 @@ public class MyQuat
     {
         t = Mathf.Clamp(t, 0, 1);
 
-        MyQuat slerpQuart = quatB * quatA.Inverse();
+        MyQuat slerpQuart = quatB * quatA.GetInverse();
         MyVector4 axisAngle = slerpQuart.GetAxisAngle();
         MyQuat slerpQuartT = new(axisAngle.w * t, new MyVector3(axisAngle.x, axisAngle.y, axisAngle.z));
 
         return slerpQuartT * quatA;
+    }
+
+    public static MyVector3 Rotate(MyVector3 vertex, MyQuat rotationQuat)
+    {
+        MyQuat vertexQuat = new(vertex);
+        vertexQuat = rotationQuat * vertexQuat * rotationQuat.GetInverse();
+        return vertexQuat.GetAxis();
     }
 }
