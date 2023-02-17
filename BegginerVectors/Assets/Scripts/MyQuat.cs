@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class MyQuat
 {
-    public float w, x, y, z;
-    public float angle;
-    public MyVector3 axis;
+    float w, x, y, z;
+    float angle;
+    MyVector3 axis;
 
     public MyQuat(float angle, MyVector3 axis)
     {
@@ -25,50 +25,50 @@ public class MyQuat
         this.x = x;
         this.y = y;
         this.z = z;
+
+        float halfAngle = Mathf.Acos(w);
+
+        angle = halfAngle * 2;
+        if (halfAngle != 0)
+        {
+            axis = new MyVector3(x / Mathf.Sin(halfAngle), y / Mathf.Sin(halfAngle), z / Mathf.Sin(halfAngle));
+        }
+        else
+        {
+            Debug.LogWarning("QUATERNION WITH ANGLE 0 GENERATED, AXIS UNKNOWN");
+        }
     }
 
     public MyQuat(MyVector3 vertex)
     {
-        w = 0;
-        x = vertex.x;
-        y = vertex.y;
-        z = vertex.z;
+        this.angle = Mathf.PI/2;
+        this.axis = vertex;
+
+        float halfAngle = angle / 2;
+
+        w = Mathf.Cos(halfAngle);
+        x = vertex.x * Mathf.Sin(halfAngle);
+        y = vertex.y * Mathf.Sin(halfAngle);
+        z = vertex.z * Mathf.Sin(halfAngle);
     }
+
+    public override string ToString() => ($"({w}, {x}, {y}, {z})");
 
     public MyVector4 GetAxisAngle()
     {
-        float halfAngle = Mathf.Acos(w);
-
-        MyVector4 returnVector = new(0, 0, 0, 0)
-        {
-            w = halfAngle * 2,
-            x = x / Mathf.Sin(halfAngle),
-            y = y / Mathf.Sin(halfAngle),
-            z = z / Mathf.Sin(halfAngle)
-        };
-
-        return returnVector;
+        return new(axis.x, axis.y, axis.z, angle);
     }
 
     public MyVector3 GetAxis()
     {
-        float halfAngle = Mathf.Acos(w);
-
-        MyVector3 returnVector = new(0, 0, 0)
-        {
-            x = x / Mathf.Sin(halfAngle),
-            y = y / Mathf.Sin(halfAngle),
-            z = z / Mathf.Sin(halfAngle)
-        };
-
-        return returnVector;
+        return axis;
     }
 
-    public MyQuat GetInverse() => new(w, -x, -y, -z);
+    public MyQuat GetInverse() => new(angle, -1.0f * axis);
 
     public static MyQuat MultiplyQuaternions(MyQuat quatA, MyQuat quatB)
     {
-        MyQuat returnQuat = new((quatA.w * quatB.w) - MyVector3.GetDotProduct(quatA.GetAxis(), quatB.GetAxis()),
+        MyQuat returnQuat = new((quatA.w * quatB.w) - MyVector3.GetDotProduct(quatA.GetAxis(), quatB.GetAxis(), false),
                                 (quatA.GetAxis() * quatB.w) + (quatB.GetAxis() * quatA.w) + MyMathsLibrary.GetCrossProduct(quatA.GetAxis(), quatB.GetAxis()));
         return returnQuat;
     }
@@ -89,7 +89,11 @@ public class MyQuat
     public static MyVector3 Rotate(MyVector3 vertex, MyQuat rotationQuat)
     {
         MyQuat vertexQuat = new(vertex);
-        Debug.LogWarning($"axis: ({rotationQuat.GetAxis()})");
+        Debug.LogWarning($"vertex: {vertexQuat.GetAxis()}");
+        Debug.LogWarning($"quat: {(rotationQuat)}");
+        Debug.LogWarning($"axis: {rotationQuat.GetAxis()}");
+        Debug.LogWarning($"reverseaxis: {(rotationQuat.GetInverse()).GetAxis()}");
+        Debug.LogWarning($"reversequat: {(rotationQuat.GetInverse())}");
         vertexQuat = rotationQuat * vertexQuat * rotationQuat.GetInverse();
         return vertexQuat.GetAxis();
     }

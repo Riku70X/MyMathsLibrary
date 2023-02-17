@@ -122,6 +122,7 @@ public class MyVector3
     }
 
     public static MyVector3 operator *(MyVector3 lhs, float rhs) => MultiplyVector(lhs, rhs);
+    public static MyVector3 operator *(float lhs, MyVector3 rhs) => MultiplyVector(rhs, lhs);
 
     public static MyVector3 DivideVector(MyVector3 vector, float divisor)
     {
@@ -131,6 +132,7 @@ public class MyVector3
     }
 
     public static MyVector3 operator /(MyVector3 lhs, float rhs) => DivideVector(lhs, rhs);
+    public static MyVector3 operator /(float lhs, MyVector3 rhs) => DivideVector(rhs, lhs);
 
     public static bool CheckIfIdentical(MyVector3 vectorA, MyVector3 vectorB)
     {
@@ -157,9 +159,9 @@ public class MyVector3
 
     public static float GetDotProduct(MyVector3 vectorA, MyVector3 vectorB, bool shouldNormalise = true)
     {
+        Debug.Log($"vectorA: {vectorA}, vectorB: {vectorB}");
         if (shouldNormalise)
         {
-            Debug.Log($"vectorA: {vectorA}, vectorB: {vectorB}");
             vectorA = vectorA.NormaliseVector();
             vectorB = vectorB.NormaliseVector();
         }
