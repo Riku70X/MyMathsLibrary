@@ -104,4 +104,15 @@ public class MyQuat
 
         return fullRotatedVertexQuat.GetAxis();
     }
+
+    public MyMatrix4x4 ConvertToRotationMatrix()
+    {
+        float x = vectorComponent.x; float y = vectorComponent.y; float z = vectorComponent.z;
+
+        MyMatrix4x4 rotationMatrix = new(new MyVector3(2 * (w * w + x * x) - 1, 2 * (x * y + w * z), 2 * (x * z - w * y)),
+                                        new MyVector3(2 * (x * y - w * z), 2 * (w * w + y * y) - 1, 2 * (y * z + w * x)),
+                                        new MyVector3(2 * (x * z + w * y), 2 * (y * z - w * x), 2 * (w * w + y * y) - 1),
+                                        new MyVector3(0, 0, 0));
+        return rotationMatrix;
+    }
 }
