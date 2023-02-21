@@ -53,15 +53,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         relativeForwardVector = MyMathsLibrary.ConvertEulerToDirection(eulerAngles);
-        relativeForwardVelocity = relativeForwardVector.NormaliseVector() * speed;
+        relativeForwardVelocity = relativeForwardVector.GetNormalisedVector() * speed;
 
         Debug.DrawRay(transform.position, relativeForwardVector, Color.green, 0.0f);
 
         relativeRightVector = MyMathsLibrary.GetCrossProduct(constantUpVector, relativeForwardVector);
-        relativeRightVelocity = relativeRightVector.NormaliseVector() * speed;
+        relativeRightVelocity = relativeRightVector.GetNormalisedVector() * speed;
 
         relativeUpVector = MyMathsLibrary.GetCrossProduct(relativeForwardVector, relativeRightVector);
-        relativeUpVelocity = relativeUpVector.NormaliseVector() * speed;
+        relativeUpVelocity = relativeUpVector.GetNormalisedVector() * speed;
 
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {

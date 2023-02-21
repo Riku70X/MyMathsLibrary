@@ -155,7 +155,7 @@ public class MyVector3
 
     public static bool operator !=(MyVector3 lhs, MyVector3 rhs) => !CheckIfIdentical(lhs, rhs);
 
-    public MyVector3 NormaliseVector()
+    public MyVector3 GetNormalisedVector()
     {
         MyVector3 returnVector = new(x, y, z);
         returnVector /= GetVectorLength();
@@ -166,8 +166,8 @@ public class MyVector3
     {
         if (shouldNormalise)
         {
-            vectorA = vectorA.NormaliseVector();
-            vectorB = vectorB.NormaliseVector();
+            vectorA = vectorA.GetNormalisedVector();
+            vectorB = vectorB.GetNormalisedVector();
         }
 
         float dotProduct = ((vectorA.x * vectorB.x) + (vectorA.y * vectorB.y) + (vectorA.z * vectorB.z));

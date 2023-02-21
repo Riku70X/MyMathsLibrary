@@ -38,9 +38,10 @@ public class MyMathsLibrary
 
     public static MyVector3 RotateVertexAroundAxis(MyVector3 vertex, MyVector3 axis, float angle)
     {
+        axis = axis.GetNormalisedVector();
         // The Rodrigues Rotation Formula, ensure angle is in radians
         MyVector3 returnVertex = new((vertex * Mathf.Cos(angle)) +
-                                 (axis * (1 - Mathf.Cos(angle)) * MyVector3.GetDotProduct(vertex, axis, false)) +
+                                 (axis * (1 - Mathf.Cos(angle)) * MyVector3.GetDotProduct(vertex, axis)) +
                                  (GetCrossProduct(axis, vertex) * Mathf.Sin(angle)));
         return returnVertex;
     }
