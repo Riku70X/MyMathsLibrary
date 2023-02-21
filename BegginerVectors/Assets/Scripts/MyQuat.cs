@@ -3,15 +3,18 @@ using UnityEngine;
 public class MyQuat
 {
     float w, x, y, z;
+    MyVector3 vectorComponent;
 
     public MyQuat(float angle, MyVector3 axis)
     {
+        axis = axis.NormaliseVector();
         float halfAngle = angle / 2;
         w = Mathf.Cos(halfAngle);
 
         x = axis.x * Mathf.Sin(halfAngle);
         y = axis.y * Mathf.Sin(halfAngle);
         z = axis.z * Mathf.Sin(halfAngle);
+        vectorComponent = new MyVector3(axis * Mathf.Sin(halfAngle));
     }
 
     public MyQuat(float w, float x, float y, float z)
@@ -20,6 +23,7 @@ public class MyQuat
         this.x = x;
         this.y = y;
         this.z = z;
+        vectorComponent = new MyVector3(x, y, z);
     }
 
     public MyQuat(MyVector3 vertex)
@@ -28,6 +32,7 @@ public class MyQuat
         x = vertex.x;
         y = vertex.y;
         z = vertex.z;
+        vectorComponent = new MyVector3(vertex.x, vertex.y, vertex.z);
     }
 
     public override string ToString() => ($"({w}, {x}, {y}, {z})");
@@ -42,6 +47,7 @@ public class MyQuat
         if (halfAngle != 0)
         {
             axis = new(x / Mathf.Sin(halfAngle), y / Mathf.Sin(halfAngle), z / Mathf.Sin(halfAngle));
+            //axis = new(vectorComponent / Mathf.Sin(halfAngle));
         }
         else
         {
@@ -57,17 +63,16 @@ public class MyQuat
     {
         float halfAngle = Mathf.Acos(w);
 
-        float angle = halfAngle * 2;
-
         MyVector3 axis;
-        if (halfAngle != 0)
+        if (Mathf.Sin(halfAngle) != 0)
         {
             axis = new(x / Mathf.Sin(halfAngle), y / Mathf.Sin(halfAngle), z / Mathf.Sin(halfAngle));
+            //axis = new(vectorComponent / Mathf.Sin(halfAngle));
         }
         else
         {
             Debug.LogError("QUATERNION HAS ANGLE 0, AXIS UNKNOWN");
-            axis = MyVector3.zero;
+            axis = new MyVector3(x, y, z);
         }
 
         return new MyVector3(axis.x, axis.y, axis.z);
