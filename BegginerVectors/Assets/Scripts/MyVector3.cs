@@ -64,6 +64,10 @@ public class MyVector3
 
     public float GetVectorLengthSquared() => (x * x) + (y * y) + (z * z);
 
+    public static MyVector3 GetNegativeVector(MyVector3 vector) => new MyVector3(-vector.x, -vector.y, -vector.z);
+
+    public static MyVector3 operator -(MyVector3 vector) => GetNegativeVector(vector);
+
     public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
     {
         MyVector3 vectorSum = new(0, 0, 0)
@@ -159,7 +163,6 @@ public class MyVector3
 
     public static float GetDotProduct(MyVector3 vectorA, MyVector3 vectorB, bool shouldNormalise = true)
     {
-        Debug.Log($"vectorA: {vectorA}, vectorB: {vectorB}");
         if (shouldNormalise)
         {
             vectorA = vectorA.NormaliseVector();
