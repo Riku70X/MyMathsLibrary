@@ -20,7 +20,6 @@ public class MyVector3
         z = vector.z;
     }
 
-
     public static MyVector3 zero => new(0, 0, 0);
 
     public static MyVector3 one => new(1, 1, 1);
@@ -31,7 +30,7 @@ public class MyVector3
 
     public static MyVector3 forward => new(0, 0, 1);
 
-    public override string ToString() => ($"({x}, {y}, {z})");
+    public override string ToString() => $"({x}, {y}, {z})";
 
     public static implicit operator Vector3(MyVector3 vector) => new(vector.x, vector.y, vector.z);
 
@@ -65,9 +64,9 @@ public class MyVector3
 
     public float GetVectorLengthSquared() => (x * x) + (y * y) + (z * z);
 
-    public static MyVector3 GetNegativeVector(MyVector3 vector) => new MyVector3(-vector.x, -vector.y, -vector.z);
 
-    public static MyVector3 operator -(MyVector3 vector) => GetNegativeVector(vector);
+
+    public static MyVector3 operator -(MyVector3 vector) => MyMathsLibrary.GetNegativeVector(vector);
 
     public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
     {

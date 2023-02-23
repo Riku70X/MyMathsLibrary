@@ -2,7 +2,75 @@ using UnityEngine;
 
 public class MyMathsLibrary
 {
-    public static float GetVector2Angle(MyVector2 vector) => Mathf.Atan2(vector.y, vector.x);
+    #region Static Vector2 functions
+
+    public static MyVector2 AddVector(MyVector2 vectorA, MyVector2 vectorB)
+    {
+        MyVector2 vectorSum = new(0, 0)
+        {
+            x = vectorA.x + vectorB.x,
+            y = vectorA.y + vectorB.y
+        };
+        return vectorSum;
+    }
+
+    public static MyVector2 SubtractVector(MyVector2 vectorA, MyVector2 vectorB)
+    {
+        MyVector2 vectorDifference = new(0, 0)
+        {
+            x = vectorA.x - vectorB.x,
+            y = vectorA.y - vectorB.y
+        };
+        return vectorDifference;
+    }
+
+    public static MyVector2 MultiplyVector(MyVector2 vector, float multiplier)
+    {
+        MyVector2 returnVector = new(vector.x, vector.y);
+        returnVector.x *= multiplier; returnVector.y *= multiplier;
+        return returnVector;
+    }
+
+    public static MyVector2 DivideVector(MyVector2 vector, float divisor)
+    {
+        MyVector2 returnVector = new(vector.x, vector.y);
+        returnVector.x /= divisor; returnVector.y /= divisor;
+        return returnVector;
+    }
+
+    public static bool CheckIfIdentical(MyVector2 vectorA, MyVector2 vectorB)
+    {
+        if (vectorA.x == vectorB.x && vectorA.y == vectorB.y)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static float GetDotProduct(MyVector2 vectorA, MyVector2 vectorB, bool shouldNormalise = true)
+    {
+        if (shouldNormalise)
+        {
+            vectorA = vectorA.NormaliseVector();
+            vectorB = vectorB.NormaliseVector();
+        }
+
+        float dotProduct = (vectorA.x * vectorB.x) + (vectorA.y * vectorB.y);
+
+        return dotProduct;
+    }
+
+    public static MyVector2 GetLerp(MyVector2 vectorA, MyVector2 vectorB, float t)
+    {
+        MyVector2 returnVector;
+        vectorA *= 1 - t;
+        vectorB *= t;
+        returnVector = vectorA + vectorB;
+        return returnVector;
+    }
 
     public static MyVector2 GetVector2Direction(float angle)
     {
@@ -14,6 +82,13 @@ public class MyMathsLibrary
         return direction;
     }
 
+    #endregion // Static Vector2 functions
+
+    #region Static Vector3 functions
+
+    public static MyVector3 GetNegativeVector(MyVector3 vector) => new MyVector3(-vector.x, -vector.y, -vector.z);
+
+    #endregion // Static Vector 3 functions
     public static MyVector3 ConvertEulerToDirection(MyVector3 euler)
     {
         MyVector3 direction = new(0, 0, 0)
