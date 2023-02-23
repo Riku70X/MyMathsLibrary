@@ -88,6 +88,19 @@ public class MyMathsLibrary
 
     public static MyVector3 GetNegativeVector(MyVector3 vector) => new MyVector3(-vector.x, -vector.y, -vector.z);
 
+    public static float GetDotProduct(MyVector3 vectorA, MyVector3 vectorB, bool shouldNormalise = true)
+    {
+        if (shouldNormalise)
+        {
+            vectorA = vectorA.GetNormalisedVector();
+            vectorB = vectorB.GetNormalisedVector();
+        }
+
+        float dotProduct = ((vectorA.x * vectorB.x) + (vectorA.y * vectorB.y) + (vectorA.z * vectorB.z));
+
+        return dotProduct;
+    }
+
     #endregion // Static Vector 3 functions
     public static MyVector3 ConvertEulerToDirection(MyVector3 euler)
     {
@@ -136,7 +149,7 @@ public class MyMathsLibrary
         axis = axis.GetNormalisedVector();
         // The Rodrigues Rotation Formula, ensure angle is in radians
         MyVector3 returnVertex = new((vertex * Mathf.Cos(angle)) +
-                                 (axis * (1 - Mathf.Cos(angle)) * MyVector3.GetDotProduct(vertex, axis)) +
+                                 (axis * (1 - Mathf.Cos(angle)) * GetDotProduct(vertex, axis)) +
                                  (GetCrossProduct(axis, vertex) * Mathf.Sin(angle)));
         return returnVertex;
     }

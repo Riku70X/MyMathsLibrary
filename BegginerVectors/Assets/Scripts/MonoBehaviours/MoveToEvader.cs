@@ -26,7 +26,7 @@ public class MoveToEvader : MonoBehaviour
         currentEvaderDirection = currentEvaderPosition - currentPersuerPosition;
         currentEvaderVelocity = currentEvaderPosition - previousEvaderPosition;
 
-        if (MyVector3.GetDotProduct(currentEvaderDirection, currentEvaderVelocity) > 0)
+        if (MyMathsLibrary.GetDotProduct(currentEvaderDirection, currentEvaderVelocity) > 0)
         {
             normalisedEvaderDirection = currentEvaderDirection.GetNormalisedVector();
             currentPersuerPosition += (normalisedEvaderDirection * speed);

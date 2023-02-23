@@ -161,18 +161,7 @@ public class MyVector3
         return returnVector;
     }
 
-    public static float GetDotProduct(MyVector3 vectorA, MyVector3 vectorB, bool shouldNormalise = true)
-    {
-        if (shouldNormalise)
-        {
-            vectorA = vectorA.GetNormalisedVector();
-            vectorB = vectorB.GetNormalisedVector();
-        }
-
-        float dotProduct = ((vectorA.x * vectorB.x) + (vectorA.y * vectorB.y) + (vectorA.z * vectorB.z));
-
-        return dotProduct;
-    }
+    
 
     public static MyVector3 GetLerp(MyVector3 vectorA, MyVector3 vectorB, float t)
     {

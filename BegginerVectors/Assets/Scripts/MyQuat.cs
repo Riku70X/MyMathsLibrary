@@ -73,7 +73,7 @@ public class MyQuat
     {
         MyQuat returnQuat = new(0, 0, 0, 0);
 
-        returnQuat.w = (quatA.w * quatB.w) - MyVector3.GetDotProduct(quatA.GetAxis(), quatB.GetAxis());
+        returnQuat.w = (quatA.w * quatB.w) - MyMathsLibrary.GetDotProduct(quatA.GetAxis(), quatB.GetAxis());
 
         returnQuat.vectorComponent = (quatA.vectorComponent * quatB.w) + (quatB.vectorComponent * quatA.w) +
                             MyMathsLibrary.GetCrossProduct(quatA.vectorComponent, quatB.vectorComponent);
