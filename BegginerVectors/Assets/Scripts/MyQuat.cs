@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MyQuat
 {
-    float w;
-    MyVector3 vectorComponent;
+    public float w;
+    public MyVector3 vectorComponent;
 
     public MyQuat(float angle, MyVector3 axis)
     {

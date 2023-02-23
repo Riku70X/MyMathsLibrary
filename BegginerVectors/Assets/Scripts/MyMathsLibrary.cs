@@ -25,6 +25,26 @@ public class MyMathsLibrary
         return direction;
     }
 
+    public static MyQuat ConvertEulerToQuaternion(MyVector3 euler)
+    {
+        float sp = Mathf.Sin(euler.x * 0.5f);
+        float cp = Mathf.Cos(euler.x * 0.5f);
+        float sy = Mathf.Sin(euler.y * 0.5f);
+        float cy = Mathf.Cos(euler.y * 0.5f);
+        float sr = Mathf.Sin(euler.z * 0.5f);
+        float cr = Mathf.Cos(euler.z * 0.5f);
+
+        MyQuat returnQuat = new(0, 0, 0, 0);
+        {
+            returnQuat.w = cr * cp * cy + sr * sp * sy;
+            returnQuat.vectorComponent.x = cr * sp * cy - sr * cp * sy;
+            returnQuat.vectorComponent.y = cr * cp * sy - sr * sp * cy;
+            returnQuat.vectorComponent.z = sr * cp * cy - cr * sp * sy;
+        }
+
+        return returnQuat;
+    }
+
     public static MyVector3 GetCrossProduct(MyVector3 vectorA, MyVector3 vectorB)
     {
         MyVector3 vectorC = new(0, 0, 0)
