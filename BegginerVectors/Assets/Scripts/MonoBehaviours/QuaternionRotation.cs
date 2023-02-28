@@ -6,7 +6,7 @@ public class QuaternionRotation : MonoBehaviour
     MyVector3 currentPosition;
     float angle;
     MyQuat rotationQuat;
-    public float speed;
+    [SerializeField] float speed;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,7 @@ public class QuaternionRotation : MonoBehaviour
         //currentPosition = MyMathsLibrary.RotateVertexAroundAxis(startPosition, MyVector3.up, angle);
 
         // Using Quaternions
-        rotationQuat = new(angle, MyVector3.up);
+        rotationQuat = new(angle, new MyVector3(2, 3, 4));
         currentPosition = MyMathsLibrary.RotateVectorUsingQuat(startPosition, rotationQuat);
 
         transform.position = currentPosition;
