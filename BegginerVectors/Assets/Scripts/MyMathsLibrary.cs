@@ -1,4 +1,3 @@
-using System.Security.Principal;
 using UnityEngine;
 
 public class MyMathsLibrary
@@ -199,8 +198,8 @@ public class MyMathsLibrary
         axis = axis.GetNormalisedVector();
         // The Rodrigues Rotation Formula, ensure angle is in radians
         MyVector3 returnVertex = new((vertex * Mathf.Cos(angle)) +
-                                 (axis * (1 - Mathf.Cos(angle)) * GetDotProduct(vertex, axis)) +
-                                 (GetCrossProduct(axis, vertex) * Mathf.Sin(angle)));
+                                    (axis * (1 - Mathf.Cos(angle)) * GetDotProduct(vertex, axis)) +
+                                    (GetCrossProduct(axis, vertex) * Mathf.Sin(angle)));
         return returnVertex;
     }
 
@@ -234,6 +233,17 @@ public class MyMathsLibrary
         returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
 
         return returnVector3;
+    }
+
+    public static MyVector3 RotateVectorUsingQuat(MyVector3 vertex, MyQuat rotationQuat)
+    {
+        MyQuat startVertexQuat = new MyQuat(vertex);
+
+        MyQuat halfRotatedVertexQuat = rotationQuat * startVertexQuat;
+
+        MyQuat fullRotatedVertexQuat = halfRotatedVertexQuat * rotationQuat.GetInverse();
+
+        return fullRotatedVertexQuat.GetAxis();
     }
 
     public static MyVector3 TranslateVector(MyVector3 vector3, MyVector3 translation)
@@ -372,7 +382,7 @@ public class MyMathsLibrary
         {
             for (int column = 0; column < 4; column++)
             {
-                returnMatrix.values[row, column] = MyMathsLibrary.GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column), false);
+                returnMatrix.values[row, column] = GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column), false);
             }
         }
 
@@ -396,7 +406,7 @@ public class MyMathsLibrary
 
     public static MyMatrix4x4 GetRotationMatrixUsingQuat(MyVector3 eulerAngles)
     {
-        MyQuat quaternion = MyMathsLibrary.ConvertEulerToQuaternion(eulerAngles);
+        MyQuat quaternion = eulerAngles.ConvertEulerToQuaternion();
         MyMatrix4x4 matrix = quaternion.ConvertToRotationMatrix();
         return matrix;
     }
@@ -425,24 +435,30 @@ public class MyMathsLibrary
 
     #endregion // Static Matrix4x4 functions
 
-    public static MyQuat ConvertEulerToQuaternion(MyVector3 euler)
-    {
-        float sp = Mathf.Sin(euler.x * 0.5f);
-        float cp = Mathf.Cos(euler.x * 0.5f);
-        float sy = Mathf.Sin(euler.y * 0.5f);
-        float cy = Mathf.Cos(euler.y * 0.5f);
-        float sr = Mathf.Sin(euler.z * 0.5f);
-        float cr = Mathf.Cos(euler.z * 0.5f);
+    #region Static Quaternion functions
 
+    public static MyQuat MultiplyQuaternions(MyQuat quatA, MyQuat quatB)
+    {
         MyQuat returnQuat = new(0, 0, 0, 0);
-        {
-            returnQuat.w = cr * cp * cy + sr * sp * sy;
-            returnQuat.vectorComponent.x = cr * sp * cy - sr * cp * sy;
-            returnQuat.vectorComponent.y = cr * cp * sy - sr * sp * cy;
-            returnQuat.vectorComponent.z = sr * cp * cy - cr * sp * sy;
-        }
+
+        returnQuat.w = (quatA.w * quatB.w) - GetDotProduct(quatA.GetAxis(), quatB.GetAxis());
+
+        returnQuat.vectorComponent = (quatA.vectorComponent * quatB.w) + (quatB.vectorComponent * quatA.w) +
+                                    GetCrossProduct(quatA.vectorComponent, quatB.vectorComponent);
 
         return returnQuat;
     }
 
+    public static MyQuat SLERP(MyQuat quatA, MyQuat quatB, float t)
+    {
+        t = Mathf.Clamp(t, 0, 1);
+
+        MyQuat slerpQuart = quatB * quatA.GetInverse();
+        MyVector4 axisAngle = slerpQuart.GetAxisAngle();
+        MyQuat slerpQuartT = new(axisAngle.w * t, new MyVector3(axisAngle.x, axisAngle.y, axisAngle.z));
+
+        return slerpQuartT * quatA;
+    }
+
+    #endregion // Static Quaternion functions
 }

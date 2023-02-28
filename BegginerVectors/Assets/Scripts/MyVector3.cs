@@ -103,4 +103,24 @@ public class MyVector3
         };
         return direction;
     }
+
+    public MyQuat ConvertEulerToQuaternion()
+    {
+        float sp = Mathf.Sin(x * 0.5f);
+        float cp = Mathf.Cos(x * 0.5f);
+        float sy = Mathf.Sin(y * 0.5f);
+        float cy = Mathf.Cos(y * 0.5f);
+        float sr = Mathf.Sin(z * 0.5f);
+        float cr = Mathf.Cos(z * 0.5f);
+
+        MyQuat returnQuat = new(0, 0, 0, 0);
+        {
+            returnQuat.w = cr * cp * cy + sr * sp * sy;
+            returnQuat.vectorComponent.x = cr * sp * cy - sr * cp * sy;
+            returnQuat.vectorComponent.y = cr * cp * sy - sr * sp * cy;
+            returnQuat.vectorComponent.z = sr * cp * cy - cr * sp * sy;
+        }
+
+        return returnQuat;
+    }
 }

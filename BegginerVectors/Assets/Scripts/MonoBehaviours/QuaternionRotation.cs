@@ -34,8 +34,8 @@ public class QuaternionRotation : MonoBehaviour
         //currentPosition = MyMathsLibrary.RotateVertexAroundAxis(startPosition, new MyVector3(1, 1, 1), angle);
 
         // Using Quaternions
-        rotationQuat = new(angle, new MyVector3(1, 2, 3));
-        currentPosition = MyQuat.Rotate(startPosition, rotationQuat);
+        rotationQuat = new(angle, new MyVector3(0, 2, 0));
+        currentPosition = MyMathsLibrary.RotateVectorUsingQuat(startPosition, rotationQuat);
 
         transform.position = currentPosition;
     }

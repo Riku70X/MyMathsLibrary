@@ -28,26 +28,7 @@ public class MyQuat
 
     public override string ToString() => ($"({w}, {vectorComponent})");
 
-    public MyVector4 GetAxisAngle()
-    {
-        float halfAngle = Mathf.Acos(w);
-
-        float angle = halfAngle * 2;
-
-        MyVector3 axis;
-        if (halfAngle != 0)
-        {
-            axis = vectorComponent / Mathf.Sin(halfAngle);
-        }
-        else
-        {
-            Debug.LogError("QUATERNION HAS ANGLE 0, AXIS UNKNOWN");
-            axis = vectorComponent;
-        }
-
-        return new MyVector4(axis.x, axis.y, axis.z, angle);
-    }
-
+    public static MyQuat operator *(MyQuat lhs, MyQuat rhs) => MyMathsLibrary.MultiplyQuaternions(lhs, rhs);
 
     public MyVector3 GetAxis()
     {
@@ -67,43 +48,21 @@ public class MyQuat
         return new MyVector3(axis.x, axis.y, axis.z);
     }
 
+    public float GetAngle()
+    {
+        return 2 * Mathf.Acos(w);
+    }
+
+    public MyVector4 GetAxisAngle()
+    {
+        MyVector3 axis = GetAxis();
+
+        float angle = GetAngle();
+
+        return new MyVector4(axis.x, axis.y, axis.z, angle);
+    }
+
     public MyQuat GetInverse() => new(w, -vectorComponent.x, -vectorComponent.y, -vectorComponent.z);
-
-    public static MyQuat MultiplyQuaternions(MyQuat quatA, MyQuat quatB)
-    {
-        MyQuat returnQuat = new(0, 0, 0, 0);
-
-        returnQuat.w = (quatA.w * quatB.w) - MyMathsLibrary.GetDotProduct(quatA.GetAxis(), quatB.GetAxis());
-
-        returnQuat.vectorComponent = (quatA.vectorComponent * quatB.w) + (quatB.vectorComponent * quatA.w) +
-                            MyMathsLibrary.GetCrossProduct(quatA.vectorComponent, quatB.vectorComponent);
-
-        return returnQuat;
-    }
-
-    public static MyQuat operator * (MyQuat lhs, MyQuat rhs) => MultiplyQuaternions(lhs, rhs);
-
-    public static MyQuat SLERP(MyQuat quatA, MyQuat quatB, float t)
-    {
-        t = Mathf.Clamp(t, 0, 1);
-
-        MyQuat slerpQuart = quatB * quatA.GetInverse();
-        MyVector4 axisAngle = slerpQuart.GetAxisAngle();
-        MyQuat slerpQuartT = new(axisAngle.w * t, new MyVector3(axisAngle.x, axisAngle.y, axisAngle.z));
-
-        return slerpQuartT * quatA;
-    }
-
-    public static MyVector3 Rotate(MyVector3 vertex, MyQuat rotationQuat)
-    {
-        MyQuat startVertexQuat = new MyQuat(vertex);
-
-        MyQuat halfRotatedVertexQuat = rotationQuat * startVertexQuat;
-
-        MyQuat fullRotatedVertexQuat = halfRotatedVertexQuat * rotationQuat.GetInverse();
-
-        return fullRotatedVertexQuat.GetAxis();
-    }
 
     public MyMatrix4x4 ConvertToRotationMatrix()
     {
