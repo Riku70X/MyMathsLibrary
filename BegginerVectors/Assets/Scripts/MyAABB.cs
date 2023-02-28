@@ -10,17 +10,17 @@ public class MyAABB // Axis Alligned Bounding Box
         maxExtent = max;
     }
 
-    public float top => maxExtent.y;
+    float top => maxExtent.y;
 
-    public float bottom => minExtent.y;
+    float bottom => minExtent.y;
 
-    public float left => minExtent.x;
+    float left => minExtent.x;
 
-    public float right => maxExtent.x;
+    float right => maxExtent.x;
 
-    public float front => maxExtent.z;
+    float front => maxExtent.z;
 
-    public float back => minExtent.z;
+    float back => minExtent.z;
 
     public static bool Intersects(MyAABB box1, MyAABB box2)
     {

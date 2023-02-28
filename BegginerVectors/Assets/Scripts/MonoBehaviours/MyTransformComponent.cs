@@ -20,7 +20,7 @@ public class MyTransformComponent : MonoBehaviour
     MyVector3 minExtent;
     MyVector3 maxExtent;
 
-    public MyTransformComponent()
+    MyTransformComponent()
     {
         position = MyVector3.zero;
         rotation = MyVector3.zero;

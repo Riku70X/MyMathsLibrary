@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private MyVector3 constantUpVector;
-    private MyVector3 relativeForwardVector;
-    private MyVector3 relativeForwardVelocity;
-    private MyVector3 relativeRightVector;
-    private MyVector3 relativeRightVelocity;
-    private MyVector3 relativeUpVector;
-    private MyVector3 relativeUpVelocity;
-    private MyVector3 eulerAngles;
+    MyVector3 constantUpVector;
+    MyVector3 relativeForwardVector;
+    MyVector3 relativeForwardVelocity;
+    MyVector3 relativeRightVector;
+    MyVector3 relativeRightVelocity;
+    MyVector3 relativeUpVector;
+    MyVector3 relativeUpVelocity;
+    MyVector3 eulerAngles;
 
     float speed;
 

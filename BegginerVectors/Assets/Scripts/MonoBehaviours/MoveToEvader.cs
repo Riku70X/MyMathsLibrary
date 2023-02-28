@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class MoveToEvader : MonoBehaviour
 {
-    private GameObject evader;
+    GameObject evader;
 
-    private MyVector3 currentPersuerPosition;
-    private MyVector3 currentEvaderPosition;
-    private MyVector3 currentEvaderDirection;
-    private MyVector3 normalisedEvaderDirection;
+    MyVector3 currentPersuerPosition;
+    MyVector3 currentEvaderPosition;
+    MyVector3 currentEvaderDirection;
+    MyVector3 normalisedEvaderDirection;
 
-    private float speed;
+    float speed;
 
-    private MyVector3 previousEvaderPosition;
-    private MyVector3 currentEvaderVelocity;
+    MyVector3 previousEvaderPosition;
+    MyVector3 currentEvaderVelocity;
 
     MoveToEvader()
     {

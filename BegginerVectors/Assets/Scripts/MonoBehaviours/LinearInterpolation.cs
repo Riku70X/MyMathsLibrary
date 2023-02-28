@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LinearInterpolation : MonoBehaviour
 {
-    private MyVector3 currentPosition;
-    private MyVector3 destination;
+    MyVector3 currentPosition;
+    MyVector3 destination;
 
     // Start is called before the first frame update
     void Start()

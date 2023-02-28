@@ -25,7 +25,7 @@ public class LineTraceTest : MonoBehaviour
     MyTransformComponent OtherCubeTransform;
     MyAABB otherBox;
 
-    public LineTraceTest()
+    LineTraceTest()
     {
         globalStartPosition = MyVector3.zero;
         globalEndPosition = MyVector3.zero;
@@ -61,7 +61,7 @@ public class LineTraceTest : MonoBehaviour
         
         if (MyAABB.LineIntersection(localBox, localStartPosition, localEndPosition, out intersectionPoint))
         {
-            Debug.Log($"Line Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.transformMatrix * intersectionPoint}");
+            Debug.Log($"Line Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.transformMatrix * intersectionPoint)}");
         }
 
         if (MyAABB.Intersects(globalBox, otherBox))
