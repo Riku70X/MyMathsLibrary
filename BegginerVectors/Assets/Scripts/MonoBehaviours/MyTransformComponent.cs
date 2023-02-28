@@ -10,7 +10,7 @@ public class MyTransformComponent : MonoBehaviour
     public MyMatrix4x4 transformMatrix;
 
     MeshFilter meshFilter;
-    public Mesh mesh;
+    Mesh mesh;
 
     MyVector3[] localVerticesCoordinates;
     MyVector3[] globalVerticesCoordinates;
