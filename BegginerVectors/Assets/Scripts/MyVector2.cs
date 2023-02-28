@@ -56,6 +56,8 @@ public class MyVector2
 
     public static implicit operator MyVector4(MyVector2 vector) => new(vector.x, vector.y, 1, 1);
 
+    public static MyVector2 operator -(MyVector2 vector) => MyMathsLibrary.GetNegativeVector(vector);
+
     public static MyVector2 operator +(MyVector2 lhs, MyVector2 rhs) => MyMathsLibrary.AddVector(lhs, rhs);
 
     public static MyVector2 operator -(MyVector2 lhs, MyVector2 rhs) => MyMathsLibrary.SubtractVector(lhs, rhs);

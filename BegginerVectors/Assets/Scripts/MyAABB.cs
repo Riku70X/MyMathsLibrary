@@ -101,7 +101,7 @@ public class MyAABB // Axis Alligned Bounding Box
             return false;
 
         // Calculate our intersection point through interpolation
-        intersectionPoint = MyVector3.GetLerp(startPoint, endPoint, lowest);
+        intersectionPoint = MyMathsLibrary.GetLerp(startPoint, endPoint, lowest);
 
         return true;
     }

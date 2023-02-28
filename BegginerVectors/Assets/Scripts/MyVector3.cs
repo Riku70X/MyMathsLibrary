@@ -60,99 +60,31 @@ public class MyVector3
 
     public static implicit operator MyVector4(MyVector3 vector) => new(vector.x, vector.y, vector.z, 1);
 
+    public static MyVector3 operator -(MyVector3 vector) => MyMathsLibrary.GetNegativeVector(vector);
+
+    public static MyVector3 operator +(MyVector3 lhs, MyVector3 rhs) => MyMathsLibrary.AddVector(lhs, rhs);
+
+    public static MyVector3 operator +(Vector3 lhs, MyVector3 rhs) => MyMathsLibrary.AddVector(lhs, rhs);
+
+    public static MyVector3 operator -(MyVector3 lhs, MyVector3 rhs) => MyMathsLibrary.SubtractVector(lhs, rhs);
+
+    public static MyVector3 operator -(Vector3 lhs, MyVector3 rhs) => MyMathsLibrary.SubtractVector(lhs, rhs);
+
+    public static MyVector3 operator *(MyVector3 lhs, float rhs) => MyMathsLibrary.MultiplyVector(lhs, rhs);
+
+    public static MyVector3 operator *(float lhs, MyVector3 rhs) => MyMathsLibrary.MultiplyVector(rhs, lhs);
+
+    public static MyVector3 operator /(MyVector3 lhs, float rhs) => MyMathsLibrary.DivideVector(lhs, rhs);
+
+    public static MyVector3 operator /(float lhs, MyVector3 rhs) => MyMathsLibrary.DivideVector(rhs, lhs);
+
+    public static bool operator ==(MyVector3 lhs, MyVector3 rhs) => MyMathsLibrary.CheckIfIdentical(lhs, rhs);
+
+    public static bool operator !=(MyVector3 lhs, MyVector3 rhs) => !MyMathsLibrary.CheckIfIdentical(lhs, rhs);
+
     public float GetVectorLength() => Mathf.Sqrt((x * x) + (y * y) + (z * z));
 
     public float GetVectorLengthSquared() => (x * x) + (y * y) + (z * z);
-
-
-
-    public static MyVector3 operator -(MyVector3 vector) => MyMathsLibrary.GetNegativeVector(vector);
-
-    public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
-    {
-        MyVector3 vectorSum = new(0, 0, 0)
-        {
-            x = vectorA.x + vectorB.x,
-            y = vectorA.y + vectorB.y,
-            z = vectorA.z + vectorB.z
-        };
-        return vectorSum;
-    }
-
-    public static MyVector3 AddVector(Vector3 vectorA, MyVector3 vectorB)
-    {
-        MyVector3 vectorSum = new(0, 0, 0)
-        {
-            x = vectorA.x + vectorB.x,
-            y = vectorA.y + vectorB.y,
-            z = vectorA.z + vectorB.z
-        };
-        return vectorSum;
-    }
-
-    public static MyVector3 operator +(MyVector3 lhs, MyVector3 rhs) => AddVector(lhs, rhs);
-    public static MyVector3 operator +(Vector3 lhs, MyVector3 rhs) => AddVector(lhs, rhs);
-
-    public static MyVector3 SubtractVector(MyVector3 vectorA, MyVector3 vectorB)
-    {
-        MyVector3 vectorDifference = new(0, 0, 0)
-        {
-            x = vectorA.x - vectorB.x,
-            y = vectorA.y - vectorB.y,
-            z = vectorA.z - vectorB.z
-        };
-        return vectorDifference;
-    }
-
-    public static MyVector3 SubtractVector(Vector3 vectorA, MyVector3 vectorB)
-    {
-        MyVector3 vectorDifference = new(0, 0, 0)
-        {
-            x = vectorA.x - vectorB.x,
-            y = vectorA.y - vectorB.y,
-            z = vectorA.z - vectorB.z
-        };
-        return vectorDifference;
-    }
-
-    public static MyVector3 operator -(MyVector3 lhs, MyVector3 rhs) => SubtractVector(lhs, rhs);
-    public static MyVector3 operator -(Vector3 lhs, MyVector3 rhs) => SubtractVector(lhs, rhs);
-
-    public static MyVector3 MultiplyVector(MyVector3 vector, float multiplier)
-    {
-        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
-        returnVector.x *= multiplier; returnVector.y *= multiplier; returnVector.z *= multiplier;
-        return returnVector;
-    }
-
-    public static MyVector3 operator *(MyVector3 lhs, float rhs) => MultiplyVector(lhs, rhs);
-    public static MyVector3 operator *(float lhs, MyVector3 rhs) => MultiplyVector(rhs, lhs);
-
-    public static MyVector3 DivideVector(MyVector3 vector, float divisor)
-    {
-        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
-        returnVector.x /= divisor; returnVector.y /= divisor; returnVector.z /= divisor;
-        return returnVector;
-    }
-
-    public static MyVector3 operator /(MyVector3 lhs, float rhs) => DivideVector(lhs, rhs);
-    public static MyVector3 operator /(float lhs, MyVector3 rhs) => DivideVector(rhs, lhs);
-
-    public static bool CheckIfIdentical(MyVector3 vectorA, MyVector3 vectorB)
-    {
-        if (vectorA.x == vectorB.x && vectorA.y == vectorB.y && vectorA.z == vectorB.z)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public static bool operator ==(MyVector3 lhs, MyVector3 rhs) => CheckIfIdentical(lhs, rhs);
-
-    public static bool operator !=(MyVector3 lhs, MyVector3 rhs) => !CheckIfIdentical(lhs, rhs);
 
     public MyVector3 GetNormalisedVector()
     {
@@ -161,14 +93,14 @@ public class MyVector3
         return returnVector;
     }
 
-    
-
-    public static MyVector3 GetLerp(MyVector3 vectorA, MyVector3 vectorB, float t)
+    public MyVector3 ConvertEulerToDirection()
     {
-        MyVector3 returnVector;
-        vectorA *= (1 - t);
-        vectorB *= (t);
-        returnVector = vectorA + vectorB;
-        return returnVector;
+        MyVector3 direction = new(0, 0, 0)
+        {
+            x = Mathf.Cos(x) * Mathf.Sin(y),
+            y = Mathf.Sin(x),
+            z = Mathf.Cos(y) * Mathf.Cos(x)
+        };
+        return direction;
     }
 }

@@ -15,7 +15,7 @@ public class CubeInterpolation : MonoBehaviour
     void Update()
     {
         currentPosition = transform.position;
-        currentPosition = MyVector3.GetLerp(currentPosition, destination, Time.deltaTime);
+        currentPosition = MyMathsLibrary.GetLerp(currentPosition, destination, Time.deltaTime);
         transform.position = currentPosition;
     }
 }

@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
             //transform.Rotate(new MyVector3(0.7f, 0, 0));
         }
 
-        relativeForwardVector = MyMathsLibrary.ConvertEulerToDirection(eulerAngles);
+        relativeForwardVector = eulerAngles.ConvertEulerToDirection();
         relativeForwardVelocity = relativeForwardVector.GetNormalisedVector() * speed;
 
         Debug.DrawRay(transform.position, relativeForwardVector, Color.green, 0.0f);
