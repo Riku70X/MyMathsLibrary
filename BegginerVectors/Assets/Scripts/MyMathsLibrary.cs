@@ -1,3 +1,4 @@
+using System.Security.Principal;
 using UnityEngine;
 
 public class MyMathsLibrary
@@ -203,6 +204,72 @@ public class MyMathsLibrary
         return returnVertex;
     }
 
+    #region Transforming Vectors
+
+    public static MyVector3 ScaleVector(MyVector3 vector3, MyVector3 scalar)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+
+        MyMatrix4x4 scaleMatrix = GetScaleMatrix(scalar);
+
+        returnVector4 = scaleMatrix * vector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
+    public static MyVector3 RotateVector(MyVector3 vector3, float pitch, float yaw, float roll)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+
+        returnVector4 = GetRotationMatrix(new MyVector3(pitch, yaw, roll)) * vector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
+    public static MyVector3 TranslateVector(MyVector3 vector3, MyVector3 translation)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+
+        MyMatrix4x4 translateMatrix = GetTranslationMatrix(translation);
+
+        returnVector4 = translateMatrix * vector4;
+
+        returnVector3 = new MyVector3(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
+    public static MyVector3 TransformVector(MyVector3 vector3, MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
+    {
+        MyVector3 returnVector3;
+
+        MyVector4 vector4 = new(vector3.x, vector3.y, vector3.z, 1);
+        MyVector4 returnVector4;
+
+        MyMatrix4x4 transformMatrix = GetTransformationMatrix(scalar, rotation, translation);
+
+        returnVector4 = transformMatrix * vector4;
+
+        returnVector3 = new(returnVector4.x, returnVector4.y, returnVector4.z);
+
+        return returnVector3;
+    }
+
+    #endregion // Transforming Vectors
+
     #endregion // Static Vector 3 functions
 
     #region Static Vector4 functions
@@ -281,6 +348,82 @@ public class MyMathsLibrary
     }
 
     #endregion // Static Vector4 functions
+
+    #region Static Matrix4x4 functions
+
+    public static MyVector4 MultiplyMatrices4x4by4x1(MyMatrix4x4 matrix, MyVector4 vector)
+    {
+        MyVector4 returnVector = new(0, 0, 0, 0)
+        {
+            x = matrix.values[0, 0] * vector.x + matrix.values[0, 1] * vector.y + matrix.values[0, 2] * vector.z + matrix.values[0, 3] * vector.w,
+            y = matrix.values[1, 0] * vector.x + matrix.values[1, 1] * vector.y + matrix.values[1, 2] * vector.z + matrix.values[1, 3] * vector.w,
+            z = matrix.values[2, 0] * vector.x + matrix.values[2, 1] * vector.y + matrix.values[2, 2] * vector.z + matrix.values[2, 3] * vector.w,
+            w = matrix.values[3, 0] * vector.x + matrix.values[3, 1] * vector.y + matrix.values[3, 2] * vector.z + matrix.values[3, 3] * vector.w
+        };
+
+        return returnVector;
+    }
+
+    public static MyMatrix4x4 MultiplyMatrices4x4by4x4(MyMatrix4x4 matrixA, MyMatrix4x4 matrixB)
+    {
+        MyMatrix4x4 returnMatrix = MyMatrix4x4.identity;
+
+        for (int row = 0; row < 4; row++)
+        {
+            for (int column = 0; column < 4; column++)
+            {
+                returnMatrix.values[row, column] = MyMathsLibrary.GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column), false);
+            }
+        }
+
+        return returnMatrix;
+    }
+
+    #region Get Transform Matrix functions
+
+    public static MyMatrix4x4 GetScaleMatrix(MyVector3 scalar) => new MyMatrix4x4(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0));
+
+    public static MyMatrix4x4 GetRotationMatrix(MyVector3 eulerAngles)
+    {
+        MyMatrix4x4 rollMatrix = new(new MyVector3(Mathf.Cos(eulerAngles.z), Mathf.Sin(eulerAngles.z), 0), new MyVector3(-Mathf.Sin(eulerAngles.z), Mathf.Cos(eulerAngles.z), 0), new MyVector3(0, 0, 1), new MyVector3(0, 0, 0));
+
+        MyMatrix4x4 yawMatrix = new(new MyVector3(Mathf.Cos(eulerAngles.y), 0, -Mathf.Sin(eulerAngles.y)), new MyVector3(0, 1, 0), new MyVector3(Mathf.Sin(eulerAngles.y), 0, Mathf.Cos(eulerAngles.y)), new MyVector3(0, 0, 0));
+
+        MyMatrix4x4 pitchMatrix = new(new MyVector3(1, 0, 0), new MyVector3(0, Mathf.Cos(eulerAngles.x), Mathf.Sin(eulerAngles.x)), new MyVector3(0, -Mathf.Sin(eulerAngles.x), Mathf.Cos(eulerAngles.x)), new MyVector3(0, 0, 0));
+
+        return pitchMatrix * (yawMatrix * rollMatrix);
+    }
+
+    public static MyMatrix4x4 GetRotationMatrixUsingQuat(MyVector3 eulerAngles)
+    {
+        MyQuat quaternion = MyMathsLibrary.ConvertEulerToQuaternion(eulerAngles);
+        MyMatrix4x4 matrix = quaternion.ConvertToRotationMatrix();
+        return matrix;
+    }
+
+    public static MyMatrix4x4 GetTranslationMatrix(MyVector3 translation) => new(new MyVector3(1, 0, 0), new MyVector3(0, 1, 0), new MyVector3(0, 0, 1), new MyVector3(translation.x, translation.y, translation.z));
+
+    public static MyMatrix4x4 GetTransformationMatrix(MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
+    {
+        MyMatrix4x4 scaleMatrix = GetScaleMatrix(scalar);
+        MyMatrix4x4 rotationMatrix = GetRotationMatrix(rotation);
+        MyMatrix4x4 translationMatrix = GetTranslationMatrix(translation);
+
+        return translationMatrix * (rotationMatrix * scaleMatrix);
+    }
+
+    public static MyMatrix4x4 GetTransformationMatrixUsingQuat(MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
+    {
+        MyMatrix4x4 scaleMatrix = GetScaleMatrix(scalar);
+        MyMatrix4x4 rotationMatrix = GetRotationMatrixUsingQuat(rotation);
+        MyMatrix4x4 translationMatrix = GetTranslationMatrix(translation);
+
+        return translationMatrix * (rotationMatrix * scaleMatrix);
+    }
+
+    #endregion // Get Transform Matrix functions
+
+    #endregion // Static Matrix4x4 functions
 
     public static MyQuat ConvertEulerToQuaternion(MyVector3 euler)
     {

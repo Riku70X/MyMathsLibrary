@@ -78,7 +78,7 @@ public class MyTransformComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transformMatrix = MyMatrix4x4.GetTransformationMatrixUsingQuat(scale, rotation, position);
+        transformMatrix = MyMathsLibrary.GetTransformationMatrixUsingQuat(scale, rotation, position);
 
         for (int i = 0; i < localVerticesCoordinates.Length; i++)
         {
