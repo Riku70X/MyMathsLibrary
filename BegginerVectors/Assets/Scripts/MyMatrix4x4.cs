@@ -120,7 +120,7 @@ public class MyMatrix4x4
         {
             for (int column = 0; column < 4; column++)
             {
-                returnMatrix.values[row, column] = MyVector4.GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column), false);
+                returnMatrix.values[row, column] = MyMathsLibrary.GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column), false);
             }
         }
         

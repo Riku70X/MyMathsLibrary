@@ -4,7 +4,7 @@ public class MyMathsLibrary
 {
     #region Static Vector2 functions
 
-    public static MyVector2 GetNegativeVector(MyVector2 vector) => new MyVector2(-vector.x, -vector.y);
+    public static MyVector2 GetNegativeVector(MyVector2 vector) => new(-vector.x, -vector.y);
 
     public static MyVector2 AddVector(MyVector2 vectorA, MyVector2 vectorB)
     {
@@ -88,7 +88,7 @@ public class MyMathsLibrary
 
     #region Static Vector3 functions
 
-    public static MyVector3 GetNegativeVector(MyVector3 vector) => new MyVector3(-vector.x, -vector.y, -vector.z);
+    public static MyVector3 GetNegativeVector(MyVector3 vector) => new(-vector.x, -vector.y, -vector.z);
 
     public static MyVector3 AddVector(MyVector3 vectorA, MyVector3 vectorB)
     {
@@ -205,6 +205,82 @@ public class MyMathsLibrary
 
     #endregion // Static Vector 3 functions
 
+    #region Static Vector4 functions
+
+    public static MyVector4 GetNegativeVector(MyVector4 vector) => new(-vector.x, -vector.y, -vector.z, -vector.w);
+
+    public static MyVector4 AddVector(MyVector4 vectorA, MyVector4 vectorB)
+    {
+        MyVector4 vectorSum = new(0, 0, 0, 0)
+        {
+            x = vectorA.x + vectorB.x,
+            y = vectorA.y + vectorB.y,
+            z = vectorA.z + vectorB.z,
+            w = vectorA.w + vectorB.w
+        };
+        return vectorSum;
+    }
+    public static MyVector4 SubtractVector(MyVector4 vectorA, MyVector4 vectorB)
+    {
+        MyVector4 vectorDifference = new(0, 0, 0, 0)
+        {
+            x = vectorA.x - vectorB.x,
+            y = vectorA.y - vectorB.y,
+            z = vectorA.z - vectorB.z,
+            w = vectorA.w - vectorB.w
+        };
+        return vectorDifference;
+    }
+
+    public static MyVector4 MultiplyVector(MyVector4 vector, float multiplier)
+    {
+        MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
+        returnVector.x *= multiplier; returnVector.y *= multiplier; returnVector.z *= multiplier; returnVector.w *= multiplier;
+        return returnVector;
+    }
+
+    public static MyVector4 DivideVector(MyVector4 vector, float divisor)
+    {
+        MyVector4 returnVector = new(vector.x, vector.y, vector.z, vector.w);
+        returnVector.x /= divisor; returnVector.y /= divisor; returnVector.z /= divisor; returnVector.w /= divisor;
+        return returnVector;
+    }
+
+    public static bool CheckIfIdentical(MyVector4 vectorA, MyVector4 vectorB)
+    {
+        if (vectorA.x == vectorB.x && vectorA.y == vectorB.y && vectorA.z == vectorB.z && vectorA.w == vectorB.w)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static float GetDotProduct(MyVector4 vectorA, MyVector4 vectorB, bool shouldNormalise = true)
+    {
+        if (shouldNormalise)
+        {
+            vectorA = vectorA.NormaliseVector();
+            vectorB = vectorB.NormaliseVector();
+        }
+
+        float dotProduct = ((vectorA.x * vectorB.x) + (vectorA.y * vectorB.y) + (vectorA.z * vectorB.z) + (vectorA.w * vectorB.w));
+
+        return dotProduct;
+    }
+
+    public static MyVector4 GetLerp(MyVector4 vectorA, MyVector4 vectorB, float t)
+    {
+        MyVector4 returnVector;
+        vectorA *= (1 - t);
+        vectorB *= (t);
+        returnVector = vectorA + vectorB;
+        return returnVector;
+    }
+
+    #endregion // Static Vector4 functions
 
     public static MyQuat ConvertEulerToQuaternion(MyVector3 euler)
     {
