@@ -34,27 +34,7 @@ public class MyVector3
 
     public static implicit operator Vector3(MyVector3 vector) => new(vector.x, vector.y, vector.z);
 
-    public static Vector3[] ConvertToUnityVectorArray(MyVector3[] vectorArray)
-    {
-        Vector3[] returnVectorArray = new Vector3[vectorArray.Length];
-        for (int i = 0; i < vectorArray.Length; i++)
-        {
-            returnVectorArray[i] = vectorArray[i];
-        }
-        return returnVectorArray;
-    }
-
     public static implicit operator MyVector3(Vector3 vector) => new(vector.x, vector.y, vector.z);
-
-    public static MyVector3[] ConvertToCustomVectorArray(Vector3[] vectorArray)
-    {
-        MyVector3[] returnVectorArray = new MyVector3[vectorArray.Length];
-        for (int i = 0; i < vectorArray.Length; i++)
-        {
-            returnVectorArray[i] = vectorArray[i];
-        }
-        return returnVectorArray;
-    }
 
     public static implicit operator MyVector2(MyVector3 vector) => new(vector.x, vector.y);
 

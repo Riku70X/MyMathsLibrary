@@ -35,7 +35,7 @@ public class MyTransformComponent : MonoBehaviour
         // make a copy of the shared Mesh to prevent corrupting Unity's pre-made meshes
         meshFilter.sharedMesh = Instantiate(mesh);
 
-        localVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
+        localVerticesCoordinates = MyMathsLibrary.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
         globalVerticesCoordinates = new MyVector3[localVerticesCoordinates.Length];
 
         minExtent = new MyVector3(localVerticesCoordinates[0].x, localVerticesCoordinates[0].y, localVerticesCoordinates[0].z);
@@ -120,7 +120,7 @@ public class MyTransformComponent : MonoBehaviour
         
         globalBoundingBox = new MyAABB(minExtent, maxExtent);
 
-        meshFilter.sharedMesh.vertices = MyVector3.ConvertToUnityVectorArray(globalVerticesCoordinates);
+        meshFilter.sharedMesh.vertices = MyMathsLibrary.ConvertToUnityVectorArray(globalVerticesCoordinates);
 
         // These final steps are sometimes necessary to make the mesh look correct
         meshFilter.sharedMesh.RecalculateNormals();

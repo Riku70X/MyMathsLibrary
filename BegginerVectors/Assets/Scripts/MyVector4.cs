@@ -30,27 +30,7 @@ public class MyVector4
 
     public static implicit operator Vector4(MyVector4 vector) => new(vector.x, vector.y, vector.z, vector.w);
 
-    public static Vector4[] ConvertToUnityVectorArray(MyVector4[] vectorArray)
-    {
-        Vector4[] returnVectorArray = new Vector4[vectorArray.Length];
-        for (int i = 0; i < vectorArray.Length; i++)
-        {
-            returnVectorArray[i] = vectorArray[i];
-        }
-        return returnVectorArray;
-    }
-
     public static implicit operator MyVector4(Vector4 vector) => new(vector.x, vector.y, vector.z, vector.w);
-
-    public static MyVector4[] ConvertToCustomVectorArray(Vector4[] vectorArray)
-    {
-        MyVector4[] returnVectorArray = new MyVector4[vectorArray.Length];
-        for (int i = 0; i < vectorArray.Length; i++)
-        {
-            returnVectorArray[i] = vectorArray[i];
-        }
-        return returnVectorArray;
-    }
 
     public static implicit operator MyVector2(MyVector4 vector) => new(vector.x, vector.y);
 

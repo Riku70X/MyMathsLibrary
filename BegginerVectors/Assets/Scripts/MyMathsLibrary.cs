@@ -4,6 +4,26 @@ public class MyMathsLibrary
 {
     #region Static Vector2 functions
 
+    public static Vector2[] ConvertToUnityVectorArray(MyVector2[] vectorArray)
+    {
+        Vector2[] returnVectorArray = new Vector2[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i];
+        }
+        return returnVectorArray;
+    }
+
+    public static MyVector2[] ConvertToCustomVectorArray(Vector2[] vectorArray)
+    {
+        MyVector2[] returnVectorArray = new MyVector2[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i];
+        }
+        return returnVectorArray;
+    }
+
     public static MyVector2 GetNegativeVector(MyVector2 vector) => new(-vector.x, -vector.y);
 
     public static MyVector2 AddVector(MyVector2 vectorA, MyVector2 vectorB)
@@ -87,6 +107,26 @@ public class MyMathsLibrary
     #endregion // Static Vector2 functions
 
     #region Static Vector3 functions
+
+    public static Vector3[] ConvertToUnityVectorArray(MyVector3[] vectorArray)
+    {
+        Vector3[] returnVectorArray = new Vector3[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i];
+        }
+        return returnVectorArray;
+    }
+
+    public static MyVector3[] ConvertToCustomVectorArray(Vector3[] vectorArray)
+    {
+        MyVector3[] returnVectorArray = new MyVector3[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i];
+        }
+        return returnVectorArray;
+    }
 
     public static MyVector3 GetNegativeVector(MyVector3 vector) => new(-vector.x, -vector.y, -vector.z);
 
@@ -283,6 +323,26 @@ public class MyMathsLibrary
     #endregion // Static Vector 3 functions
 
     #region Static Vector4 functions
+
+    public static Vector4[] ConvertToUnityVectorArray(MyVector4[] vectorArray)
+    {
+        Vector4[] returnVectorArray = new Vector4[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i];
+        }
+        return returnVectorArray;
+    }
+
+    public static MyVector4[] ConvertToCustomVectorArray(Vector4[] vectorArray)
+    {
+        MyVector4[] returnVectorArray = new MyVector4[vectorArray.Length];
+        for (int i = 0; i < vectorArray.Length; i++)
+        {
+            returnVectorArray[i] = vectorArray[i];
+        }
+        return returnVectorArray;
+    }
 
     public static MyVector4 GetNegativeVector(MyVector4 vector) => new(-vector.x, -vector.y, -vector.z, -vector.w);
 

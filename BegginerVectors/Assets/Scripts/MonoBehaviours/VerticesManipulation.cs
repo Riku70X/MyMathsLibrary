@@ -13,7 +13,7 @@ public class VerticesManipulation : MonoBehaviour
         meshFilter = GetComponent<MeshFilter>();
 
         // We get a copy of all the vertices
-        modelSpaceVertices = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
+        modelSpaceVertices = MyMathsLibrary.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class VerticesManipulation : MonoBehaviour
         }
 
         // Assign our new vertices
-        meshFilter.mesh.vertices = MyVector3.ConvertToUnityVectorArray(transformedVertices);
+        meshFilter.mesh.vertices = MyMathsLibrary.ConvertToUnityVectorArray(transformedVertices);
 
         // These final steps are sometimes necessary to make the mesh look correct
         meshFilter.mesh.RecalculateNormals();

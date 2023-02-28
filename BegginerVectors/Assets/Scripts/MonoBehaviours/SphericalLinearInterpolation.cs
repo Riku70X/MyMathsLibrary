@@ -21,7 +21,7 @@ public class SphericalLinearInterpolation : MonoBehaviour
     {
         meshFilter = GetComponent<MeshFilter>();
 
-        startingVerticesCoordinates = MyVector3.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
+        startingVerticesCoordinates = MyMathsLibrary.ConvertToCustomVectorArray(meshFilter.mesh.vertices);
         currentVerticesCoordinates = new MyVector3[startingVerticesCoordinates.Length];
     }
 
@@ -36,6 +36,6 @@ public class SphericalLinearInterpolation : MonoBehaviour
             currentVerticesCoordinates[i] = MyMathsLibrary.RotateVectorUsingQuat(startingVerticesCoordinates[i], rotationQuaternion);
         }
 
-        meshFilter.mesh.vertices = MyVector3.ConvertToUnityVectorArray(currentVerticesCoordinates);
+        meshFilter.mesh.vertices = MyMathsLibrary.ConvertToUnityVectorArray(currentVerticesCoordinates);
     }
 }
