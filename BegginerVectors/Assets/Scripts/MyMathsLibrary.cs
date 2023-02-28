@@ -169,7 +169,7 @@ public class MyMathsLibrary
         return returnVector;
     }
 
-    public static float GetDotProduct(MyVector3 vectorA, MyVector3 vectorB, bool shouldNormalise = true)
+    public static float GetDotProduct(MyVector3 vectorA, MyVector3 vectorB, bool shouldNormalise = false)
     {
         if (shouldNormalise)
         {
@@ -195,7 +195,7 @@ public class MyMathsLibrary
 
     public static MyVector3 RotateVertexAroundAxis(MyVector3 vertex, MyVector3 axis, float angle)
     {
-        axis = axis.GetNormalisedVector();
+        //axis = axis.GetNormalisedVector();
         // The Rodrigues Rotation Formula, ensure angle is in radians
         MyVector3 returnVertex = new((vertex * Mathf.Cos(angle)) +
                                     (axis * (1 - Mathf.Cos(angle)) * GetDotProduct(vertex, axis)) +
@@ -335,7 +335,7 @@ public class MyMathsLibrary
         }
     }
 
-    public static float GetDotProduct(MyVector4 vectorA, MyVector4 vectorB, bool shouldNormalise = true)
+    public static float GetDotProduct(MyVector4 vectorA, MyVector4 vectorB, bool shouldNormalise = false)
     {
         if (shouldNormalise)
         {
@@ -382,7 +382,7 @@ public class MyMathsLibrary
         {
             for (int column = 0; column < 4; column++)
             {
-                returnMatrix.values[row, column] = GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column), false);
+                returnMatrix.values[row, column] = GetDotProduct(matrixA.GetRow(row), matrixB.GetColumn(column));
             }
         }
 
@@ -441,7 +441,7 @@ public class MyMathsLibrary
     {
         MyQuat returnQuat = new(0, 0, 0, 0);
 
-        returnQuat.w = (quatA.w * quatB.w) - GetDotProduct(quatA.GetAxis(), quatB.GetAxis());
+        returnQuat.w = (quatA.w * quatB.w) - GetDotProduct(quatA.vectorComponent, quatB.vectorComponent);
 
         returnQuat.vectorComponent = (quatA.vectorComponent * quatB.w) + (quatB.vectorComponent * quatA.w) +
                                     GetCrossProduct(quatA.vectorComponent, quatB.vectorComponent);

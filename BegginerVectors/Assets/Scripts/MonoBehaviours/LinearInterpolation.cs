@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CubeInterpolation : MonoBehaviour
+public class LinearInterpolation : MonoBehaviour
 {
     private MyVector3 currentPosition;
     private MyVector3 destination;
@@ -8,7 +8,7 @@ public class CubeInterpolation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        destination = new MyVector3(5, 0, 0);
+        destination = new MyVector3(5, 2, 0);
     }
 
     // Update is called once per frame

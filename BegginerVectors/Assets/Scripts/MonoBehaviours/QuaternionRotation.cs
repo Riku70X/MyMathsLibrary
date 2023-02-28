@@ -31,10 +31,10 @@ public class QuaternionRotation : MonoBehaviour
         angle += Time.deltaTime * speed;
 
         // Using Rodrigues Rotation Formula
-        //currentPosition = MyMathsLibrary.RotateVertexAroundAxis(startPosition, new MyVector3(1, 1, 1), angle);
+        //currentPosition = MyMathsLibrary.RotateVertexAroundAxis(startPosition, MyVector3.up, angle);
 
         // Using Quaternions
-        rotationQuat = new(angle, new MyVector3(0, 2, 0));
+        rotationQuat = new(angle, MyVector3.up);
         currentPosition = MyMathsLibrary.RotateVectorUsingQuat(startPosition, rotationQuat);
 
         transform.position = currentPosition;

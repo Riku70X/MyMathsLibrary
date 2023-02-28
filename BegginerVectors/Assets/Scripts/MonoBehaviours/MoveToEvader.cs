@@ -16,7 +16,7 @@ public class MoveToEvader : MonoBehaviour
 
     MoveToEvader()
     {
-        speed = 5f;
+        speed = 3f;
     }
 
     void MoveTowardsEvader()
