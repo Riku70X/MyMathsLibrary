@@ -64,7 +64,7 @@ public class LineTraceTest : MonoBehaviour
             Debug.Log($"Line Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.transformMatrix * intersectionPoint)}");
         }
 
-        if (MyAABB.Intersects(globalBox, otherBox))
+        if (globalBox.isIntersectingWith(otherBox))
         {
             Debug.Log($"Box Intersection!");
         }

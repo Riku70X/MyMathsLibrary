@@ -22,14 +22,14 @@ public class MyAABB // Axis Alligned Bounding Box
 
     float back => minExtent.z;
 
-    public static bool Intersects(MyAABB box1, MyAABB box2)
+    public bool isIntersectingWith(MyAABB otherBox)
     {
-        return !(box2.left > box1.right
-            || box2.right < box1.left
-            || box2.top < box1.bottom
-            || box2.bottom > box1.top
-            || box2.back > box1.front
-            || box2.front < box1.back);
+        return !(otherBox.left > right
+            || otherBox.right < left
+            || otherBox.top < bottom
+            || otherBox.bottom > top
+            || otherBox.back > front
+            || otherBox.front < back);
     }
 
     public static bool IntersectingAxis(MyVector3 axis, MyAABB box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
