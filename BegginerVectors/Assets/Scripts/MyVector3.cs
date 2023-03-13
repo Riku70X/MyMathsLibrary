@@ -86,19 +86,19 @@ public class MyVector3
 
     public MyQuat ConvertEulerToQuaternion()
     {
-        float sp = Mathf.Sin(x * 0.5f);
-        float cp = Mathf.Cos(x * 0.5f);
-        float sy = Mathf.Sin(y * 0.5f);
-        float cy = Mathf.Cos(y * 0.5f);
-        float sr = Mathf.Sin(z * 0.5f);
-        float cr = Mathf.Cos(z * 0.5f);
+        float sp = Mathf.Sin(y * 0.5f);
+        float cp = Mathf.Cos(y * 0.5f);
+        float sy = Mathf.Sin(z * 0.5f);
+        float cy = Mathf.Cos(z * 0.5f);
+        float sr = Mathf.Sin(x * 0.5f);
+        float cr = Mathf.Cos(x * 0.5f);
 
         MyQuat returnQuat = new(0, 0, 0, 0);
         {
             returnQuat.w = cr * cp * cy + sr * sp * sy;
-            returnQuat.vectorComponent.x = cr * sp * cy - sr * cp * sy;
-            returnQuat.vectorComponent.y = cr * cp * sy - sr * sp * cy;
-            returnQuat.vectorComponent.z = sr * cp * cy - cr * sp * sy;
+            returnQuat.vectorComponent.x = sr * cp * cy - cr * sp * sy;
+            returnQuat.vectorComponent.y = cr * sp * cy + sr * cp * sy;
+            returnQuat.vectorComponent.z = cr * cp * sy - sr * sp * cy;
         }
 
         return returnQuat;

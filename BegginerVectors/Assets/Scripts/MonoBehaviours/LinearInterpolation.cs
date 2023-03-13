@@ -15,7 +15,7 @@ public class LinearInterpolation : MonoBehaviour
     void Update()
     {
         currentPosition = transform.position;
-        currentPosition = MyMathsLibrary.GetLerp(currentPosition, destination, Time.deltaTime);
+        currentPosition = MyMathsLibrary.GetLerp(currentPosition, destination, Time.deltaTime/10);
         transform.position = currentPosition;
     }
 }

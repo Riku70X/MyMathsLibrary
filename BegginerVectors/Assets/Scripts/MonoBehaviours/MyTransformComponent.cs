@@ -78,7 +78,8 @@ public class MyTransformComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transformMatrix = MyMathsLibrary.GetTransformationMatrixUsingQuat(scale, rotation, position);
+        //transformMatrix = MyMathsLibrary.GetTransformationMatrix(scale, rotation, position);
+        transformMatrix = MyMathsLibrary.GetTransformationMatrixUsingQuat(scale, rotation, position); // currently not working
 
         for (int i = 0; i < localVerticesCoordinates.Length; i++)
         {
