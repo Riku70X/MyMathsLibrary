@@ -5,7 +5,6 @@ public class LineTraceTest : MonoBehaviour
     GameObject Cube;
     MyTransformComponent cubeTransform;
     MyAABB localBox;
-    MyAABB globalBox;
 
     MyMatrix4x4 scaleMatrix;
     MyMatrix4x4 rotationMatrix;
@@ -21,10 +20,6 @@ public class LineTraceTest : MonoBehaviour
 
     MyVector3 intersectionPoint;
 
-    GameObject OtherCube;
-    MyTransformComponent OtherCubeTransform;
-    MyAABB otherBox;
-
     LineTraceTest()
     {
         globalStartPosition = MyVector3.zero;
@@ -36,18 +31,12 @@ public class LineTraceTest : MonoBehaviour
     {
         Cube = GameObject.Find("Cube");
         cubeTransform = Cube.GetComponent<MyTransformComponent>();
-        localBox = cubeTransform.localBoundingBox;
-
-        OtherCube = GameObject.Find("OtherCube");
-        OtherCubeTransform = OtherCube.GetComponent<MyTransformComponent>();
+        localBox = new MyAABB(cubeTransform);
     }
 
     // Update is called once per frame
     void Update()
     {
-        globalBox = cubeTransform.globalBoundingBox;
-        otherBox = OtherCubeTransform.globalBoundingBox;
-
         Debug.DrawLine(globalStartPosition, globalEndPosition);
 
         scaleMatrix = MyMathsLibrary.GetScaleMatrix(cubeTransform.scale);
@@ -59,14 +48,9 @@ public class LineTraceTest : MonoBehaviour
         localStartPosition = inverseTransformMatrix * globalStartPosition;
         localEndPosition = inverseTransformMatrix * globalEndPosition;
         
-        if (MyAABB.LineIntersection(localBox, localStartPosition, localEndPosition, out intersectionPoint))
+        if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
         {
             Debug.Log($"Line Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.transformMatrix * intersectionPoint)}");
-        }
-
-        if (globalBox.isIntersectingWith(otherBox))
-        {
-            Debug.Log($"Box Intersection!");
         }
     }
 }
