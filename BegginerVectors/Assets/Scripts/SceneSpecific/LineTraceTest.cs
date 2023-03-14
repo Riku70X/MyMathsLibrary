@@ -50,7 +50,7 @@ public class LineTraceTest : MonoBehaviour
         
         if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
         {
-            Debug.Log($"Line Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.transformMatrix * intersectionPoint)}");
+            Debug.Log($"Line Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.getTransformMatrix * intersectionPoint)}");
         }
     }
 }

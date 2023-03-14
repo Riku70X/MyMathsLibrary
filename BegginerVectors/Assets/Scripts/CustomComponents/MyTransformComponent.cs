@@ -7,14 +7,16 @@ public class MyTransformComponent : MonoBehaviour
     public MyVector3 rotation;
     public MyVector3 scale;
 
-    public MyMatrix4x4 transformMatrix;
+    MyMatrix4x4 transformMatrix;
 
     MeshFilter meshFilter;
     public Mesh mesh; // NEEDS TO BE PUBLIC
 
     MyVector3[] localVerticesCoordinates;
-    [HideInInspector]
-    public MyVector3[] globalVerticesCoordinates; // MyAABB needs to access this
+    MyVector3[] globalVerticesCoordinates;
+
+    public MyMatrix4x4 getTransformMatrix => transformMatrix;
+    public MyVector3[] getGlobalVerticesCoordinates => globalVerticesCoordinates;
 
     MyTransformComponent()
     {

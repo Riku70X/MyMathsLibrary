@@ -72,7 +72,7 @@ public class MyMathsLibrary
         }
     }
 
-    public static float GetDotProduct(MyVector2 vectorA, MyVector2 vectorB, bool shouldNormalise = true)
+    public static float GetDotProduct(MyVector2 vectorA, MyVector2 vectorB, bool shouldNormalise = false)
     {
         if (shouldNormalise)
         {

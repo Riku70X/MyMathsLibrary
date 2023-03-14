@@ -16,5 +16,34 @@ public class MyBoundingCapsule
 
         topCentrePoint = transform.position + scalar * upVector;
         bottomCentrePoint = transform.position - scalar * upVector;
+
+        this.radius = radius;
+    }
+
+    public bool isOverlappingWith(MyBoundingSphere sphere)
+    {
+        MyVector3 bottomToTop = topCentrePoint - bottomCentrePoint;
+        MyVector3 bottomToSphere = sphere.getCentrepoint - bottomCentrePoint;
+        MyVector3 topToBottom = -bottomToTop;
+        MyVector3 topToSphere = sphere.getCentrepoint - topCentrePoint;
+
+        if (MyMathsLibrary.GetDotProduct(bottomToTop, bottomToSphere) <= 0)
+        {
+            MyBoundingSphere closestSphere = new(bottomCentrePoint, radius);
+            return closestSphere.isOverlappingWith(sphere);
+        }
+        else if (MyMathsLibrary.GetDotProduct(topToBottom, topToSphere) <= 0)
+        {
+            MyBoundingSphere closestSphere = new(topCentrePoint, radius);
+            return closestSphere.isOverlappingWith(sphere);
+        }
+        else
+        {
+            float closestDistanceSq = bottomToSphere.GetVectorLengthSquared() -
+                                        Mathf.Pow(MyMathsLibrary.GetDotProduct(bottomToSphere, bottomToTop), 2) / bottomToTop.GetVectorLengthSquared();
+        }
+
+
+        return true;
     }
 }

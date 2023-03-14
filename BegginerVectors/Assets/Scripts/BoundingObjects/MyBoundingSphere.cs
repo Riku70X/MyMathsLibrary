@@ -5,6 +5,8 @@ public class MyBoundingSphere
     MyVector3 centrepoint;
     float radius;
 
+    public MyVector3 getCentrepoint => centrepoint;
+
     public MyBoundingSphere(MyTransformComponent transform, float radius)
     {
         centrepoint = transform.position;
@@ -14,7 +16,13 @@ public class MyBoundingSphere
     public MyBoundingSphere(MyTransformComponent transform)
     {
         centrepoint = transform.position;
-        radius = (centrepoint - transform.globalVerticesCoordinates[0]).GetVectorLength();
+        radius = (centrepoint - transform.getGlobalVerticesCoordinates[0]).GetVectorLength();
+    }
+
+    public MyBoundingSphere(MyVector3 centrepoint, float radius)
+    {
+        this.centrepoint = centrepoint;
+        this.radius = radius;
     }
 
     public bool isOverlappingWith(MyBoundingSphere otherSphere)

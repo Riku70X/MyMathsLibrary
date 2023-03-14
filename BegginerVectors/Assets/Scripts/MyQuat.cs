@@ -32,20 +32,22 @@ public class MyQuat
 
     public MyVector3 GetAxis()
     {
-        float halfAngle = Mathf.Acos(w);
+        //float halfAngle = Mathf.Acos(w);
 
-        MyVector3 axis;
-        if (Mathf.Sin(halfAngle) != 0)
-        {
-            axis = vectorComponent / Mathf.Sin(halfAngle);
-        }
-        else
-        {
-            Debug.LogError("QUATERNION HAS ANGLE 0, AXIS UNKNOWN");
-            axis = vectorComponent;
-        }
+        //MyVector3 axis;
+        //if (Mathf.Sin(halfAngle) != 0)
+        //{
+        //    axis = vectorComponent / Mathf.Sin(halfAngle);
+        //}
+        //else
+        //{
+        //    Debug.LogError("QUATERNION HAS ANGLE 0, AXIS UNKNOWN");
+        //    axis = vectorComponent;
+        //}
 
-        return new MyVector3(axis.x, axis.y, axis.z);
+        //return new MyVector3(axis.x, axis.y, axis.z);
+
+        return vectorComponent.GetNormalisedVector();
     }
 
     public float GetAngle()
