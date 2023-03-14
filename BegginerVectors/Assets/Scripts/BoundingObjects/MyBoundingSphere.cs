@@ -15,14 +15,15 @@ public class MyBoundingSphere
     {
         centrepoint = transform.position;
         radius = (centrepoint - transform.globalVerticesCoordinates[0]).GetVectorLength();
-
     }
 
     public bool isOverlappingWith(MyBoundingSphere otherSphere)
     {
         float radiusSumDistanceSq = radius + otherSphere.radius;
         radiusSumDistanceSq *= radiusSumDistanceSq;
+
         float centreDistanceSq = (centrepoint - otherSphere.centrepoint).GetVectorLengthSquared();
+
         return centreDistanceSq < radiusSumDistanceSq;
     }
 }

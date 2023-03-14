@@ -20,6 +20,7 @@ public class MyVector3
         z = vector.z;
     }
 
+
     public static MyVector3 zero => new(0, 0, 0);
 
     public static MyVector3 one => new(1, 1, 1);

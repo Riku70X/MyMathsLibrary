@@ -13,6 +13,7 @@ public class MyTransformComponent : MonoBehaviour
     public Mesh mesh; // NEEDS TO BE PUBLIC
 
     MyVector3[] localVerticesCoordinates;
+    [HideInInspector]
     public MyVector3[] globalVerticesCoordinates; // MyAABB needs to access this
 
     MyTransformComponent()
