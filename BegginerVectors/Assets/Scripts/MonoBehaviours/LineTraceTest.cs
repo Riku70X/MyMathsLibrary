@@ -29,7 +29,7 @@ public class LineTraceTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cube = GameObject.Find("Cube");
+        Cube = GameObject.Find("Cube1");
         cubeTransform = Cube.GetComponent<MyTransformComponent>();
         localBox = new MyAABB(cubeTransform);
     }
