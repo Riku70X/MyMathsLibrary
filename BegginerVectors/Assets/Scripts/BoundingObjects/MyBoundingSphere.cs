@@ -5,7 +5,7 @@ public class MyBoundingSphere
     MyVector3 centrepoint;
     float radius;
 
-    MyBoundingSphere(MyTransformComponent transform, float radius)
+    public MyBoundingSphere(MyTransformComponent transform, float radius)
     {
         centrepoint = transform.position;
         this.radius = radius;
