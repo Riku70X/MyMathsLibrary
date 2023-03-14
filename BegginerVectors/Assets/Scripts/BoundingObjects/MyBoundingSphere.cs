@@ -11,6 +11,13 @@ public class MyBoundingSphere
         this.radius = radius;
     }
 
+    public MyBoundingSphere(MyTransformComponent transform)
+    {
+        centrepoint = transform.position;
+        radius = (centrepoint - transform.globalVerticesCoordinates[0]).GetVectorLength();
+
+    }
+
     public bool isOverlappingWith(MyBoundingSphere otherSphere)
     {
         float radiusSumDistanceSq = radius + otherSphere.radius;

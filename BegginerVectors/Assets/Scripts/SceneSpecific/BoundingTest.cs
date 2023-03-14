@@ -40,8 +40,8 @@ public class BoundingTest : MonoBehaviour
         boundingBox1 = new MyAABB(cube1Transform);
         boundingBox2 = new MyAABB(cube2Transform);
 
-        boundingSphere1 = new MyBoundingSphere(sphere1Transform, .5f);
-        boundingSphere2 = new MyBoundingSphere(sphere2Transform, .5f);
+        boundingSphere1 = new MyBoundingSphere(sphere1Transform);
+        boundingSphere2 = new MyBoundingSphere(sphere2Transform);
 
         if (boundingBox1.isOverlappingWith(boundingBox2))
         {
