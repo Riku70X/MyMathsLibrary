@@ -65,19 +65,29 @@ public class BoundingTest : MonoBehaviour
             print("Box/Box Intersection!");
         }
 
+        if (boundingBox1.isOverlappingWith(boundingSphere1))
+        {
+            print("Box/Sphere Intersection!");
+        }
+
+        if (boundingSphere1.isOverlappingWith(boundingBox1))
+        {
+            print("Sphere/Box Intersection!");
+        }
+
         if (boundingSphere1.isOverlappingWith(boundingSphere2))
         {
             print("Sphere/Sphere Intersection!");
         }
 
+        if (boundingSphere1.isOverlappingWith(boundingCapsule1))
+        {
+            print("Sphere/Capsule Intersection!");
+        }
+
         if (boundingCapsule1.isOverlappingWith(boundingSphere1))
         {
             print("Capsule/Sphere Intersection!");
-        }
-
-        if (boundingBox1.isOverlappingWith(boundingSphere1))
-        {
-            print("Box/Sphere Intersection!");
         }
     }
 }

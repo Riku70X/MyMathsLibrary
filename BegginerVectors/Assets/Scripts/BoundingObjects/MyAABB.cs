@@ -5,6 +5,9 @@ public class MyAABB // Axis Alligned Bounding Box
     MyVector3 minExtent;
     MyVector3 maxExtent;
 
+    public MyVector3 getMinExtent => minExtent;
+    public MyVector3 getMaxExtent => maxExtent;
+
     public MyAABB(MyVector3 min, MyVector3 max)
     {
         minExtent = min;
