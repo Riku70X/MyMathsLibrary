@@ -41,9 +41,8 @@ public class MyBoundingCapsule
         {
             float closestDistanceSq = bottomToSphere.GetVectorLengthSquared() -
                                         Mathf.Pow(MyMathsLibrary.GetDotProduct(bottomToSphere, bottomToTop), 2) / bottomToTop.GetVectorLengthSquared();
+            float radiusSumDistanceSq = Mathf.Pow(radius + sphere.getRadius, 2);
+            return closestDistanceSq < radiusSumDistanceSq;
         }
-
-
-        return true;
     }
 }

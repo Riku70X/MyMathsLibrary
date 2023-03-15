@@ -6,6 +6,7 @@ public class MyBoundingSphere
     float radius;
 
     public MyVector3 getCentrepoint => centrepoint;
+    public float getRadius => radius;
 
     public MyBoundingSphere(MyTransformComponent transform, float radius)
     {
