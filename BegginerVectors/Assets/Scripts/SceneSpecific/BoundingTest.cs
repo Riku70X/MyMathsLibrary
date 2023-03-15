@@ -20,11 +20,11 @@ public class BoundingTest : MonoBehaviour
 
     GameObject Capsule1;
     MyTransformComponent capsule1Transform;
-    MyBoundingCapsule bounddingCapsule1;
+    MyBoundingCapsule boundingCapsule1;
 
     GameObject Capsule2;
     MyTransformComponent capsule2Transform;
-    MyBoundingCapsule bounddingCapsule2;
+    MyBoundingCapsule boundingCapsule2;
 
     // Start is called before the first frame update
     void Start()
@@ -57,14 +57,27 @@ public class BoundingTest : MonoBehaviour
         boundingSphere1 = new MyBoundingSphere(sphere1Transform);
         boundingSphere2 = new MyBoundingSphere(sphere2Transform);
 
+        boundingCapsule1 = new MyBoundingCapsule(capsule1Transform, 2, .5f);
+        boundingCapsule2 = new MyBoundingCapsule(capsule2Transform, 2, .5f);
+
         if (boundingBox1.isOverlappingWith(boundingBox2))
         {
-            print("Box Intersection!");
+            print("Box/Box Intersection!");
         }
 
         if (boundingSphere1.isOverlappingWith(boundingSphere2))
         {
-            print("Sphere Intersection!");
+            print("Sphere/Sphere Intersection!");
+        }
+
+        if (boundingCapsule1.isOverlappingWith(boundingSphere1))
+        {
+            print("Capsule/Sphere Intersection!");
+        }
+
+        if (boundingBox1.isOverlappingWith(boundingSphere1))
+        {
+            print("Box/Sphere Intersection!");
         }
     }
 }

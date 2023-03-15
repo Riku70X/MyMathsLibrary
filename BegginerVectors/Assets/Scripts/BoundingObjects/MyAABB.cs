@@ -68,4 +68,34 @@ public class MyAABB // Axis Alligned Bounding Box
             || otherBox.back > front
             || otherBox.front < back);
     }
+
+    public bool isOverlappingWith(MyBoundingSphere sphere)
+    {
+        // Code adapted from Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
+        // MAKE A PROPER ZOTERO REFERENCE FOR THIS
+
+        float[] centrePoint = new float[3];
+        float[] minExtent = new float[3];
+        float[] maxExtent = new float[3];
+
+        centrePoint[0] = sphere.getCentrepoint.x; centrePoint[1] = sphere.getCentrepoint.y; centrePoint[2] = sphere.getCentrepoint.z;
+        minExtent[0] = this.minExtent.x; minExtent[1] = this.minExtent.y; minExtent[2] = this.minExtent.z;
+        maxExtent[0] = this.maxExtent.x; maxExtent[1] = this.maxExtent.y; maxExtent[2] = this.maxExtent.z;
+
+        float minDistanceSq = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            if (centrePoint[i] > maxExtent[i])
+            {
+                minDistanceSq += Mathf.Pow(centrePoint[i] - maxExtent[i], 2);
+            }
+            else if (centrePoint[i] < minExtent[i])
+            {
+                minDistanceSq += Mathf.Pow(centrePoint[i] - minExtent[i], 2);
+            }
+        }
+
+        if (minDistanceSq <= Mathf.Pow(sphere.getRadius, 2)) return true;
+        return false;
+    }
 }
