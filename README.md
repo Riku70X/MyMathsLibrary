@@ -10,3 +10,7 @@ https://math.stackexchange.com/questions/2975109/how-to-convert-euler-angles-to-
 https://automaticaddison.com/how-to-convert-a-quaternion-to-a-rotation-matrix/
 Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
 https://wickedengine.net/2020/04/26/capsule-collision-detection/
+
+test
+test
+test
