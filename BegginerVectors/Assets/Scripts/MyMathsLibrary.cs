@@ -222,7 +222,7 @@ public class MyMathsLibrary
         return dotProduct;
     }
 
-    public static MyVector3 GetCrossProduct(MyVector3 vectorA, MyVector3 vectorB)
+    public static MyVector3 GetCrossProduct(MyVector3 vectorA, MyVector3 vectorB, bool shouldNormalise = false)
     {
         MyVector3 vectorC = new(0, 0, 0)
         {
@@ -230,6 +230,8 @@ public class MyMathsLibrary
             y = (vectorA.z * vectorB.x) - (vectorA.x * vectorB.z),
             z = (vectorA.x * vectorB.y) - (vectorA.y * vectorB.x)
         };
+
+        if (shouldNormalise) return vectorC.GetNormalisedVector();
         return vectorC;
     }
 

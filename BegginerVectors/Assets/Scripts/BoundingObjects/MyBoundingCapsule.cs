@@ -12,9 +12,11 @@ public class MyBoundingCapsule
 
     public MyBoundingCapsule(MyTransformComponent transform, float height, float radius)
     {
+        // note: the capsule will not follow the orientation of the object if it is rolled
+
         MyVector3 forwardVector = transform.rotation.ConvertEulerToDirection();
-        MyVector3 rightVector = MyMathsLibrary.GetCrossProduct(MyVector3.up, forwardVector);
-        MyVector3 upVector = MyMathsLibrary.GetCrossProduct(forwardVector, rightVector);
+        MyVector3 rightVector = MyMathsLibrary.GetCrossProduct(MyVector3.up, forwardVector, true);
+        MyVector3 upVector = MyMathsLibrary.GetCrossProduct(forwardVector, rightVector, true);
 
         float scalar = (height - 2 * radius) / 2; // returns the distance between the centre of the object and the centre of the circles
 
@@ -22,8 +24,6 @@ public class MyBoundingCapsule
         bottomCentrepoint = transform.position - scalar * upVector;
 
         this.radius = radius;
-
-        Debug.DrawRay(bottomCentrepoint, forwardVector);
     }
 
     public bool isOverlappingWith(MyBoundingSphere sphere)
