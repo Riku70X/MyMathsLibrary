@@ -93,9 +93,11 @@ public class MyBoundingSphere
         }
         else
         {
-            float closestDistanceSq = bottomToSphere.GetVectorLengthSquared() -
-                                        Mathf.Pow(MyMathsLibrary.GetDotProduct(bottomToSphere, bottomToTop), 2) / bottomToTop.GetVectorLengthSquared();
-            float radiusSumDistanceSq = Mathf.Pow(capsule.getRadius + radius, 2);
+            float dotProduct = MyMathsLibrary.GetDotProduct(bottomToSphere, bottomToTop);
+            float closestDistanceSq = bottomToSphere.GetVectorLengthSquared() - dotProduct * dotProduct / bottomToTop.GetVectorLengthSquared();
+
+            float radiusSumDistanceSq = (capsule.getRadius + radius) * (capsule.getRadius + radius);
+
             return closestDistanceSq < radiusSumDistanceSq;
         }
     }

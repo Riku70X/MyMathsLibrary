@@ -235,12 +235,24 @@ public class MyMathsLibrary
 
     public static MyVector3 RotateVertexAroundAxis(MyVector3 vertex, MyVector3 axis, float angle)
     {
-        //axis = axis.GetNormalisedVector();
+        axis = axis.GetNormalisedVector();
         // The Rodrigues Rotation Formula, ensure angle is in radians
         MyVector3 returnVertex = new((vertex * Mathf.Cos(angle)) +
                                     (axis * (1 - Mathf.Cos(angle)) * GetDotProduct(vertex, axis)) +
                                     (GetCrossProduct(axis, vertex) * Mathf.Sin(angle)));
         return returnVertex;
+    }
+
+    public static float GetShortestDistanceSq(MyVector3 A, MyVector3 B, MyVector3 Point)
+    {
+        // gets the shortest distance squared from the vector AB to the point
+
+        MyVector3 AB = B - A;
+        MyVector3 AToPoint = Point - A;
+
+        float dotProduct = GetDotProduct(AToPoint, AB);
+
+        return AToPoint.GetVectorLengthSquared() - dotProduct * dotProduct / AB.GetVectorLengthSquared();
     }
 
     #region Transforming Vectors
