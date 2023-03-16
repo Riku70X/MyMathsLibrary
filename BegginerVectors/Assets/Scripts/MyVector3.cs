@@ -79,7 +79,7 @@ public class MyVector3
         MyVector3 direction = new(0, 0, 0)
         {
             x = Mathf.Cos(x) * Mathf.Sin(y),
-            y = Mathf.Sin(x),
+            y = -Mathf.Sin(x),
             z = Mathf.Cos(y) * Mathf.Cos(x)
         };
         return direction;

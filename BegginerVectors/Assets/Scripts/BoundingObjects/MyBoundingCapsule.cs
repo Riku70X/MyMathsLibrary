@@ -22,6 +22,8 @@ public class MyBoundingCapsule
         bottomCentrepoint = transform.position - scalar * upVector;
 
         this.radius = radius;
+
+        Debug.DrawRay(bottomCentrepoint, forwardVector);
     }
 
     public bool isOverlappingWith(MyBoundingSphere sphere)

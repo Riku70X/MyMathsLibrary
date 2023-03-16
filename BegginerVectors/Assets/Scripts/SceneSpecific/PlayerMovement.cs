@@ -43,12 +43,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetAxis("Mouse Y") > 0)
         {
-            eulerAngles.x += 0.01221730476f;
+            eulerAngles.x -= 0.01221730476f;
             //transform.Rotate(new MyVector3(-0.7f, 0, 0));
         }
         if (Input.GetAxis("Mouse Y") < 0)
         {
-            eulerAngles.x -= 0.01221730476f;
+            eulerAngles.x += 0.01221730476f;
             //transform.Rotate(new MyVector3(0.7f, 0, 0));
         }
 
