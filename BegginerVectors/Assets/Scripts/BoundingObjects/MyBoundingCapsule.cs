@@ -43,14 +43,45 @@ public class MyBoundingCapsule
         }
         else
         {
-            float dotProduct = MyMathsLibrary.GetDotProduct(bottomToSphere, bottomToTop);
-            float closestDistanceSq = bottomToSphere.GetVectorLengthSquared() - dotProduct * dotProduct / bottomToTop.GetVectorLengthSquared();
-
-            float close = MyMathsLibrary.GetShortestDistanceSq(bottomCentrepoint, topCentrepoint, sphere.getCentrepoint);
+            float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(bottomCentrepoint, topCentrepoint, sphere.getCentrepoint);
 
             float radiusSumDistanceSq = (radius + sphere.getRadius) * (radius + sphere.getRadius);
 
             return closestDistanceSq < radiusSumDistanceSq;
         }
+    }
+
+    public bool isOverlappingWith(MyBoundingCapsule otherCapsule)
+    {
+        // code adapted from a formula found at https://wickedengine.net/2020/04/26/capsule-collision-detection/
+
+        MyVector3 bottomBottomVector = otherCapsule.getBottomCentrepoint - bottomCentrepoint;
+        MyVector3 bottomTopVector = otherCapsule.getTopCentrepoint - bottomCentrepoint;
+        MyVector3 topBottomVector = otherCapsule.getBottomCentrepoint - topCentrepoint;
+        MyVector3 topTopVector = otherCapsule.getTopCentrepoint - topCentrepoint;
+
+        float bottomBottomDistanceSq = MyMathsLibrary.GetDotProduct(bottomBottomVector, bottomBottomVector);
+        float bottomTopDistanceSq = MyMathsLibrary.GetDotProduct(bottomTopVector, bottomTopVector);
+        float topBottomDistanceSq = MyMathsLibrary.GetDotProduct(topBottomVector, topBottomVector);
+        float topTopDistanceSq = MyMathsLibrary.GetDotProduct(topTopVector, topTopVector);
+
+        MyVector3 closestPointOnThisCapsule;
+        if (topBottomDistanceSq < bottomBottomDistanceSq || topBottomDistanceSq < bottomTopDistanceSq || topTopDistanceSq < bottomBottomDistanceSq || topTopDistanceSq < bottomTopDistanceSq)
+        {
+            closestPointOnThisCapsule = topCentrepoint;
+        }
+        else
+        {
+            closestPointOnThisCapsule = bottomCentrepoint;
+        }
+
+        MyVector3 closestPointOnOtherCapsule = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnThisCapsule, otherCapsule.getBottomCentrepoint, otherCapsule.getTopCentrepoint);
+
+        closestPointOnThisCapsule = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnOtherCapsule, bottomCentrepoint, topCentrepoint);
+
+        MyBoundingSphere sphere1 = new(closestPointOnThisCapsule, radius);
+        MyBoundingSphere sphere2 = new(closestPointOnOtherCapsule, otherCapsule.radius);
+
+        return sphere1.isOverlappingWith(sphere2);
     }
 }

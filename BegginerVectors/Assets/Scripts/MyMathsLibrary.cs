@@ -236,6 +236,7 @@ public class MyMathsLibrary
     public static MyVector3 RotateVertexAroundAxis(MyVector3 vertex, MyVector3 axis, float angle)
     {
         axis = axis.GetNormalisedVector();
+
         // The Rodrigues Rotation Formula, ensure angle is in radians
         MyVector3 returnVertex = new((vertex * Mathf.Cos(angle)) +
                                     (axis * (1 - Mathf.Cos(angle)) * GetDotProduct(vertex, axis)) +
@@ -243,16 +244,25 @@ public class MyMathsLibrary
         return returnVertex;
     }
 
-    public static float GetShortestDistanceSq(MyVector3 A, MyVector3 B, MyVector3 Point)
+    public static float GetShortestDistanceSq(MyVector3 A, MyVector3 B, MyVector3 point)
     {
         // gets the shortest distance squared from the vector AB to the point
 
         MyVector3 AB = B - A;
-        MyVector3 AToPoint = Point - A;
+        MyVector3 AToPoint = point - A;
 
         float dotProduct = GetDotProduct(AToPoint, AB);
 
         return AToPoint.GetVectorLengthSquared() - dotProduct * dotProduct / AB.GetVectorLengthSquared();
+    }
+
+    public static MyVector3 GetClosestPointOnLineSegment(MyVector3 point, MyVector3 A, MyVector3 B)
+    {
+        // code taken from https://wickedengine.net/2020/04/26/capsule-collision-detection/
+
+        MyVector3 AB = B - A;
+        float t = GetDotProduct(point - A, AB) / GetDotProduct(AB, AB);
+        return A + Mathf.Clamp(t, 0, 1) * AB;
     }
 
     #region Transforming Vectors

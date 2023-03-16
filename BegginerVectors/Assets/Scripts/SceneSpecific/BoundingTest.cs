@@ -89,5 +89,10 @@ public class BoundingTest : MonoBehaviour
         {
             print("Capsule/Sphere Intersection!");
         }
+
+        if (boundingCapsule1.isOverlappingWith(boundingCapsule2))
+        {
+            print("Capsule/Capsule Intersection!");
+        }
     }
 }

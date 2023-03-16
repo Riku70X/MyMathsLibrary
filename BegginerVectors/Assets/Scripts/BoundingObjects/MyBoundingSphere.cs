@@ -93,8 +93,7 @@ public class MyBoundingSphere
         }
         else
         {
-            float dotProduct = MyMathsLibrary.GetDotProduct(bottomToSphere, bottomToTop);
-            float closestDistanceSq = bottomToSphere.GetVectorLengthSquared() - dotProduct * dotProduct / bottomToTop.GetVectorLengthSquared();
+            float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(capsule.getBottomCentrepoint, capsule.getTopCentrepoint, centrepoint);
 
             float radiusSumDistanceSq = (capsule.getRadius + radius) * (capsule.getRadius + radius);
 
