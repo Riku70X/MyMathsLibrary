@@ -31,28 +31,36 @@ public class MyBoundingSphere
         // Code adapted from Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
         // MAKE A PROPER ZOTERO REFERENCE FOR THIS
 
-        float[] centrePoint = new float[3];
-        float[] minExtent = new float[3];
-        float[] maxExtent = new float[3];
-
-        centrePoint[0] = centrepoint.x; centrePoint[1] = centrepoint.y; centrePoint[2] = centrepoint.z;
-        minExtent[0] = box.getMinExtent.x; minExtent[1] = box.getMinExtent.y; minExtent[2] = box.getMinExtent.z;
-        maxExtent[0] = box.getMaxExtent.x; maxExtent[1] = box.getMaxExtent.y; maxExtent[2] = box.getMaxExtent.z;
-
         float minDistanceSq = 0;
-        for (int i = 0; i < 3; i++)
+
+        if (centrepoint.x > box.getMaxExtent.x)
         {
-            if (centrePoint[i] > maxExtent[i])
-            {
-                minDistanceSq += Mathf.Pow(centrePoint[i] - maxExtent[i], 2);
-            }
-            else if (centrePoint[i] < minExtent[i])
-            {
-                minDistanceSq += Mathf.Pow(centrePoint[i] - minExtent[i], 2);
-            }
+            minDistanceSq += (centrepoint.x - box.getMaxExtent.x) * (centrepoint.x - box.getMaxExtent.x);
+        }
+        else if (centrepoint.x < box.getMinExtent.x)
+        {
+            minDistanceSq += (centrepoint.x - box.getMinExtent.x) * (centrepoint.x - box.getMinExtent.x);
         }
 
-        if (minDistanceSq <= Mathf.Pow(radius, 2)) return true;
+        if (centrepoint.y > box.getMaxExtent.y)
+        {
+            minDistanceSq += (centrepoint.y - box.getMaxExtent.y) * (centrepoint.y - box.getMaxExtent.y);
+        }
+        else if (centrepoint.y < box.getMinExtent.y)
+        {
+            minDistanceSq += (centrepoint.y - box.getMinExtent.y) * (centrepoint.y - box.getMinExtent.y);
+        }
+
+        if (centrepoint.z > box.getMaxExtent.z)
+        {
+            minDistanceSq += (centrepoint.z - box.getMaxExtent.z) * (centrepoint.z - box.getMaxExtent.z);
+        }
+        else if (centrepoint.z < box.getMinExtent.z)
+        {
+            minDistanceSq += (centrepoint.z - box.getMinExtent.z) * (centrepoint.z - box.getMinExtent.z);
+        }
+
+        if (minDistanceSq <= radius * radius) return true;
         return false;
     }
 
