@@ -54,10 +54,10 @@ public class BoundingTest : MonoBehaviour
         boundingBox1 = new MyAABB(cube1Transform);
         boundingBox2 = new MyAABB(cube2Transform);
 
-        boundingSphere1 = new MyBoundingSphere(sphere1Transform);
-        boundingSphere2 = new MyBoundingSphere(sphere2Transform);
+        boundingSphere1 = new MyBoundingSphere(sphere1Transform, 18.0f);
+        boundingSphere2 = new MyBoundingSphere(sphere2Transform, 15.2f);
 
-        boundingCapsule1 = new MyBoundingCapsule(capsule1Transform, 2, .5f);
+        boundingCapsule1 = new MyBoundingCapsule(capsule1Transform, 20, 5.0f);
         boundingCapsule2 = new MyBoundingCapsule(capsule2Transform, 2, .5f);
 
         if (boundingBox1.isOverlappingWith(boundingBox2))
