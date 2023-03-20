@@ -109,4 +109,25 @@ public class MyAABB // Axis Alligned Bounding Box
         if (minDistanceSq <= sphere.getRadius * sphere.getRadius) return true;
         return false;
     }
+
+    public void showForSeconds(float seconds)
+    {
+        // Bottom Square
+        Debug.DrawLine(minExtent, new MyVector3(maxExtent.x, minExtent.y, minExtent.z), Color.green, seconds);
+        Debug.DrawLine(minExtent, new MyVector3(minExtent.x, minExtent.y, maxExtent.z), Color.green, seconds);
+        Debug.DrawLine(new MyVector3(maxExtent.x, minExtent.y, maxExtent.z), new MyVector3(maxExtent.x, minExtent.y, minExtent.z), Color.green, seconds);
+        Debug.DrawLine(new MyVector3(maxExtent.x, minExtent.y, maxExtent.z), new MyVector3(minExtent.x, minExtent.y, maxExtent.z), Color.green, seconds);
+
+        // Four Pillars
+        Debug.DrawLine(minExtent, new MyVector3(minExtent.x, maxExtent.y, minExtent.z), Color.green, seconds);
+        Debug.DrawLine(new MyVector3(maxExtent.x, minExtent.y, minExtent.z), new MyVector3(maxExtent.x, maxExtent.y, minExtent.z), Color.green, seconds);
+        Debug.DrawLine(new MyVector3(minExtent.x, minExtent.y, maxExtent.z), new MyVector3(minExtent.x, maxExtent.y, maxExtent.z), Color.green, seconds);
+        Debug.DrawLine(new MyVector3(maxExtent.x, minExtent.y, maxExtent.z), maxExtent, Color.green, seconds);
+
+        // Top Square
+        Debug.DrawLine(new MyVector3(minExtent.x, maxExtent.y, minExtent.z), new MyVector3(maxExtent.x, maxExtent.y, minExtent.z), Color.green, seconds);
+        Debug.DrawLine(new MyVector3(minExtent.x, maxExtent.y, minExtent.z), new MyVector3(minExtent.x, maxExtent.y, maxExtent.z), Color.green, seconds);
+        Debug.DrawLine(maxExtent, new MyVector3(maxExtent.x, maxExtent.y, minExtent.z), Color.green, seconds);
+        Debug.DrawLine(maxExtent, new MyVector3(minExtent.x, maxExtent.y, maxExtent.z), Color.green, seconds);
+    }
 }
