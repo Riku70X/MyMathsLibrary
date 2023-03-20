@@ -3,10 +3,10 @@ using UnityEngine;
 public class BoundingTest : MonoBehaviour
 {
     GameObject Cube1;
-    MyAABB boundingBox1;
+    MyAABBComponent boundingBox1;
 
     GameObject Cube2;
-    MyAABB boundingBox2;
+    MyAABBComponent boundingBox2;
 
     GameObject Sphere1;
     MyTransformComponent sphere1Transform;
@@ -28,10 +28,10 @@ public class BoundingTest : MonoBehaviour
     void Start()
     {
         Cube1 = GameObject.Find("Cube1");
-        boundingBox1 = Cube1.GetComponent<MyAABB>();
+        boundingBox1 = Cube1.GetComponent<MyAABBComponent>();
 
         Cube2 = GameObject.Find("Cube2");
-        boundingBox2 = Cube2.GetComponent<MyAABB>();
+        boundingBox2 = Cube2.GetComponent<MyAABBComponent>();
 
         Sphere1 = GameObject.Find("Sphere1");
         sphere1Transform = Sphere1.GetComponent<MyTransformComponent>();

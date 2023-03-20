@@ -1,19 +1,14 @@
 using UnityEngine;
 
-public class MyAABB : MonoBehaviour // Axis Alligned Bounding Box
+public class MyAABBComponent : MonoBehaviour // Axis Alligned Bounding Box
 {
+    MyTransformComponent myTransform;
+
     [SerializeField] MyVector3 minExtent;
     [SerializeField] MyVector3 maxExtent;
-    MyTransformComponent myTransform;
 
     public MyVector3 getMinExtent => minExtent;
     public MyVector3 getMaxExtent => maxExtent;
-
-    public MyAABB(MyVector3 min, MyVector3 max)
-    {
-        minExtent = min;
-        maxExtent = max;
-    }
 
     void Start()
     {
@@ -68,7 +63,7 @@ public class MyAABB : MonoBehaviour // Axis Alligned Bounding Box
 
     public float back => minExtent.z;
 
-    public bool isOverlappingWith(MyAABB otherBox)
+    public bool isOverlappingWith(MyAABBComponent otherBox)
     {
         return !(otherBox.left > right
             || otherBox.right < left

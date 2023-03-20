@@ -1,12 +1,25 @@
 using UnityEngine;
 
-public class MyBoundingSphere
+public class MyBoundingSphere : MonoBehaviour
 {
+    MyTransformComponent transform;
+
     MyVector3 centrepoint;
-    float radius;
+    [SerializeField] float radius;
 
     public MyVector3 getCentrepoint => centrepoint;
     public float getRadius => radius;
+
+    private void Start()
+    {
+        transform = GetComponent<MyTransformComponent>();
+        radius = (centrepoint - transform.getGlobalVerticesCoordinates[0]).GetVectorLength();
+    }
+
+    private void Update()
+    {
+        
+    }
 
     public MyBoundingSphere(MyTransformComponent transform, float radius)
     {
@@ -26,7 +39,7 @@ public class MyBoundingSphere
         this.radius = radius;
     }
 
-    public bool isOverlappingWith(MyAABB box)
+    public bool isOverlappingWith(MyAABBComponent box)
     {
         // Code adapted from Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
         // MAKE A PROPER ZOTERO REFERENCE FOR THIS

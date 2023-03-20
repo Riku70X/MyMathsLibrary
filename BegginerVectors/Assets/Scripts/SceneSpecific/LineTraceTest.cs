@@ -4,7 +4,7 @@ public class LineTraceTest : MonoBehaviour
 {
     GameObject Cube;
     MyTransformComponent cubeTransform;
-    MyAABB localBox;
+    MyAABBComponent localBox;
 
     MyMatrix4x4 scaleMatrix;
     MyMatrix4x4 rotationMatrix;
@@ -31,7 +31,7 @@ public class LineTraceTest : MonoBehaviour
     {
         Cube = GameObject.Find("Cube1");
         cubeTransform = Cube.GetComponent<MyTransformComponent>();
-        localBox = Cube.GetComponent<MyAABB>(); // BUGGED because I can't create a single non-updating box now that it is a monobehaviour
+        localBox = Cube.GetComponent<MyAABBComponent>(); // BUGGED because I can't create a single non-updating box now that it is a monobehaviour
         //localBox = new MyAABB(localBox.getMinExtent, localBox.getMaxExtent);
     }
 
