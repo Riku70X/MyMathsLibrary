@@ -548,7 +548,7 @@ public class MyMathsLibrary
 
     #region Static AABB functions
 
-    public static bool AxisIntersectsAABB(MyVector3 axis, MyAABBComponent box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
+    public static bool AxisIntersectsAABB(MyVector3 axis, MyAABB box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
     {
         // Calculate our Minimum and Maximum based on the current axis
         float minimum = 0.0f, maximum = 1.0f;
@@ -597,7 +597,7 @@ public class MyMathsLibrary
         return true;
     }
 
-    public static bool LineIntersectsAABB(MyAABBComponent box, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    public static bool LineIntersectsAABB(MyAABB box, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
     {
         // Define our initial lowest and highest
         float lowest = 0.0f;
