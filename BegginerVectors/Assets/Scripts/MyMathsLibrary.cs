@@ -252,10 +252,22 @@ public class MyMathsLibrary
 
         MyVector3 AB = B - A;
         MyVector3 AToPoint = point - A;
+        MyVector3 BToPoint = point - B;
 
         float dotProduct = GetDotProduct(AToPoint, AB);
 
-        return AToPoint.GetVectorLengthSquared() - dotProduct * dotProduct / AB.GetVectorLengthSquared();
+        if (GetDotProduct(AB, AToPoint) <= 0)
+        {
+            return AToPoint.GetVectorLengthSquared();
+        }
+        else if (GetDotProduct(-AB, BToPoint) <= 0)
+        {
+            return BToPoint.GetVectorLengthSquared();
+        }
+        else
+        {
+            return AToPoint.GetVectorLengthSquared() - dotProduct * dotProduct / AB.GetVectorLengthSquared();
+        }
     }
 
     public static MyVector3 GetClosestPointOnLineSegment(MyVector3 point, MyVector3 A, MyVector3 B)

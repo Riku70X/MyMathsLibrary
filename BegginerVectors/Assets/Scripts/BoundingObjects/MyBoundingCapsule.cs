@@ -28,29 +28,11 @@ public class MyBoundingCapsule
 
     public bool isOverlappingWith(MyBoundingSphere sphere)
     {
-        MyVector3 bottomToTop = topCentrepoint - bottomCentrepoint;
-        MyVector3 bottomToSphere = sphere.getCentrepoint - bottomCentrepoint;
-        MyVector3 topToBottom = -bottomToTop;
-        MyVector3 topToSphere = sphere.getCentrepoint - topCentrepoint;
+        float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(bottomCentrepoint, topCentrepoint, sphere.getCentrepoint);
 
-        if (MyMathsLibrary.GetDotProduct(bottomToTop, bottomToSphere) <= 0)
-        {
-            MyBoundingSphere closestSphere = new(bottomCentrepoint, radius);
-            return closestSphere.isOverlappingWith(sphere);
-        }
-        else if (MyMathsLibrary.GetDotProduct(topToBottom, topToSphere) <= 0)
-        {
-            MyBoundingSphere closestSphere = new(topCentrepoint, radius);
-            return closestSphere.isOverlappingWith(sphere);
-        }
-        else
-        {
-            float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(bottomCentrepoint, topCentrepoint, sphere.getCentrepoint);
+        float radiusSumDistanceSq = (radius + sphere.getRadius) * (radius + sphere.getRadius);
 
-            float radiusSumDistanceSq = (radius + sphere.getRadius) * (radius + sphere.getRadius);
-
-            return closestDistanceSq < radiusSumDistanceSq;
-        }
+        return closestDistanceSq < radiusSumDistanceSq;
     }
 
     public bool isOverlappingWith(MyBoundingCapsule otherCapsule)

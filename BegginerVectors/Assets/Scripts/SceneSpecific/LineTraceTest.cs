@@ -79,7 +79,8 @@ public class LineTraceTest : MonoBehaviour
         sphereLineDistanceSq = MyMathsLibrary.GetShortestDistanceSq(globalStartPosition, globalEndPosition, boundingSphere.getCentrepoint);
         radiusSq = boundingSphere.getRadius * boundingSphere.getRadius;
 
-        Debug.LogWarning($"");
+        Debug.LogWarning($"centre:ineDSq: {sphereLineDistanceSq}");
+        Debug.LogWarning($"radiusSq: {radiusSq}");
 
         if (sphereLineDistanceSq < radiusSq)
         {
