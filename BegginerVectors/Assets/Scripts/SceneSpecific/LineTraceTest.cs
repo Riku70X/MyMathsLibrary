@@ -31,8 +31,7 @@ public class LineTraceTest : MonoBehaviour
     {
         Cube = GameObject.Find("Cube1");
         cubeTransform = Cube.GetComponent<MyTransformComponent>();
-        localBox = Cube.GetComponent<MyAABB>(); // BUGGED because I can't create a single non-updating box now that it is a monobehaviour
-        //localBox = new MyAABB(localBox.getMinExtent, localBox.getMaxExtent);
+        localBox = new MyAABB(cubeTransform);
     }
 
     // Update is called once per frame

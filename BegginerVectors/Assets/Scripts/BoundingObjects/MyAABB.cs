@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class MyAABB : MonoBehaviour // Axis Alligned Bounding Box
+public class MyAABB // Axis Alligned Bounding Box
 {
-    [SerializeField] MyVector3 minExtent;
-    [SerializeField] MyVector3 maxExtent;
-    MyTransformComponent myTransform;
+    MyVector3 minExtent;
+    MyVector3 maxExtent;
 
     public MyVector3 getMinExtent => minExtent;
     public MyVector3 getMaxExtent => maxExtent;
@@ -15,43 +14,38 @@ public class MyAABB : MonoBehaviour // Axis Alligned Bounding Box
         maxExtent = max;
     }
 
-    void Start()
+    public MyAABB(MyTransformComponent transform)
     {
-        myTransform = GetComponent<MyTransformComponent>();
-    }
+        minExtent = new MyVector3(transform.getGlobalVerticesCoordinates[0].x, transform.getGlobalVerticesCoordinates[0].y, transform.getGlobalVerticesCoordinates[0].z);
+        maxExtent = new MyVector3(transform.getGlobalVerticesCoordinates[0].x, transform.getGlobalVerticesCoordinates[0].y, transform.getGlobalVerticesCoordinates[0].z);
 
-    void Update()
-    {
-        minExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
-        maxExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
-
-        for (int i = 0; i < myTransform.getGlobalVerticesCoordinates.Length; i++)
+        for (int i = 0; i < transform.getGlobalVerticesCoordinates.Length; i++)
         {
-            if (myTransform.getGlobalVerticesCoordinates[i].x < minExtent.x)
+            if (transform.getGlobalVerticesCoordinates[i].x < minExtent.x)
             {
-                minExtent.x = myTransform.getGlobalVerticesCoordinates[i].x;
+                minExtent.x = transform.getGlobalVerticesCoordinates[i].x;
             }
-            else if (myTransform.getGlobalVerticesCoordinates[i].x > maxExtent.x)
+            else if (transform.getGlobalVerticesCoordinates[i].x > maxExtent.x)
             {
-                maxExtent.x = myTransform.getGlobalVerticesCoordinates[i].x;
-            }
-
-            if (myTransform.getGlobalVerticesCoordinates[i].y < minExtent.y)
-            {
-                minExtent.y = myTransform.getGlobalVerticesCoordinates[i].y;
-            }
-            else if (myTransform.getGlobalVerticesCoordinates[i].y > maxExtent.y)
-            {
-                maxExtent.y = myTransform.getGlobalVerticesCoordinates[i].y;
+                maxExtent.x = transform.getGlobalVerticesCoordinates[i].x;
             }
 
-            if (myTransform.getGlobalVerticesCoordinates[i].z < minExtent.z)
+            if (transform.getGlobalVerticesCoordinates[i].y < minExtent.y)
             {
-                minExtent.z = myTransform.getGlobalVerticesCoordinates[i].z;
+                minExtent.y = transform.getGlobalVerticesCoordinates[i].y;
             }
-            else if (myTransform.getGlobalVerticesCoordinates[i].z > maxExtent.z)
+            else if (transform.getGlobalVerticesCoordinates[i].y > maxExtent.y)
             {
-                maxExtent.z = myTransform.getGlobalVerticesCoordinates[i].z;
+                maxExtent.y = transform.getGlobalVerticesCoordinates[i].y;
+            }
+
+            if (transform.getGlobalVerticesCoordinates[i].z < minExtent.z)
+            {
+                minExtent.z = transform.getGlobalVerticesCoordinates[i].z;
+            }
+            else if (transform.getGlobalVerticesCoordinates[i].z > maxExtent.z)
+            {
+                maxExtent.z = transform.getGlobalVerticesCoordinates[i].z;
             }
         }
     }
