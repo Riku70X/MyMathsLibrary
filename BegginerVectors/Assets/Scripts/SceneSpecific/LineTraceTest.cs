@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class LineTraceTest : MonoBehaviour
 {
+    [SerializeField] MyVector3 globalStartPosition;
+    [SerializeField] MyVector3 globalEndPosition;
+
+    MyVector3 intersectionPoint;
+
     GameObject Cube;
     MyTransformComponent cubeTransform;
     MyAABB localBox;
@@ -12,13 +17,20 @@ public class LineTraceTest : MonoBehaviour
 
     MyMatrix4x4 inverseTransformMatrix;
 
-    [SerializeField] MyVector3 globalStartPosition;
-    [SerializeField] MyVector3 globalEndPosition;
-
     MyVector3 localStartPosition;
     MyVector3 localEndPosition;
 
-    MyVector3 intersectionPoint;
+    GameObject Sphere;
+    MyTransformComponent sphereTransform;
+    MyBoundingSphere boundingSphere;
+
+    float sphereLineDistanceSq;
+    float radiusSq;
+
+    MyVector3 sphereProjection;
+    float projectionToIntersectionLengthSq;
+    MyVector3 projectionToStart;
+    float scalar;
 
     LineTraceTest()
     {
@@ -32,12 +44,17 @@ public class LineTraceTest : MonoBehaviour
         Cube = GameObject.Find("Cube1");
         cubeTransform = Cube.GetComponent<MyTransformComponent>();
         localBox = new MyAABB(cubeTransform);
+
+        Sphere = GameObject.Find("Sphere1");
+        sphereTransform = Sphere.GetComponent<MyTransformComponent>();
     }
 
     // Update is called once per frame
     void Update()
     {
         Debug.DrawLine(globalStartPosition, globalEndPosition);
+
+        #region Line/Box Test
 
         scaleMatrix = MyMathsLibrary.GetScaleMatrix(cubeTransform.scale);
         rotationMatrix = MyMathsLibrary.GetRotationMatrix(cubeTransform.rotation);
@@ -50,7 +67,32 @@ public class LineTraceTest : MonoBehaviour
         
         if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
         {
-            Debug.Log($"Line Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.getTransformMatrix * intersectionPoint)}");
+            print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.getTransformMatrix * intersectionPoint)}");
         }
+
+        #endregion //Line/Box Test
+
+        #region Line/Sphere Test
+
+        boundingSphere = new MyBoundingSphere(sphereTransform);
+
+        sphereLineDistanceSq = MyMathsLibrary.GetShortestDistanceSq(globalStartPosition, globalEndPosition, boundingSphere.getCentrepoint);
+        radiusSq = boundingSphere.getRadius * boundingSphere.getRadius;
+
+        Debug.LogWarning($"");
+
+        if (sphereLineDistanceSq < radiusSq)
+        {
+            sphereProjection = MyMathsLibrary.GetClosestPointOnLineSegment(boundingSphere.getCentrepoint, globalStartPosition, globalEndPosition);
+            projectionToIntersectionLengthSq = radiusSq - sphereLineDistanceSq;
+            projectionToStart = globalStartPosition - sphereProjection;
+            scalar = projectionToIntersectionLengthSq / projectionToStart.GetVectorLengthSquared();
+            scalar = Mathf.Sqrt(scalar);
+            intersectionPoint = sphereProjection + (projectionToStart * scalar);
+
+            print($"Line/Sphere Intersection! Global point : {intersectionPoint}");
+        }
+
+        #endregion //Line/Sphere Test
     }
 }

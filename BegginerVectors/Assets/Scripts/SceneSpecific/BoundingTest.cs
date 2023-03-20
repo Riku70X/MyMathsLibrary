@@ -54,7 +54,7 @@ public class BoundingTest : MonoBehaviour
         boundingBox1 = new MyAABB(cube1Transform);
         boundingBox2 = new MyAABB(cube2Transform);
 
-        boundingBox1.showForSeconds(1 / 60);
+        boundingBox1.showForSeconds(Time.deltaTime);
 
         boundingSphere1 = new MyBoundingSphere(sphere1Transform);
         boundingSphere2 = new MyBoundingSphere(sphere2Transform);
