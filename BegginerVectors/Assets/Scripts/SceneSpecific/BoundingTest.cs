@@ -3,11 +3,9 @@ using UnityEngine;
 public class BoundingTest : MonoBehaviour
 {
     GameObject Cube1;
-    MyTransformComponent cube1Transform;
     MyAABB boundingBox1;
 
     GameObject Cube2;
-    MyTransformComponent cube2Transform;
     MyAABB boundingBox2;
 
     GameObject Sphere1;
@@ -30,10 +28,10 @@ public class BoundingTest : MonoBehaviour
     void Start()
     {
         Cube1 = GameObject.Find("Cube1");
-        cube1Transform = Cube1.GetComponent<MyTransformComponent>();
+        boundingBox1 = Cube1.GetComponent<MyAABB>();
 
         Cube2 = GameObject.Find("Cube2");
-        cube2Transform = Cube2.GetComponent<MyTransformComponent>();
+        boundingBox2 = Cube2.GetComponent<MyAABB>();
 
         Sphere1 = GameObject.Find("Sphere1");
         sphere1Transform = Sphere1.GetComponent<MyTransformComponent>();
@@ -51,13 +49,12 @@ public class BoundingTest : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        boundingBox1 = new MyAABB(cube1Transform);
-        boundingBox2 = new MyAABB(cube2Transform);
 
-        boundingSphere1 = new MyBoundingSphere(sphere1Transform, 18.0f);
-        boundingSphere2 = new MyBoundingSphere(sphere2Transform, 15.2f);
 
-        boundingCapsule1 = new MyBoundingCapsule(capsule1Transform, 20, 5.0f);
+        boundingSphere1 = new MyBoundingSphere(sphere1Transform);
+        boundingSphere2 = new MyBoundingSphere(sphere2Transform);
+
+        boundingCapsule1 = new MyBoundingCapsule(capsule1Transform, 2, .5f);
         boundingCapsule2 = new MyBoundingCapsule(capsule2Transform, 2, .5f);
 
         if (boundingBox1.isOverlappingWith(boundingBox2))
