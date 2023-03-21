@@ -10,6 +10,7 @@ public class LineTraceTest : MonoBehaviour
     GameObject Cube;
     MyTransformComponent cubeTransform;
     MyAABB localBox;
+    MyAABB globalBox;
 
     MyMatrix4x4 scaleMatrix;
     MyMatrix4x4 rotationMatrix;
@@ -56,18 +57,25 @@ public class LineTraceTest : MonoBehaviour
 
         #region Line/Box Test
 
-        scaleMatrix = MyMathsLibrary.GetScaleMatrix(cubeTransform.scale);
-        rotationMatrix = MyMathsLibrary.GetRotationMatrix(cubeTransform.rotation);
-        translationMatrix = MyMathsLibrary.GetTranslationMatrix(cubeTransform.position);
+        // Create a new AABB around the transformed Cube and check if the line intersects it
+        globalBox = new MyAABB(cubeTransform);
 
-        inverseTransformMatrix = scaleMatrix.ScaleInverse() * rotationMatrix.RotationInverse() * translationMatrix.TranslationInverse();
-
-        localStartPosition = inverseTransformMatrix * globalStartPosition;
-        localEndPosition = inverseTransformMatrix * globalEndPosition;
-        
-        if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
+        if (MyMathsLibrary.LineIntersectsAABB(globalBox, globalStartPosition, globalEndPosition, out intersectionPoint))
         {
-            print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.getTransformMatrix * intersectionPoint)}");
+            // if line intersects the new AABB, it must be close to the object. Inverse transform the line and compare it with the true local AABB.
+            scaleMatrix = MyMathsLibrary.GetScaleMatrix(cubeTransform.scale);
+            rotationMatrix = MyMathsLibrary.GetRotationMatrix(cubeTransform.rotation);
+            translationMatrix = MyMathsLibrary.GetTranslationMatrix(cubeTransform.position);
+
+            inverseTransformMatrix = scaleMatrix.ScaleInverse() * rotationMatrix.RotationInverse() * translationMatrix.TranslationInverse();
+
+            localStartPosition = inverseTransformMatrix * globalStartPosition;
+            localEndPosition = inverseTransformMatrix * globalEndPosition;
+
+            if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
+            {
+                print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.getTransformMatrix * intersectionPoint)}");
+            }
         }
 
         #endregion //Line/Box Test
@@ -76,26 +84,9 @@ public class LineTraceTest : MonoBehaviour
 
         boundingSphere = new MyBoundingSphere(sphereTransform);
 
-        if ((globalStartPosition - boundingSphere.getCentrepoint).GetVectorLength() < boundingSphere.getRadius)
+        if (MyMathsLibrary.LineIntersectsBoundingSphere(boundingSphere, globalStartPosition, globalEndPosition, out intersectionPoint))
         {
-            print($"Line/Sphere Intersection! Global point : {globalStartPosition}");
-        }
-        else
-        {
-            sphereLineDistanceSq = MyMathsLibrary.GetShortestDistanceSq(globalStartPosition, globalEndPosition, boundingSphere.getCentrepoint);
-            radiusSq = boundingSphere.getRadius * boundingSphere.getRadius;
-
-            if (sphereLineDistanceSq < radiusSq)
-            {
-                sphereProjection = MyMathsLibrary.GetClosestPointOnLineSegment(boundingSphere.getCentrepoint, globalStartPosition, globalEndPosition);
-                projectionToIntersectionLengthSq = radiusSq - sphereLineDistanceSq;
-                projectionToStart = globalStartPosition - sphereProjection;
-                scalar = projectionToIntersectionLengthSq / projectionToStart.GetVectorLengthSquared();
-                scalar = Mathf.Sqrt(scalar);
-                intersectionPoint = sphereProjection + (projectionToStart * scalar);
-
-                print($"Line/Sphere Intersection! Global point : {intersectionPoint}");
-            }
+            print($"Line/Sphere Intersection! Global point : {intersectionPoint}");
         }
 
         #endregion //Line/Sphere Test

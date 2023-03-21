@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MyMathsLibrary
 {
@@ -558,7 +559,7 @@ public class MyMathsLibrary
 
     #endregion // Static Quaternion functions
 
-    #region Static AABB functions
+    #region Static Bounding Intersect functions
 
     public static bool AxisIntersectsAABB(MyVector3 axis, MyAABB box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
     {
@@ -634,5 +635,39 @@ public class MyMathsLibrary
         return true;
     }
 
-    #endregion // Static AABB functions
+    public static bool LineIntersectsBoundingSphere(MyBoundingSphere sphere, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    {
+        intersectionPoint = MyVector3.zero;
+
+        if ((startPoint - sphere.getCentrepoint).GetVectorLength() < sphere.getRadius)
+        {
+            intersectionPoint = startPoint;
+            return true;
+        }
+        else
+        {
+            float sphereLineDistanceSq = GetShortestDistanceSq(startPoint, endPoint, sphere.getCentrepoint);
+            float radiusSq = sphere.getRadius * sphere.getRadius;
+
+            if (sphereLineDistanceSq < radiusSq)
+            {
+                MyVector3 sphereProjection = GetClosestPointOnLineSegment(sphere.getCentrepoint, startPoint, endPoint);
+                float projectionToIntersectionLengthSq = radiusSq - sphereLineDistanceSq;
+                MyVector3 projectionToStart = startPoint - sphereProjection;
+                float scalar = projectionToIntersectionLengthSq / projectionToStart.GetVectorLengthSquared();
+                scalar = Mathf.Sqrt(scalar);
+
+                
+                intersectionPoint = sphereProjection + (projectionToStart * scalar);
+                Debug.LogWarning($"{intersectionPoint}");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    #endregion // Static Bounding Intersect functions
 }
