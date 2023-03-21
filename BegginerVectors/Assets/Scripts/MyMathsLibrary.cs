@@ -629,7 +629,7 @@ public class MyMathsLibrary
             return false;
 
         // Calculate our intersection point through interpolation
-        intersectionPoint = MyMathsLibrary.GetLerp(startPoint, endPoint, lowest);
+        intersectionPoint = GetLerp(startPoint, endPoint, lowest);
 
         return true;
     }

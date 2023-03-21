@@ -76,22 +76,26 @@ public class LineTraceTest : MonoBehaviour
 
         boundingSphere = new MyBoundingSphere(sphereTransform);
 
-        sphereLineDistanceSq = MyMathsLibrary.GetShortestDistanceSq(globalStartPosition, globalEndPosition, boundingSphere.getCentrepoint);
-        radiusSq = boundingSphere.getRadius * boundingSphere.getRadius;
-
-        Debug.LogWarning($"centre:ineDSq: {sphereLineDistanceSq}");
-        Debug.LogWarning($"radiusSq: {radiusSq}");
-
-        if (sphereLineDistanceSq < radiusSq)
+        if ((globalStartPosition - boundingSphere.getCentrepoint).GetVectorLength() < boundingSphere.getRadius)
         {
-            sphereProjection = MyMathsLibrary.GetClosestPointOnLineSegment(boundingSphere.getCentrepoint, globalStartPosition, globalEndPosition);
-            projectionToIntersectionLengthSq = radiusSq - sphereLineDistanceSq;
-            projectionToStart = globalStartPosition - sphereProjection;
-            scalar = projectionToIntersectionLengthSq / projectionToStart.GetVectorLengthSquared();
-            scalar = Mathf.Sqrt(scalar);
-            intersectionPoint = sphereProjection + (projectionToStart * scalar);
+            print($"Line/Sphere Intersection! Global point : {globalStartPosition}");
+        }
+        else
+        {
+            sphereLineDistanceSq = MyMathsLibrary.GetShortestDistanceSq(globalStartPosition, globalEndPosition, boundingSphere.getCentrepoint);
+            radiusSq = boundingSphere.getRadius * boundingSphere.getRadius;
 
-            print($"Line/Sphere Intersection! Global point : {intersectionPoint}");
+            if (sphereLineDistanceSq < radiusSq)
+            {
+                sphereProjection = MyMathsLibrary.GetClosestPointOnLineSegment(boundingSphere.getCentrepoint, globalStartPosition, globalEndPosition);
+                projectionToIntersectionLengthSq = radiusSq - sphereLineDistanceSq;
+                projectionToStart = globalStartPosition - sphereProjection;
+                scalar = projectionToIntersectionLengthSq / projectionToStart.GetVectorLengthSquared();
+                scalar = Mathf.Sqrt(scalar);
+                intersectionPoint = sphereProjection + (projectionToStart * scalar);
+
+                print($"Line/Sphere Intersection! Global point : {intersectionPoint}");
+            }
         }
 
         #endregion //Line/Sphere Test
