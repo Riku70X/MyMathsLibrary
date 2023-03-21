@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MyMathsLibrary
 {
@@ -241,9 +240,9 @@ public class MyMathsLibrary
         axis = axis.GetNormalisedVector();
 
         // The Rodrigues Rotation Formula, ensure angle is in radians
-        MyVector3 returnVertex = new((vertex * Mathf.Cos(angle)) +
-                                    (axis * (1 - Mathf.Cos(angle)) * GetDotProduct(vertex, axis)) +
-                                    (GetCrossProduct(axis, vertex) * Mathf.Sin(angle)));
+        MyVector3 returnVertex = (vertex * Mathf.Cos(angle)) +
+                                 (axis * (1 - Mathf.Cos(angle)) * GetDotProduct(vertex, axis)) +
+                                 (GetCrossProduct(axis, vertex) * Mathf.Sin(angle));
         return returnVertex;
     }
 
@@ -637,8 +636,10 @@ public class MyMathsLibrary
 
     public static bool LineIntersectsBoundingSphere(MyBoundingSphere sphere, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
     {
+        // Default value for intersection point is needed
         intersectionPoint = MyVector3.zero;
 
+        // Check if the line starts from within the sphere
         if ((startPoint - sphere.getCentrepoint).GetVectorLength() < sphere.getRadius)
         {
             intersectionPoint = startPoint;
@@ -657,9 +658,7 @@ public class MyMathsLibrary
                 float scalar = projectionToIntersectionLengthSq / projectionToStart.GetVectorLengthSquared();
                 scalar = Mathf.Sqrt(scalar);
 
-                
                 intersectionPoint = sphereProjection + (projectionToStart * scalar);
-                Debug.LogWarning($"{intersectionPoint}");
                 return true;
             }
             else

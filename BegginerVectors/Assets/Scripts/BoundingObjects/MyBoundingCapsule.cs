@@ -63,9 +63,11 @@ public class MyBoundingCapsule
 
         closestPointOnThisCapsule = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnOtherCapsule, bottomCentrepoint, topCentrepoint);
 
-        MyBoundingSphere sphere1 = new(closestPointOnThisCapsule, radius);
-        MyBoundingSphere sphere2 = new(closestPointOnOtherCapsule, otherCapsule.radius);
+        float radiusSumDistanceSq = radius + otherCapsule.radius;
+        radiusSumDistanceSq *= radiusSumDistanceSq;
 
-        return sphere1.isOverlappingWith(sphere2);
+        float closestDistanceSq = (closestPointOnThisCapsule - closestPointOnOtherCapsule).GetVectorLengthSquared();
+
+        return closestDistanceSq < radiusSumDistanceSq;
     }
 }

@@ -74,7 +74,7 @@ public class LineTraceTest : MonoBehaviour
 
             if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
             {
-                print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {new MyVector3(cubeTransform.getTransformMatrix * intersectionPoint)}");
+                print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.getTransformMatrix * intersectionPoint}");
             }
         }
 

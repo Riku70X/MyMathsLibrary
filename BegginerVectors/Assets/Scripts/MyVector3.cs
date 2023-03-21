@@ -13,14 +13,6 @@ public class MyVector3
         this.z = z;
     }
 
-    public MyVector3(MyVector3 vector)
-    {
-        x = vector.x;
-        y = vector.y;
-        z = vector.z;
-    }
-
-
     public static MyVector3 zero => new(0, 0, 0);
 
     public static MyVector3 one => new(1, 1, 1);
