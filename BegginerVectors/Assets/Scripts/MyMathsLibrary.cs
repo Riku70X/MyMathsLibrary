@@ -527,6 +527,15 @@ public class MyMathsLibrary
         return translationMatrix * (rotationMatrix * scaleMatrix);
     }
 
+    public static MyMatrix4x4 GetInverseTransformationMatrix(MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
+    {
+        MyMatrix4x4 inverseScaleMatrix = GetScaleMatrix(scalar).ScaleInverse();
+        MyMatrix4x4 inverseRotationMatrix = GetRotationMatrix(rotation).RotationInverse();
+        MyMatrix4x4 inverseTranslationMatrix = GetTranslationMatrix(translation).TranslationInverse();
+
+        return inverseScaleMatrix * (inverseRotationMatrix * inverseTranslationMatrix);
+    }
+
     #endregion // Get Transform Matrix functions
 
     #endregion // Static Matrix4x4 functions
