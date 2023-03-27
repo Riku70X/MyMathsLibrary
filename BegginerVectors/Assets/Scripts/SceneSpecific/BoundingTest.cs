@@ -48,7 +48,7 @@ public class BoundingTest : MonoBehaviour
         capsule2Transform = Capsule2.GetComponent<MyTransformComponent>();
     }
 
-    // Update is called once per frame
+    // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
         boundingBox1 = new MyAABB(cube1Transform);
