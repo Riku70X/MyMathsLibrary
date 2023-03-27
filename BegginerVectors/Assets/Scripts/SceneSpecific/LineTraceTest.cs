@@ -12,10 +12,6 @@ public class LineTraceTest : MonoBehaviour
     MyAABB localBox;
     MyAABB globalBox;
 
-    MyMatrix4x4 scaleMatrix;
-    MyMatrix4x4 rotationMatrix;
-    MyMatrix4x4 translationMatrix;
-
     MyMatrix4x4 inverseTransformMatrix;
 
     MyVector3 localStartPosition;
@@ -24,14 +20,6 @@ public class LineTraceTest : MonoBehaviour
     GameObject Sphere;
     MyTransformComponent sphereTransform;
     MyBoundingSphere boundingSphere;
-
-    float sphereLineDistanceSq;
-    float radiusSq;
-
-    MyVector3 sphereProjection;
-    float projectionToIntersectionLengthSq;
-    MyVector3 projectionToStart;
-    float scalar;
 
     LineTraceTest()
     {

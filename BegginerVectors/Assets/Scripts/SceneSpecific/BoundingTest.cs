@@ -68,11 +68,7 @@ public class BoundingTest : MonoBehaviour
 
             // if line intersects the new AABB, it must be close to the object. Inverse transform the line and compare it with the true local AABB.
 
-            //scaleMatrix = MyMathsLibrary.GetScaleMatrix(cube1Transform.scale);
-            //rotationMatrix = MyMathsLibrary.GetRotationMatrix(cubeTransform.rotation);
-            //translationMatrix = MyMathsLibrary.GetTranslationMatrix(cubeTransform.position);
-
-            //inverseTransformMatrix = scaleMatrix.ScaleInverse() * rotationMatrix.RotationInverse() * translationMatrix.TranslationInverse();
+            MyMatrix4x4 inverseTransformMatrix = MyMathsLibrary.GetInverseTransformationMatrix();
 
             //localStartPosition = inverseTransformMatrix * globalStartPosition;
             //localEndPosition = inverseTransformMatrix * globalEndPosition;
