@@ -64,19 +64,7 @@ public class BoundingTest : MonoBehaviour
 
         if (boundingBox1.isOverlappingWith(boundingBox2))
         {
-            print("Box/Box Near!");
-
-            // if line intersects the new AABB, it must be close to the object. Inverse transform the line and compare it with the true local AABB.
-
-            MyMatrix4x4 inverseTransformMatrix = MyMathsLibrary.GetInverseTransformationMatrix();
-
-            //localStartPosition = inverseTransformMatrix * globalStartPosition;
-            //localEndPosition = inverseTransformMatrix * globalEndPosition;
-
-            //if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
-            //{
-            //    print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.getTransformMatrix * intersectionPoint}");
-            //}
+            print("Box/Box Intersection!");
         }
 
         if (boundingBox1.isOverlappingWith(boundingSphere1))

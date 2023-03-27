@@ -529,9 +529,9 @@ public class MyMathsLibrary
 
     public static MyMatrix4x4 GetInverseTransformationMatrix(MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
     {
-        MyMatrix4x4 inverseScaleMatrix = GetScaleMatrix(scalar).ScaleInverse();
-        MyMatrix4x4 inverseRotationMatrix = GetRotationMatrix(rotation).RotationInverse();
-        MyMatrix4x4 inverseTranslationMatrix = GetTranslationMatrix(translation).TranslationInverse();
+        MyMatrix4x4 inverseScaleMatrix = GetScaleMatrix(scalar).GetScaleInverse();
+        MyMatrix4x4 inverseRotationMatrix = GetRotationMatrix(rotation).GetRotationInverse();
+        MyMatrix4x4 inverseTranslationMatrix = GetTranslationMatrix(translation).GetTranslationInverse();
 
         return inverseScaleMatrix * (inverseRotationMatrix * inverseTranslationMatrix);
     }

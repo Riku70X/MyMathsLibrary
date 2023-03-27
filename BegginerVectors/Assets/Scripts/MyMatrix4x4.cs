@@ -1,3 +1,4 @@
+using UnityEditorInternal;
 using UnityEngine;
 
 public class MyMatrix4x4
@@ -11,7 +12,7 @@ public class MyMatrix4x4
         values[0, 0] = column1.x;
         values[1, 0] = column1.y;
         values[2, 0] = column1.z;
-        values[3, 0] = column2.w;
+        values[3, 0] = column1.w;
 
         values[0, 1] = column2.x;
         values[1, 1] = column2.y;
@@ -75,33 +76,49 @@ public class MyMatrix4x4
 
     public static MyMatrix4x4 operator *(MyMatrix4x4 lhs, MyMatrix4x4 rhs) => MyMathsLibrary.MultiplyMatrices4x4by4x4(lhs, rhs);
 
-    public MyVector4 GetRow(int row)
+    public MyVector4 GetRow(int rowIndex)
     {
         MyVector4 returnVector = new(0, 0, 0, 0)
         {
-            x = values[row, 0],
-            y = values[row, 1],
-            z = values[row, 2],
-            w = values[row, 3]
+            x = values[rowIndex, 0],
+            y = values[rowIndex, 1],
+            z = values[rowIndex, 2],
+            w = values[rowIndex, 3]
         };
 
         return returnVector;
     }
 
-    public MyVector4 GetColumn(int column)
+    public void SetRow(int rowIndex, MyVector4 row)
+    {
+        values[rowIndex, 0] = row.x;
+        values[rowIndex, 1] = row.y;
+        values[rowIndex, 2] = row.z;
+        values[rowIndex, 3] = row.w;
+    }
+
+    public MyVector4 GetColumn(int columnIndex)
     {
         MyVector4 returnVector = new(0, 0, 0, 0)
         {
-            x = values[0, column],
-            y = values[1, column],
-            z = values[2, column],
-            w = values[3, column]
+            x = values[0, columnIndex],
+            y = values[1, columnIndex],
+            z = values[2, columnIndex],
+            w = values[3, columnIndex]
         };
 
         return returnVector;
     }
 
-    public MyMatrix4x4 ScaleInverse()
+    public void SetColumn(int columnIndex, MyVector4 column)
+    {
+        values[0, columnIndex] = column.x;
+        values[1, columnIndex] = column.y;
+        values[2, columnIndex] = column.z;
+        values[3, columnIndex] = column.w;
+    }
+
+    public MyMatrix4x4 GetScaleInverse()
     {
         MyMatrix4x4 returnMatrix = identity;
         returnMatrix.values[0, 0] = 1 / values[0, 0];
@@ -110,15 +127,36 @@ public class MyMatrix4x4
         return returnMatrix;
     }
 
-    public MyMatrix4x4 RotationInverse() => new MyMatrix4x4(GetRow(0), GetRow(1), GetRow(2), GetRow(3));
+    public MyMatrix4x4 GetRotationInverse() => new MyMatrix4x4(GetRow(0), GetRow(1), GetRow(2), GetRow(3));
 
-    public MyMatrix4x4 TranslationInverse()
+    public MyMatrix4x4 GetTranslationInverse()
     {
         MyMatrix4x4 returnMatrix = identity;
 
         returnMatrix.values[0, 3] = -values[0, 3];
         returnMatrix.values[1, 3] = -values[1, 3];
         returnMatrix.values[2, 3] = -values[2, 3];
+
+        return returnMatrix;
+    }
+
+    public MyMatrix4x4 GetTRInverse()
+    {
+        MyMatrix4x4 returnMatrix = identity;
+
+        // transpose the 3x3 section
+
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                returnMatrix.values[i, j] = values[j, i];
+
+        // set the last column to -transpose(r3)*t
+
+        returnMatrix.SetColumn(3, -(returnMatrix * GetColumn(3)));
+
+        // set the bottom right corner from -1 back to 1
+
+        returnMatrix.values[3, 3] = 1;
 
         return returnMatrix;
     }

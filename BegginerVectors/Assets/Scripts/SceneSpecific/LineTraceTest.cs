@@ -50,6 +50,8 @@ public class LineTraceTest : MonoBehaviour
 
         if (MyMathsLibrary.LineIntersectsAABB(globalBox, globalStartPosition, globalEndPosition, out intersectionPoint))
         {
+            print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.getTransformMatrix * intersectionPoint}");
+
             // if line intersects the new AABB, it must be close to the object. Inverse transform the line and compare it with the true local AABB.
             inverseTransformMatrix = MyMathsLibrary.GetInverseTransformationMatrix(cubeTransform.scale, cubeTransform.rotation, cubeTransform.position);
 
@@ -58,7 +60,7 @@ public class LineTraceTest : MonoBehaviour
 
             if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
             {
-                print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.getTransformMatrix * intersectionPoint}");
+                print($"Line/Cube Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.getTransformMatrix * intersectionPoint}");
             }
         }
 
