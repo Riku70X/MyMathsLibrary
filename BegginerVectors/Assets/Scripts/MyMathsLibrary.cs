@@ -500,10 +500,9 @@ public class MyMathsLibrary
         return pitchMatrix * (yawMatrix * rollMatrix);
     }
 
-    public static MyMatrix4x4 GetRotationMatrixUsingQuat(MyVector3 eulerAngles)
+    public static MyMatrix4x4 GetRotationMatrixUsingQuat(MyQuat rotation)
     {
-        MyQuat quaternion = eulerAngles.ConvertEulerToQuaternion();
-        MyMatrix4x4 matrix = quaternion.ConvertToRotationMatrix();
+        MyMatrix4x4 matrix = rotation.ConvertToRotationMatrix();
         return matrix;
     }
 
@@ -518,10 +517,10 @@ public class MyMathsLibrary
         return translationMatrix * (rotationMatrix * scaleMatrix);
     }
 
-    public static MyMatrix4x4 GetTransformationMatrixUsingQuat(MyVector3 scalar, MyVector3 rotation, MyVector3 translation)
+    public static MyMatrix4x4 GetTransformationMatrixUsingQuat(MyVector3 scalar, MyQuat rotation, MyVector3 translation)
     {
         MyMatrix4x4 scaleMatrix = GetScaleMatrix(scalar);
-        MyMatrix4x4 rotationMatrix = GetRotationMatrixUsingQuat(rotation);
+        MyMatrix4x4 rotationMatrix = rotation.ConvertToRotationMatrix();
         MyMatrix4x4 translationMatrix = GetTranslationMatrix(translation);
 
         return translationMatrix * (rotationMatrix * scaleMatrix);

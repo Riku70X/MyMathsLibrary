@@ -4,9 +4,10 @@ using UnityEngine;
 public class MyTransformComponent : MonoBehaviour
 {
     public MyVector3 position;
-    public MyVector3 rotation;
+    public MyVector3 eulerAngles;
     public MyVector3 scale;
 
+    MyQuat rotation;
     MyMatrix4x4 transformMatrix;
 
     MeshFilter meshFilter;
@@ -21,8 +22,11 @@ public class MyTransformComponent : MonoBehaviour
     MyTransformComponent()
     {
         position = MyVector3.zero;
-        rotation = MyVector3.zero;
+        eulerAngles = MyVector3.zero;
         scale = MyVector3.one;
+
+        rotation = MyQuat.identity;
+        transformMatrix = MyMatrix4x4.identity;
     }
 
     // Start is called before the first frame update
@@ -40,6 +44,10 @@ public class MyTransformComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rotation = eulerAngles.ConvertEulerToQuaternion();
+
+        // put rotation + angularforce here
+
         transformMatrix = MyMathsLibrary.GetTransformationMatrixUsingQuat(scale, rotation, position);
 
         for (int i = 0; i < localVerticesCoordinates.Length; i++)
@@ -52,5 +60,8 @@ public class MyTransformComponent : MonoBehaviour
         // These final steps are sometimes necessary to make the mesh look correct
         meshFilter.sharedMesh.RecalculateNormals();
         meshFilter.sharedMesh.RecalculateBounds();
+
+        // fix dirty variables
+        // put eulerAngles = rotation->euler
     }
 }

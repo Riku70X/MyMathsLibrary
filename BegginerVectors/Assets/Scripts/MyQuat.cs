@@ -26,6 +26,8 @@ public class MyQuat
         vectorComponent = new MyVector3(vertex.x, vertex.y, vertex.z);
     }
 
+    public static MyQuat identity => new(1, 0, 0, 0);
+
     public override string ToString() => ($"({w}, {vectorComponent})");
 
     public static MyQuat operator *(MyQuat lhs, MyQuat rhs) => MyMathsLibrary.MultiplyQuaternions(lhs, rhs);

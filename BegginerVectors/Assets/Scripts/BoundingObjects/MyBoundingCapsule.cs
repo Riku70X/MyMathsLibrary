@@ -14,7 +14,7 @@ public class MyBoundingCapsule
     {
         // note: the capsule will not follow the orientation of the object if it is rolled
 
-        MyVector3 forwardVector = transform.rotation.ConvertEulerToDirection();
+        MyVector3 forwardVector = transform.eulerAngles.ConvertEulerToDirection();
         MyVector3 rightVector = MyMathsLibrary.GetCrossProduct(MyVector3.up, forwardVector, true);
         MyVector3 upVector = MyMathsLibrary.GetCrossProduct(forwardVector, rightVector, true);
 

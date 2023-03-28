@@ -372,7 +372,7 @@ MonoBehaviour:
     x: 0
     y: 2
     z: 0
-  rotation:
+  eulerAngles:
     x: 0
     y: 0
     z: 0
@@ -380,7 +380,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
-  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 3}
+  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &672186346
 Transform:
   m_ObjectHideFlags: 0
@@ -609,7 +609,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
-  rotation:
+  eulerAngles:
     x: 0
     y: 0
     z: 0
@@ -617,7 +617,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 3}
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1069377579
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -882,7 +882,7 @@ MonoBehaviour:
     x: -2
     y: 2
     z: 0
-  rotation:
+  eulerAngles:
     x: 0
     y: 0
     z: 0
@@ -890,7 +890,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
-  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 3}
+  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1334887083
 Transform:
   m_ObjectHideFlags: 0
@@ -1647,7 +1647,7 @@ MonoBehaviour:
     x: -2
     y: 0
     z: 0
-  rotation:
+  eulerAngles:
     x: 0
     y: 0
     z: 0
@@ -1655,7 +1655,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 3}
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1791584792
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1806,7 +1806,7 @@ MonoBehaviour:
     x: -2
     y: -2
     z: 0
-  rotation:
+  eulerAngles:
     x: 0
     y: 0
     z: 0
@@ -1814,7 +1814,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
-  mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 3}
+  mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1881025668
 Transform:
   m_ObjectHideFlags: 0
@@ -1915,7 +1915,7 @@ MonoBehaviour:
     x: 0
     y: -2
     z: 0
-  rotation:
+  eulerAngles:
     x: 0
     y: 0
     z: 0
@@ -1923,7 +1923,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
-  mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 3}
+  mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1954687391
 Transform:
   m_ObjectHideFlags: 0
