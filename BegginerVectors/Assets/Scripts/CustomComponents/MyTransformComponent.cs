@@ -7,8 +7,11 @@ public class MyTransformComponent : MonoBehaviour
     public MyVector3 eulerAngles;
     public MyVector3 scale;
 
-    MyQuat rotation;
+    [HideInInspector] public MyQuat rotation;
     MyMatrix4x4 transformMatrix;
+
+    [HideInInspector] public bool spinning;
+    [HideInInspector] public MyQuat newRotation;
 
     MeshFilter meshFilter;
     public Mesh mesh; // NEEDS TO BE PUBLIC
@@ -27,6 +30,17 @@ public class MyTransformComponent : MonoBehaviour
 
         rotation = MyQuat.identity;
         transformMatrix = MyMatrix4x4.identity;
+
+        spinning = false;
+    }
+
+    void CalculateAngularVelocity()
+    {
+        if (spinning)
+        {
+            rotation = newRotation;
+            spinning = false;
+        }
     }
 
     // Start is called before the first frame update
@@ -46,7 +60,9 @@ public class MyTransformComponent : MonoBehaviour
     {
         rotation = eulerAngles.ConvertEulerToQuaternion();
 
+        // The angularVelocity will only increase on fixed frame updates
         // put rotation + angularforce here
+        CalculateAngularVelocity();
 
         transformMatrix = MyMathsLibrary.GetTransformationMatrixUsingQuat(scale, rotation, position);
 
@@ -61,7 +77,7 @@ public class MyTransformComponent : MonoBehaviour
         meshFilter.sharedMesh.RecalculateNormals();
         meshFilter.sharedMesh.RecalculateBounds();
 
-        // fix dirty variables
-        // put eulerAngles = rotation->euler
+        // fix dirty variables (currently prevents manually rotating on the y-axis)
+        eulerAngles = rotation.ConvertToEulerAngles();
     }
 }

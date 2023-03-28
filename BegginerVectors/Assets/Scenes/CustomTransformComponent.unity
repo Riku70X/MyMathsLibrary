@@ -380,6 +380,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  spinning: 0
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &672186346
 Transform:
@@ -617,6 +618,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  spinning: 0
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1069377579
 MeshRenderer:
@@ -890,6 +892,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  spinning: 0
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1334887083
 Transform:
@@ -1655,6 +1658,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  spinning: 0
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1791584792
 MeshRenderer:
@@ -1814,6 +1818,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  spinning: 0
   mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1881025668
 Transform:
@@ -1923,6 +1928,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  spinning: 0
   mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1954687391
 Transform:

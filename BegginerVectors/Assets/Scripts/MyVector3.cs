@@ -83,6 +83,8 @@ public class MyVector3
         // https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
         // https://math.stackexchange.com/questions/2975109/how-to-convert-euler-angles-to-quaternions-and-get-the-same-euler-angles-back-fr
 
+        // sp = sin(pitch), etc.
+
         float sp = Mathf.Sin(y * 0.5f);
         float cp = Mathf.Cos(y * 0.5f);
         float sy = Mathf.Sin(z * 0.5f);

@@ -34,8 +34,9 @@ public class MyRigidBodyComponent : MonoBehaviour
         // Angular Motion
         angularAcceleration = torque / inertia;
         angularVelocity += angularAcceleration * Time.fixedDeltaTime;
-        MyQuat q = (angularVelocity * Time.fixedDeltaTime).ConvertEulerToQuaternion();
-        MyQuat targetOrientation = q * myTransform.eulerAngles.ConvertEulerToQuaternion();
-
+        MyQuat quaternionVelocity = (angularVelocity * Time.fixedDeltaTime).ConvertEulerToQuaternion();
+        myTransform.newRotation = quaternionVelocity * myTransform.rotation;
+        if (myTransform.newRotation != myTransform.rotation)
+            myTransform.spinning = true;
     }
 }

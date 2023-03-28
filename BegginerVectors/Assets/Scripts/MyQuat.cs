@@ -53,6 +53,33 @@ public class MyQuat
 
     public MyQuat GetInverse() => new(w, -vectorComponent.x, -vectorComponent.y, -vectorComponent.z);
 
+    public MyVector3 ConvertToEulerAngles()
+    {
+        // Quaternion to Euler Angle code adapted from here:
+        // https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+        MyVector3 eulerAngles = MyVector3.zero;
+
+        float x = vectorComponent.x; float y = vectorComponent.y; float z = vectorComponent.z;
+
+        // roll (x-axis rotation)
+        float sinr_cosp = 2 * (w * x + y * z);
+        float cosr_cosp = 1 - 2 * (x * x + y * y);
+        eulerAngles.x = Mathf.Atan2(sinr_cosp, cosr_cosp);
+
+        // pitch (y-axis rotation)
+        float sinp = Mathf.Sqrt(1 + 2 * (w * y - x * z));
+        float cosp = Mathf.Sqrt(1 - 2 * (w * y - x * z));
+        eulerAngles.y = 2 * Mathf.Atan2(sinp, cosp) - Mathf.PI / 2;
+
+        // yaw (z-axis rotation)
+        float siny_cosp = 2 * (w * z + x * y);
+        float cosy_cosp = 1 - 2 * (y * y + z * z);
+        eulerAngles.z = Mathf.Atan2(siny_cosp, cosy_cosp);
+
+        return eulerAngles;
+    }
+
     public MyMatrix4x4 ConvertToRotationMatrix()
     {
         // Quaternion to Rotation code made using a formula found from here:
