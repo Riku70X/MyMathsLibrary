@@ -14,9 +14,9 @@ public class MyVector4
         this.w = w;
     }
 
-    public static MyVector4 zero => new MyVector4(0, 0, 0, 0);
+    public static MyVector4 zero => new(0, 0, 0, 0);
 
-    public static MyVector4 one => new MyVector4(1, 1, 1, 1);
+    public static MyVector4 one => new(1, 1, 1, 1);
 
     public override string ToString() => ($"({x}, {y}, {z}, {w})");
 

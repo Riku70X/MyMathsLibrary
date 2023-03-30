@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class MyBoundingCapsule : MyBoundingObject
+public class MyCapsuleCollider : MyCollider // Bounding Capsule
 {
-    MyVector3 topCentrepoint;
-    MyVector3 bottomCentrepoint;
-    float radius;
+    readonly MyVector3 topCentrepoint;
+    readonly MyVector3 bottomCentrepoint;
+    readonly float radius;
 
     public MyVector3 getTopCentrepoint => topCentrepoint;
     public MyVector3 getBottomCentrepoint => bottomCentrepoint;
     public float getRadius => radius;
 
-    public MyBoundingCapsule(MyTransformComponent transform, float height, float radius)
+    public MyCapsuleCollider(MyTransformComponent transform, float height, float radius)
     {
         // note: the capsule will not follow the orientation of the object if it is rolled
 
@@ -26,7 +26,7 @@ public class MyBoundingCapsule : MyBoundingObject
         this.radius = radius;
     }
 
-    public bool isOverlappingWith(MyBoundingSphere sphere)
+    public bool IsOverlappingWith(MySphereCollider sphere)
     {
         float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(bottomCentrepoint, topCentrepoint, sphere.getCentrepoint);
 
@@ -35,7 +35,7 @@ public class MyBoundingCapsule : MyBoundingObject
         return closestDistanceSq < radiusSumDistanceSq;
     }
 
-    public bool isOverlappingWith(MyBoundingCapsule otherCapsule)
+    public bool IsOverlappingWith(MyCapsuleCollider otherCapsule)
     {
         // code adapted from a formula found at https://wickedengine.net/2020/04/26/capsule-collision-detection/
 

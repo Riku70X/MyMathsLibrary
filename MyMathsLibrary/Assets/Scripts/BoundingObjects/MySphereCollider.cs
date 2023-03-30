@@ -1,32 +1,22 @@
 using UnityEngine;
 
-public class MyBoundingSphere : MyBoundingObject
+public class MySphereCollider : MonoBehaviour // Bounding Sphere
 {
+    MyTransformComponent myTransform;
+
     MyVector3 centrepoint;
     float radius;
 
     public MyVector3 getCentrepoint => centrepoint;
     public float getRadius => radius;
 
-    public MyBoundingSphere(MyTransformComponent transform, float radius)
+    void Start()
     {
         centrepoint = transform.position;
-        this.radius = radius;
+        radius = (centrepoint - myTransform.getGlobalVerticesCoordinates[0]).GetVectorLength();
     }
 
-    public MyBoundingSphere(MyTransformComponent transform)
-    {
-        centrepoint = transform.position;
-        radius = (centrepoint - transform.getGlobalVerticesCoordinates[0]).GetVectorLength();
-    }
-
-    public MyBoundingSphere(MyVector3 centrepoint, float radius)
-    {
-        this.centrepoint = centrepoint;
-        this.radius = radius;
-    }
-
-    public bool isOverlappingWith(MyAABB box)
+    public bool IsOverlappingWith(MyAABBCollider box)
     {
         // Code adapted from Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
         // MAKE A PROPER ZOTERO REFERENCE FOR THIS
@@ -64,7 +54,7 @@ public class MyBoundingSphere : MyBoundingObject
         return false;
     }
 
-    public bool isOverlappingWith(MyBoundingSphere otherSphere)
+    public bool IsOverlappingWith(MySphereCollider otherSphere)
     {
         float radiusSumDistanceSq = radius + otherSphere.radius;
         radiusSumDistanceSq *= radiusSumDistanceSq;
@@ -74,7 +64,7 @@ public class MyBoundingSphere : MyBoundingObject
         return centreDistanceSq < radiusSumDistanceSq;
     }
 
-    public bool isOverlappingWith(MyBoundingCapsule capsule)
+    public bool IsOverlappingWith(MyCapsuleCollider capsule)
     {
         float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(capsule.getBottomCentrepoint, capsule.getTopCentrepoint, centrepoint);
 

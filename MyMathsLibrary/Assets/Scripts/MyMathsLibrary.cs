@@ -313,7 +313,7 @@ public class MyMathsLibrary
 
     public static MyVector3 RotateVectorUsingQuat(MyVector3 vertex, MyQuat rotationQuat)
     {
-        MyQuat startVertexQuat = new MyQuat(vertex);
+        MyQuat startVertexQuat = new(vertex);
 
         MyQuat halfRotatedVertexQuat = rotationQuat * startVertexQuat;
 
@@ -487,7 +487,7 @@ public class MyMathsLibrary
 
     #region Get Transform Matrix functions
 
-    public static MyMatrix4x4 GetScaleMatrix(MyVector3 scalar) => new MyMatrix4x4(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0));
+    public static MyMatrix4x4 GetScaleMatrix(MyVector3 scalar) => new(new MyVector3(scalar.x, 0, 0), new MyVector3(0, scalar.y, 0), new MyVector3(0, 0, scalar.z), new MyVector3(0, 0, 0));
 
     public static MyMatrix4x4 GetRotationMatrix(MyVector3 eulerAngles)
     {
@@ -543,12 +543,13 @@ public class MyMathsLibrary
 
     public static MyQuat MultiplyQuaternions(MyQuat quatA, MyQuat quatB)
     {
-        MyQuat returnQuat = new(0, 0, 0, 0);
+        MyQuat returnQuat = new(0, 0, 0, 0)
+        {
+            w = (quatA.w * quatB.w) - GetDotProduct(quatA.vectorComponent, quatB.vectorComponent),
 
-        returnQuat.w = (quatA.w * quatB.w) - GetDotProduct(quatA.vectorComponent, quatB.vectorComponent);
-
-        returnQuat.vectorComponent = (quatA.vectorComponent * quatB.w) + (quatB.vectorComponent * quatA.w) +
-                                    GetCrossProduct(quatA.vectorComponent, quatB.vectorComponent);
+            vectorComponent = (quatA.vectorComponent * quatB.w) + (quatB.vectorComponent * quatA.w) +
+                                    GetCrossProduct(quatA.vectorComponent, quatB.vectorComponent)
+        };
 
         return returnQuat;
     }
@@ -568,7 +569,7 @@ public class MyMathsLibrary
 
     #region Static Bounding Intersect functions
 
-    public static bool AxisIntersectsAABB(MyVector3 axis, MyAABB box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
+    public static bool AxisIntersectsAABB(MyVector3 axis, MyAABBCollider box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
     {
         // Calculate our Minimum and Maximum based on the current axis
         float minimum = 0.0f, maximum = 1.0f;
@@ -617,7 +618,7 @@ public class MyMathsLibrary
         return true;
     }
 
-    public static bool LineIntersectsAABB(MyAABB box, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    public static bool LineIntersectsAABB(MyAABBCollider box, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
     {
         // Define our initial lowest and highest
         float lowest = 0.0f;
@@ -642,7 +643,7 @@ public class MyMathsLibrary
         return true;
     }
 
-    public static bool LineIntersectsBoundingSphere(MyBoundingSphere sphere, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    public static bool LineIntersectsBoundingSphere(MySphereCollider sphere, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
     {
         // Default value for intersection point is needed
         intersectionPoint = MyVector3.zero;

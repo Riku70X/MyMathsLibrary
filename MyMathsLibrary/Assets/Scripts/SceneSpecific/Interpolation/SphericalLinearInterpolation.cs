@@ -9,10 +9,10 @@ public class SphericalLinearInterpolation : MonoBehaviour
 
     MyQuat rotationQuaternion;
 
-    MyQuat destinationQuaternion;
+    readonly MyQuat destinationQuaternion;
 
-    MyVector3 startingOrientation;
-    MyVector3 targetOrientation;
+    readonly MyVector3 startingOrientation;
+    readonly MyVector3 targetOrientation;
 
     SphericalLinearInterpolation()
     {

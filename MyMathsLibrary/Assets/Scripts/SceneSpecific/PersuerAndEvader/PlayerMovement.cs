@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    MyVector3 constantUpVector;
+    readonly MyVector3 constantUpVector;
     MyVector3 relativeForwardVector;
     MyVector3 relativeForwardVelocity;
     MyVector3 relativeRightVector;

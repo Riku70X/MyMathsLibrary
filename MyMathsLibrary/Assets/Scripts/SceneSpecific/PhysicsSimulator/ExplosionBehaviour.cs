@@ -3,8 +3,8 @@ using UnityEngine;
 public class ExplosionBehaviour : MonoBehaviour
 {
     MyTransformComponent myTransform;
-    MyBoundingSphere boundingSphere;
-    MyBoundingObject[] objects;
+    MySphereCollider boundingSphere;
+    MyCollider[] objects;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +15,5 @@ public class ExplosionBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        boundingSphere = new(myTransform);
     }
 }

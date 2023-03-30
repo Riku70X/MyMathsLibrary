@@ -3,43 +3,39 @@ using UnityEngine;
 public class BoundingTest : MonoBehaviour
 {
     GameObject Cube1;
-    MyTransformComponent cube1Transform;
-    MyAABB boundingBox1;
+    MyAABBCollider boundingBox1;
 
     GameObject Cube2;
-    MyTransformComponent cube2Transform;
-    MyAABB boundingBox2;
+    MyAABBCollider boundingBox2;
 
     GameObject Sphere1;
-    MyTransformComponent sphere1Transform;
-    MyBoundingSphere boundingSphere1;
+    MySphereCollider boundingSphere1;
 
     GameObject Sphere2;
-    MyTransformComponent sphere2Transform;
-    MyBoundingSphere boundingSphere2;
+    MySphereCollider boundingSphere2;
 
     GameObject Capsule1;
     MyTransformComponent capsule1Transform;
-    MyBoundingCapsule boundingCapsule1;
+    MyCapsuleCollider boundingCapsule1;
 
     GameObject Capsule2;
     MyTransformComponent capsule2Transform;
-    MyBoundingCapsule boundingCapsule2;
+    MyCapsuleCollider boundingCapsule2;
 
     // Start is called before the first frame update
     void Start()
     {
         Cube1 = GameObject.Find("Cube1");
-        cube1Transform = Cube1.GetComponent<MyTransformComponent>();
+        boundingBox1 = Cube1.GetComponent<MyAABBCollider>();
 
         Cube2 = GameObject.Find("Cube2");
-        cube2Transform = Cube2.GetComponent<MyTransformComponent>();
+        boundingBox2 = Cube2.GetComponent<MyAABBCollider>();
 
         Sphere1 = GameObject.Find("Sphere1");
-        sphere1Transform = Sphere1.GetComponent<MyTransformComponent>();
+        boundingSphere1 = Sphere1.GetComponent<MySphereCollider>();
 
         Sphere2 = GameObject.Find("Sphere2");
-        sphere2Transform = Sphere2.GetComponent<MyTransformComponent>();
+        boundingSphere2 = Sphere2.GetComponent<MySphereCollider>();
 
         Capsule1 = GameObject.Find("Capsule1");
         capsule1Transform = Capsule1.GetComponent<MyTransformComponent>();
@@ -51,48 +47,42 @@ public class BoundingTest : MonoBehaviour
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
-        boundingBox1 = new MyAABB(cube1Transform);
-        boundingBox2 = new MyAABB(cube2Transform);
+        boundingBox1.ShowForSeconds(Time.deltaTime);
 
-        boundingBox1.showForSeconds(Time.deltaTime);
+        boundingCapsule1 = new MyCapsuleCollider(capsule1Transform, 2, .5f);
+        boundingCapsule2 = new MyCapsuleCollider(capsule2Transform, 2, .5f);
 
-        boundingSphere1 = new MyBoundingSphere(sphere1Transform);
-        boundingSphere2 = new MyBoundingSphere(sphere2Transform);
-
-        boundingCapsule1 = new MyBoundingCapsule(capsule1Transform, 2, .5f);
-        boundingCapsule2 = new MyBoundingCapsule(capsule2Transform, 2, .5f);
-
-        if (boundingBox1.isOverlappingWith(boundingBox2))
+        if (boundingBox1.IsOverlappingWith(boundingBox2))
         {
             print("Box/Box Intersection!");
         }
 
-        if (boundingBox1.isOverlappingWith(boundingSphere1))
+        if (boundingBox1.IsOverlappingWith(boundingSphere1))
         {
             print("Box/Sphere Intersection!");
         }
 
-        if (boundingSphere1.isOverlappingWith(boundingBox1))
+        if (boundingSphere1.IsOverlappingWith(boundingBox1))
         {
             print("Sphere/Box Intersection!");
         }
 
-        if (boundingSphere1.isOverlappingWith(boundingSphere2))
+        if (boundingSphere1.IsOverlappingWith(boundingSphere2))
         {
             print("Sphere/Sphere Intersection!");
         }
 
-        if (boundingSphere1.isOverlappingWith(boundingCapsule1))
+        if (boundingSphere1.IsOverlappingWith(boundingCapsule1))
         {
             print("Sphere/Capsule Intersection!");
         }
 
-        if (boundingCapsule1.isOverlappingWith(boundingSphere1))
+        if (boundingCapsule1.IsOverlappingWith(boundingSphere1))
         {
             print("Capsule/Sphere Intersection!");
         }
 
-        if (boundingCapsule1.isOverlappingWith(boundingCapsule2))
+        if (boundingCapsule1.IsOverlappingWith(boundingCapsule2))
         {
             print("Capsule/Capsule Intersection!");
         }

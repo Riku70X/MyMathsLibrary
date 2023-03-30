@@ -126,7 +126,7 @@ public class MyMatrix4x4
         return returnMatrix;
     }
 
-    public MyMatrix4x4 GetRotationInverse() => new MyMatrix4x4(GetRow(0), GetRow(1), GetRow(2), GetRow(3));
+    public MyMatrix4x4 GetRotationInverse() => new(GetRow(0), GetRow(1), GetRow(2), GetRow(3));
 
     public MyMatrix4x4 GetTranslationInverse()
     {

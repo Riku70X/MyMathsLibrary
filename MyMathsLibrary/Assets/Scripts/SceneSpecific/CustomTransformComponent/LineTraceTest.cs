@@ -9,17 +9,15 @@ public class LineTraceTest : MonoBehaviour
 
     GameObject Cube;
     MyTransformComponent cubeTransform;
-    MyAABB localBox;
-    MyAABB globalBox;
+    //MyAABB localBox; The code pertaining to this variable can be restored once 
+    MyAABBCollider globalBox;
 
     MyMatrix4x4 inverseTransformMatrix;
-
     MyVector3 localStartPosition;
     MyVector3 localEndPosition;
 
     GameObject Sphere;
-    MyTransformComponent sphereTransform;
-    MyBoundingSphere boundingSphere;
+    MySphereCollider boundingSphere;
 
     LineTraceTest()
     {
@@ -32,10 +30,11 @@ public class LineTraceTest : MonoBehaviour
     {
         Cube = GameObject.Find("Cube1");
         cubeTransform = Cube.GetComponent<MyTransformComponent>();
-        localBox = new MyAABB(cubeTransform);
+        //localBox = new MyAABB(cubeTransform);
+        globalBox = Cube.GetComponent<MyAABBCollider>();
 
         Sphere = GameObject.Find("Sphere1");
-        sphereTransform = Sphere.GetComponent<MyTransformComponent>();
+        boundingSphere = Sphere.GetComponent<MySphereCollider>();
     }
 
     // Update is called once per frame
@@ -45,36 +44,34 @@ public class LineTraceTest : MonoBehaviour
 
         #region Line/Box Test
 
-        // Create a new AABB around the transformed Cube and check if the line intersects it
-        globalBox = new MyAABB(cubeTransform);
+        //// Create a new AABB around the transformed Cube and check if the line intersects it
+        //globalBox = new MyAABB(cubeTransform);
 
         if (MyMathsLibrary.LineIntersectsAABB(globalBox, globalStartPosition, globalEndPosition, out intersectionPoint))
         {
-            print($"Line/Box Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.getTransformMatrix * intersectionPoint}");
+            print($"Line/Box Intersection! Global point : {intersectionPoint}");
 
             // if line intersects the new AABB, it must be close to the object. Inverse transform the line and compare it with the true local AABB.
-            inverseTransformMatrix = MyMathsLibrary.GetInverseTransformationMatrix(cubeTransform.scale, cubeTransform.eulerAngles, cubeTransform.position);
+            //inverseTransformMatrix = MyMathsLibrary.GetInverseTransformationMatrix(cubeTransform.scale, cubeTransform.eulerAngles, cubeTransform.position);
 
-            localStartPosition = inverseTransformMatrix * globalStartPosition;
-            localEndPosition = inverseTransformMatrix * globalEndPosition;
+            //localStartPosition = inverseTransformMatrix * globalStartPosition;
+            //localEndPosition = inverseTransformMatrix * globalEndPosition;
 
-            if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
-            {
-                print($"Line/Cube Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.getTransformMatrix * intersectionPoint}");
-            }
+            //if (MyMathsLibrary.LineIntersectsAABB(localBox, localStartPosition, localEndPosition, out intersectionPoint))
+            //{
+            //    print($"Line/Cube Intersection! Local point : {intersectionPoint}, Global point : {cubeTransform.getTransformMatrix * intersectionPoint}");
+            //}
         }
 
-        #endregion //Line/Box Test
+        #endregion // Line/Box Test
 
         #region Line/Sphere Test
-
-        boundingSphere = new MyBoundingSphere(sphereTransform);
 
         if (MyMathsLibrary.LineIntersectsBoundingSphere(boundingSphere, globalStartPosition, globalEndPosition, out intersectionPoint))
         {
             print($"Line/Sphere Intersection! Global point : {intersectionPoint}");
         }
 
-        #endregion //Line/Sphere Test
+        #endregion // Line/Sphere Test
     }
 }

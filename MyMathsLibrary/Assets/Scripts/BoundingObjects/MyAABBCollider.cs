@@ -1,53 +1,54 @@
 using UnityEngine;
 
-public class MyAABB : MyBoundingObject // Axis Alligned Bounding Box
+public class MyAABBCollider : MonoBehaviour // Axis Alligned Bounding Box
 {
+    MyTransformComponent myTransform;
+
     MyVector3 minExtent;
     MyVector3 maxExtent;
 
     public MyVector3 getMinExtent => minExtent;
     public MyVector3 getMaxExtent => maxExtent;
 
-    public MyAABB(MyVector3 min, MyVector3 max)
+    void Start()
     {
-        minExtent = min;
-        maxExtent = max;
+        myTransform = GetComponent<MyTransformComponent>();
     }
 
-    public MyAABB(MyTransformComponent transform)
+    void FixedUpdate()
     {
-        minExtent = new MyVector3(transform.getGlobalVerticesCoordinates[0].x, transform.getGlobalVerticesCoordinates[0].y, transform.getGlobalVerticesCoordinates[0].z);
-        maxExtent = new MyVector3(transform.getGlobalVerticesCoordinates[0].x, transform.getGlobalVerticesCoordinates[0].y, transform.getGlobalVerticesCoordinates[0].z);
+        minExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
+        maxExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
 
-        for (int i = 0; i < transform.getGlobalVerticesCoordinates.Length; i++)
+        for (int i = 0; i < myTransform.getGlobalVerticesCoordinates.Length; i++)
         {
-            if (transform.getGlobalVerticesCoordinates[i].x < minExtent.x)
+            if (myTransform.getGlobalVerticesCoordinates[i].x < minExtent.x)
             {
-                minExtent.x = transform.getGlobalVerticesCoordinates[i].x;
+                minExtent.x = myTransform.getGlobalVerticesCoordinates[i].x;
             }
-            else if (transform.getGlobalVerticesCoordinates[i].x > maxExtent.x)
+            else if (myTransform.getGlobalVerticesCoordinates[i].x > maxExtent.x)
             {
-                maxExtent.x = transform.getGlobalVerticesCoordinates[i].x;
-            }
-
-            if (transform.getGlobalVerticesCoordinates[i].y < minExtent.y)
-            {
-                minExtent.y = transform.getGlobalVerticesCoordinates[i].y;
-            }
-            else if (transform.getGlobalVerticesCoordinates[i].y > maxExtent.y)
-            {
-                maxExtent.y = transform.getGlobalVerticesCoordinates[i].y;
+                maxExtent.x = myTransform.getGlobalVerticesCoordinates[i].x;
             }
 
-            if (transform.getGlobalVerticesCoordinates[i].z < minExtent.z)
+            if (myTransform.getGlobalVerticesCoordinates[i].y < minExtent.y)
             {
-                minExtent.z = transform.getGlobalVerticesCoordinates[i].z;
+                minExtent.y = myTransform.getGlobalVerticesCoordinates[i].y;
             }
-            else if (transform.getGlobalVerticesCoordinates[i].z > maxExtent.z)
+            else if (myTransform.getGlobalVerticesCoordinates[i].y > maxExtent.y)
             {
-                maxExtent.z = transform.getGlobalVerticesCoordinates[i].z;
+                maxExtent.y = myTransform.getGlobalVerticesCoordinates[i].y;
             }
-        }
+
+            if (myTransform.getGlobalVerticesCoordinates[i].z < minExtent.z)
+            {
+                minExtent.z = myTransform.getGlobalVerticesCoordinates[i].z;
+            }
+            else if (myTransform.getGlobalVerticesCoordinates[i].z > maxExtent.z)
+            {
+                maxExtent.z = myTransform.getGlobalVerticesCoordinates[i].z;
+            }
+        };
     }
 
     public float top => maxExtent.y;
@@ -62,7 +63,7 @@ public class MyAABB : MyBoundingObject // Axis Alligned Bounding Box
 
     public float back => minExtent.z;
 
-    public bool isOverlappingWith(MyAABB otherBox)
+    public bool IsOverlappingWith(MyAABBCollider otherBox)
     {
         return !(otherBox.left > right
             || otherBox.right < left
@@ -72,7 +73,7 @@ public class MyAABB : MyBoundingObject // Axis Alligned Bounding Box
             || otherBox.front < back);
     }
 
-    public bool isOverlappingWith(MyBoundingSphere sphere)
+    public bool IsOverlappingWith(MySphereCollider sphere)
     {
         // Code adapted from Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
         // MAKE A PROPER ZOTERO REFERENCE FOR THIS
@@ -110,7 +111,7 @@ public class MyAABB : MyBoundingObject // Axis Alligned Bounding Box
         return false;
     }
 
-    public void showForSeconds(float seconds)
+    public void ShowForSeconds(float seconds)
     {
         // Bottom Square
         Debug.DrawLine(minExtent, new MyVector3(maxExtent.x, minExtent.y, minExtent.z), Color.green, seconds);

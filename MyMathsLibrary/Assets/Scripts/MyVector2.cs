@@ -12,13 +12,13 @@ public class MyVector2
         this.y = y;
     }
 
-    public static MyVector2 zero => new MyVector2(0, 0);
+    public static MyVector2 zero => new(0, 0);
 
-    public static MyVector2 one => new MyVector2(1, 1);
+    public static MyVector2 one => new(1, 1);
 
-    public static MyVector2 right => new MyVector2(1, 0);
+    public static MyVector2 right => new(1, 0);
 
-    public static MyVector2 up => new MyVector2(0, 1);
+    public static MyVector2 up => new(0, 1);
 
     public override string ToString() => $"({x}, {y})";
 
