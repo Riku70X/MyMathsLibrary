@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MyBoundingSphere
+public class MyBoundingSphere : MyBoundingObject
 {
     MyVector3 centrepoint;
     float radius;

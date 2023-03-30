@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MyAABB // Axis Alligned Bounding Box
+public class MyAABB : MyBoundingObject // Axis Alligned Bounding Box
 {
     MyVector3 minExtent;
     MyVector3 maxExtent;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MyBoundingCapsule
+public class MyBoundingCapsule : MyBoundingObject
 {
     MyVector3 topCentrepoint;
     MyVector3 bottomCentrepoint;
