@@ -17,6 +17,19 @@ public class MyRigidBodyComponent : MonoBehaviour
     MyVector3 angularVelocity;
     public float inertia = 1;
 
+    public bool usingGravity = true;
+
+    MyRigidBodyComponent()
+    {
+        force = MyVector3.zero;
+        acceleration = MyVector3.zero;
+        velocity = MyVector3.zero;
+
+        torque = MyVector3.zero;
+        angularAcceleration = MyVector3.zero;
+        angularVelocity = MyVector3.zero;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +39,9 @@ public class MyRigidBodyComponent : MonoBehaviour
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
+        if (usingGravity)
+            force.y = -9.81f * mass;
+
         // Linear Motion
         acceleration = force / mass;
         velocity += acceleration * Time.fixedDeltaTime;

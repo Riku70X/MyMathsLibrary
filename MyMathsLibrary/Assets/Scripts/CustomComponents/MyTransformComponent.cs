@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class MyTransformComponent : MonoBehaviour
 {
     public MyVector3 position;
