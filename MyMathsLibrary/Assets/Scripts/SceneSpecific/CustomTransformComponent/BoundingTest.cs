@@ -15,11 +15,9 @@ public class BoundingTest : MonoBehaviour
     MySphereCollider boundingSphere2;
 
     GameObject Capsule1;
-    MyTransformComponent capsule1Transform;
     MyCapsuleCollider boundingCapsule1;
 
     GameObject Capsule2;
-    MyTransformComponent capsule2Transform;
     MyCapsuleCollider boundingCapsule2;
 
     // Start is called before the first frame update
@@ -38,19 +36,18 @@ public class BoundingTest : MonoBehaviour
         boundingSphere2 = Sphere2.GetComponent<MySphereCollider>();
 
         Capsule1 = GameObject.Find("Capsule1");
-        capsule1Transform = Capsule1.GetComponent<MyTransformComponent>();
+        boundingCapsule1 = Capsule1.GetComponent<MyCapsuleCollider>();
 
         Capsule2 = GameObject.Find("Capsule2");
-        capsule2Transform = Capsule2.GetComponent<MyTransformComponent>();
+        boundingCapsule2 = Capsule2.GetComponent<MyCapsuleCollider>();
     }
 
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
-        boundingBox1.ShowForSeconds(Time.deltaTime);
-
-        boundingCapsule1 = new MyCapsuleCollider(capsule1Transform, 2, .5f);
-        boundingCapsule2 = new MyCapsuleCollider(capsule2Transform, 2, .5f);
+        boundingBox1.ShowForSeconds(Time.fixedDeltaTime);
+        boundingSphere1.ShowForSeconds(Time.fixedDeltaTime);
+        boundingCapsule1.ShowForSeconds(Time.fixedDeltaTime);
 
         if (boundingBox1.IsOverlappingWith(boundingBox2))
         {

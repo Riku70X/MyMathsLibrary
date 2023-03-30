@@ -1,29 +1,63 @@
 using UnityEngine;
 
-public class MyCapsuleCollider : MyCollider // Bounding Capsule
+public class MyCapsuleCollider : MonoBehaviour // Bounding Capsule
 {
-    readonly MyVector3 topCentrepoint;
-    readonly MyVector3 bottomCentrepoint;
-    readonly float radius;
+    MyTransformComponent myTransform;
+
+    MyVector3 startingTopCentrepoint;
+    MyVector3 startingBottomCentrepoint;
+
+    MyVector3 topCentrepoint;
+    MyVector3 bottomCentrepoint;
+
+    public float height;
+    public float radius;
 
     public MyVector3 getTopCentrepoint => topCentrepoint;
     public MyVector3 getBottomCentrepoint => bottomCentrepoint;
     public float getRadius => radius;
 
-    public MyCapsuleCollider(MyTransformComponent transform, float height, float radius)
+    MyCapsuleCollider()
     {
-        // note: the capsule will not follow the orientation of the object if it is rolled
+        startingTopCentrepoint = MyVector3.zero;
+        startingBottomCentrepoint = MyVector3.zero;
 
-        MyVector3 forwardVector = transform.eulerAngles.ConvertEulerToDirection();
+        topCentrepoint = MyVector3.zero;
+        bottomCentrepoint = MyVector3.zero;
+
+        height = 0;
+        radius = 0;
+    }
+
+    void Start()
+    {
+        myTransform = GetComponent<MyTransformComponent>();
+
+        MyVector3 forwardVector = myTransform.eulerAngles.ConvertEulerToDirection();
         MyVector3 rightVector = MyMathsLibrary.GetCrossProduct(MyVector3.up, forwardVector, true);
         MyVector3 upVector = MyMathsLibrary.GetCrossProduct(forwardVector, rightVector, true);
 
         float scalar = (height - 2 * radius) / 2; // returns the distance between the centre of the object and the centre of the circles
 
-        topCentrepoint = transform.position + scalar * upVector;
-        bottomCentrepoint = transform.position - scalar * upVector;
+        startingTopCentrepoint = scalar * upVector;
+        startingBottomCentrepoint = -scalar * upVector;
+    }
 
-        this.radius = radius;
+    void FixedUpdate()
+    {
+        topCentrepoint = myTransform.getTransformMatrix * startingTopCentrepoint;
+        bottomCentrepoint = myTransform.getTransformMatrix * startingBottomCentrepoint;
+
+        // note: the capsule will not follow the orientation of the object if it is rolled
+
+        //MyVector3 forwardVector = myTransform.eulerAngles.ConvertEulerToDirection();
+        //MyVector3 rightVector = MyMathsLibrary.GetCrossProduct(MyVector3.up, forwardVector, true);
+        //MyVector3 upVector = MyMathsLibrary.GetCrossProduct(forwardVector, rightVector, true);
+
+        //float scalar = (height - 2 * radius) / 2; // returns the distance between the centre of the object and the centre of the circles
+
+        //topCentrepoint = myTransform.position + scalar * upVector;
+        //bottomCentrepoint = myTransform.position - scalar * upVector;
     }
 
     public bool IsOverlappingWith(MySphereCollider sphere)
@@ -69,5 +103,22 @@ public class MyCapsuleCollider : MyCollider // Bounding Capsule
         float closestDistanceSq = (closestPointOnThisCapsule - closestPointOnOtherCapsule).GetVectorLengthSquared();
 
         return closestDistanceSq < radiusSumDistanceSq;
+    }
+
+    public void ShowForSeconds(float seconds)
+    {
+        Debug.DrawLine(bottomCentrepoint, topCentrepoint, Color.green, seconds);
+
+        Debug.DrawRay(bottomCentrepoint, new MyVector3(radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(bottomCentrepoint, new MyVector3(-radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(bottomCentrepoint, new MyVector3(0, -radius, 0), Color.green, seconds);
+        Debug.DrawRay(bottomCentrepoint, new MyVector3(0, 0, radius), Color.green, seconds);
+        Debug.DrawRay(bottomCentrepoint, new MyVector3(0, 0, -radius), Color.green, seconds);
+
+        Debug.DrawRay(topCentrepoint, new MyVector3(radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(topCentrepoint, new MyVector3(-radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(topCentrepoint, new MyVector3(0, radius, 0), Color.green, seconds);
+        Debug.DrawRay(topCentrepoint, new MyVector3(0, 0, radius), Color.green, seconds);
+        Debug.DrawRay(topCentrepoint, new MyVector3(0, 0, -radius), Color.green, seconds);
     }
 }

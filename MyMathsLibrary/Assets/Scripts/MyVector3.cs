@@ -33,6 +33,8 @@ public class MyVector3
 
     public static implicit operator MyVector4(MyVector3 vector) => new(vector.x, vector.y, vector.z, 1);
 
+    public static implicit operator MyQuat(MyVector3 vector) => new(vector);
+
     public static MyVector3 operator -(MyVector3 vector) => MyMathsLibrary.GetNegativeVector(vector);
 
     public static MyVector3 operator +(MyVector3 lhs, MyVector3 rhs) => MyMathsLibrary.AddVector(lhs, rhs);

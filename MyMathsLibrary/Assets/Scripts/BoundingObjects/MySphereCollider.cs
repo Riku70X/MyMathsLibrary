@@ -5,15 +5,28 @@ public class MySphereCollider : MonoBehaviour // Bounding Sphere
     MyTransformComponent myTransform;
 
     MyVector3 centrepoint;
+    [SerializeField] float scale;
     float radius;
 
     public MyVector3 getCentrepoint => centrepoint;
     public float getRadius => radius;
 
+    MySphereCollider()
+    {
+        centrepoint = Vector3.zero;
+        scale = 1;
+        radius = 0;
+    }
+
     void Start()
     {
-        centrepoint = transform.position;
-        radius = (centrepoint - myTransform.getGlobalVerticesCoordinates[0]).GetVectorLength();
+        myTransform = GetComponent<MyTransformComponent>();
+    }
+
+    void FixedUpdate()
+    {
+        centrepoint = myTransform.position;
+        radius = (centrepoint - myTransform.getGlobalVerticesCoordinates[0]).GetVectorLength() * scale;
     }
 
     public bool IsOverlappingWith(MyAABBCollider box)
@@ -71,5 +84,12 @@ public class MySphereCollider : MonoBehaviour // Bounding Sphere
         float radiusSumDistanceSq = (capsule.getRadius + radius) * (capsule.getRadius + radius);
 
         return closestDistanceSq < radiusSumDistanceSq;
+    }
+
+    public void ShowForSeconds(float seconds)
+    {
+        Debug.DrawLine(new MyVector3(centrepoint.x - radius, centrepoint.y, centrepoint.z), new MyVector3(centrepoint.x + radius, centrepoint.y, centrepoint.z), Color.green, seconds);
+        Debug.DrawLine(new MyVector3(centrepoint.x, centrepoint.y - radius, centrepoint.z), new MyVector3(centrepoint.x, centrepoint.y + radius, centrepoint.z), Color.green, seconds);
+        Debug.DrawLine(new MyVector3(centrepoint.x, centrepoint.y, centrepoint.z - radius), new MyVector3(centrepoint.x, centrepoint.y, centrepoint.z + radius), Color.green, seconds);
     }
 }

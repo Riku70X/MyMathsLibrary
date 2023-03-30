@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MyQuat
@@ -29,6 +30,8 @@ public class MyQuat
     public static MyQuat identity => new(1, 0, 0, 0);
 
     public override string ToString() => ($"({w}, {vectorComponent})");
+
+    public static implicit operator MyVector3(MyQuat quat) => new(quat.vectorComponent.x, quat.vectorComponent.y, quat.vectorComponent.z);
 
     public static MyQuat operator *(MyQuat lhs, MyQuat rhs) => MyMathsLibrary.MultiplyQuaternions(lhs, rhs);
 
