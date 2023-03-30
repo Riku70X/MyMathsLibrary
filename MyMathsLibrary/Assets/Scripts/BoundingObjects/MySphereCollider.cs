@@ -8,6 +8,8 @@ public class MySphereCollider : MonoBehaviour // Bounding Sphere
     [SerializeField] float scale;
     float radius;
 
+    float startingRadius;
+
     public MyVector3 getCentrepoint => centrepoint;
     public float getRadius => radius;
 
@@ -21,12 +23,13 @@ public class MySphereCollider : MonoBehaviour // Bounding Sphere
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
+        startingRadius = (centrepoint - myTransform.getGlobalVerticesCoordinates[0]).GetVectorLength();
     }
 
     void FixedUpdate()
     {
         centrepoint = myTransform.position;
-        radius = (centrepoint - myTransform.getGlobalVerticesCoordinates[0]).GetVectorLength() * scale;
+        radius = startingRadius * scale;
     }
 
     public bool IsOverlappingWith(MyAABBCollider box)

@@ -7,6 +7,8 @@ public class MyTransformComponent : MonoBehaviour
     public MyVector3 eulerAngles;
     public MyVector3 scale;
 
+    public bool lockScale;
+
     [HideInInspector] public MyQuat rotation;
     MyMatrix4x4 transformMatrix;
 
@@ -28,6 +30,8 @@ public class MyTransformComponent : MonoBehaviour
         eulerAngles = MyVector3.zero;
         scale = MyVector3.one;
 
+        lockScale = false;
+
         rotation = MyQuat.identity;
         transformMatrix = MyMatrix4x4.identity;
 
@@ -43,8 +47,8 @@ public class MyTransformComponent : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // Awake is called before any Start functions
+    void Awake()
     {
         meshFilter = GetComponent<MeshFilter>();
 
@@ -58,6 +62,8 @@ public class MyTransformComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (lockScale)
+        { scale.y = scale.x; scale.z = scale.x; }
         rotation = eulerAngles.ConvertEulerToQuaternion();
 
         // The angularVelocity will only increase on fixed frame updates

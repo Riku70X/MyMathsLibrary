@@ -4,26 +4,26 @@ public class MyCapsuleCollider : MonoBehaviour // Bounding Capsule
 {
     MyTransformComponent myTransform;
 
-    MyVector3 startingTopCentrepoint;
-    MyVector3 startingBottomCentrepoint;
+    MyVector3 localTopCentrepoint;
+    MyVector3 localBottomCentrepoint;
 
-    MyVector3 topCentrepoint;
-    MyVector3 bottomCentrepoint;
+    MyVector3 globalTopCentrepoint;
+    MyVector3 globalBottomCentrepoint;
 
     public float height;
     public float radius;
 
-    public MyVector3 getTopCentrepoint => topCentrepoint;
-    public MyVector3 getBottomCentrepoint => bottomCentrepoint;
+    public MyVector3 getTopCentrepoint => globalTopCentrepoint;
+    public MyVector3 getBottomCentrepoint => globalBottomCentrepoint;
     public float getRadius => radius;
 
     MyCapsuleCollider()
     {
-        startingTopCentrepoint = MyVector3.zero;
-        startingBottomCentrepoint = MyVector3.zero;
+        localTopCentrepoint = MyVector3.zero;
+        localBottomCentrepoint = MyVector3.zero;
 
-        topCentrepoint = MyVector3.zero;
-        bottomCentrepoint = MyVector3.zero;
+        globalTopCentrepoint = MyVector3.zero;
+        globalBottomCentrepoint = MyVector3.zero;
 
         height = 0;
         radius = 0;
@@ -33,36 +33,21 @@ public class MyCapsuleCollider : MonoBehaviour // Bounding Capsule
     {
         myTransform = GetComponent<MyTransformComponent>();
 
-        MyVector3 forwardVector = myTransform.eulerAngles.ConvertEulerToDirection();
-        MyVector3 rightVector = MyMathsLibrary.GetCrossProduct(MyVector3.up, forwardVector, true);
-        MyVector3 upVector = MyMathsLibrary.GetCrossProduct(forwardVector, rightVector, true);
-
         float scalar = (height - 2 * radius) / 2; // returns the distance between the centre of the object and the centre of the circles
 
-        startingTopCentrepoint = scalar * upVector;
-        startingBottomCentrepoint = -scalar * upVector;
+        localTopCentrepoint = scalar * MyVector3.up;
+        localBottomCentrepoint = -scalar * MyVector3.up;
     }
 
     void FixedUpdate()
     {
-        topCentrepoint = myTransform.getTransformMatrix * startingTopCentrepoint;
-        bottomCentrepoint = myTransform.getTransformMatrix * startingBottomCentrepoint;
-
-        // note: the capsule will not follow the orientation of the object if it is rolled
-
-        //MyVector3 forwardVector = myTransform.eulerAngles.ConvertEulerToDirection();
-        //MyVector3 rightVector = MyMathsLibrary.GetCrossProduct(MyVector3.up, forwardVector, true);
-        //MyVector3 upVector = MyMathsLibrary.GetCrossProduct(forwardVector, rightVector, true);
-
-        //float scalar = (height - 2 * radius) / 2; // returns the distance between the centre of the object and the centre of the circles
-
-        //topCentrepoint = myTransform.position + scalar * upVector;
-        //bottomCentrepoint = myTransform.position - scalar * upVector;
+        globalTopCentrepoint = myTransform.getTransformMatrix * localTopCentrepoint;
+        globalBottomCentrepoint = myTransform.getTransformMatrix * localBottomCentrepoint;
     }
 
     public bool IsOverlappingWith(MySphereCollider sphere)
     {
-        float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(bottomCentrepoint, topCentrepoint, sphere.getCentrepoint);
+        float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(globalBottomCentrepoint, globalTopCentrepoint, sphere.getCentrepoint);
 
         float radiusSumDistanceSq = (radius + sphere.getRadius) * (radius + sphere.getRadius);
 
@@ -73,10 +58,10 @@ public class MyCapsuleCollider : MonoBehaviour // Bounding Capsule
     {
         // code adapted from a formula found at https://wickedengine.net/2020/04/26/capsule-collision-detection/
 
-        MyVector3 bottomBottomVector = otherCapsule.getBottomCentrepoint - bottomCentrepoint;
-        MyVector3 bottomTopVector = otherCapsule.getTopCentrepoint - bottomCentrepoint;
-        MyVector3 topBottomVector = otherCapsule.getBottomCentrepoint - topCentrepoint;
-        MyVector3 topTopVector = otherCapsule.getTopCentrepoint - topCentrepoint;
+        MyVector3 bottomBottomVector = otherCapsule.getBottomCentrepoint - globalBottomCentrepoint;
+        MyVector3 bottomTopVector = otherCapsule.getTopCentrepoint - globalBottomCentrepoint;
+        MyVector3 topBottomVector = otherCapsule.getBottomCentrepoint - globalTopCentrepoint;
+        MyVector3 topTopVector = otherCapsule.getTopCentrepoint - globalTopCentrepoint;
 
         float bottomBottomDistanceSq = MyMathsLibrary.GetDotProduct(bottomBottomVector, bottomBottomVector);
         float bottomTopDistanceSq = MyMathsLibrary.GetDotProduct(bottomTopVector, bottomTopVector);
@@ -86,16 +71,16 @@ public class MyCapsuleCollider : MonoBehaviour // Bounding Capsule
         MyVector3 closestPointOnThisCapsule;
         if (topBottomDistanceSq < bottomBottomDistanceSq || topBottomDistanceSq < bottomTopDistanceSq || topTopDistanceSq < bottomBottomDistanceSq || topTopDistanceSq < bottomTopDistanceSq)
         {
-            closestPointOnThisCapsule = topCentrepoint;
+            closestPointOnThisCapsule = globalTopCentrepoint;
         }
         else
         {
-            closestPointOnThisCapsule = bottomCentrepoint;
+            closestPointOnThisCapsule = globalBottomCentrepoint;
         }
 
         MyVector3 closestPointOnOtherCapsule = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnThisCapsule, otherCapsule.getBottomCentrepoint, otherCapsule.getTopCentrepoint);
 
-        closestPointOnThisCapsule = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnOtherCapsule, bottomCentrepoint, topCentrepoint);
+        closestPointOnThisCapsule = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnOtherCapsule, globalBottomCentrepoint, globalTopCentrepoint);
 
         float radiusSumDistanceSq = radius + otherCapsule.radius;
         radiusSumDistanceSq *= radiusSumDistanceSq;
@@ -107,18 +92,18 @@ public class MyCapsuleCollider : MonoBehaviour // Bounding Capsule
 
     public void ShowForSeconds(float seconds)
     {
-        Debug.DrawLine(bottomCentrepoint, topCentrepoint, Color.green, seconds);
+        Debug.DrawLine(globalBottomCentrepoint, globalTopCentrepoint, Color.green, seconds);
 
-        Debug.DrawRay(bottomCentrepoint, new MyVector3(radius, 0, 0), Color.green, seconds);
-        Debug.DrawRay(bottomCentrepoint, new MyVector3(-radius, 0, 0), Color.green, seconds);
-        Debug.DrawRay(bottomCentrepoint, new MyVector3(0, -radius, 0), Color.green, seconds);
-        Debug.DrawRay(bottomCentrepoint, new MyVector3(0, 0, radius), Color.green, seconds);
-        Debug.DrawRay(bottomCentrepoint, new MyVector3(0, 0, -radius), Color.green, seconds);
+        Debug.DrawRay(globalBottomCentrepoint, new MyVector3(radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(globalBottomCentrepoint, new MyVector3(-radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(globalBottomCentrepoint, new MyVector3(0, -radius, 0), Color.green, seconds);
+        Debug.DrawRay(globalBottomCentrepoint, new MyVector3(0, 0, radius), Color.green, seconds);
+        Debug.DrawRay(globalBottomCentrepoint, new MyVector3(0, 0, -radius), Color.green, seconds);
 
-        Debug.DrawRay(topCentrepoint, new MyVector3(radius, 0, 0), Color.green, seconds);
-        Debug.DrawRay(topCentrepoint, new MyVector3(-radius, 0, 0), Color.green, seconds);
-        Debug.DrawRay(topCentrepoint, new MyVector3(0, radius, 0), Color.green, seconds);
-        Debug.DrawRay(topCentrepoint, new MyVector3(0, 0, radius), Color.green, seconds);
-        Debug.DrawRay(topCentrepoint, new MyVector3(0, 0, -radius), Color.green, seconds);
+        Debug.DrawRay(globalTopCentrepoint, new MyVector3(radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(globalTopCentrepoint, new MyVector3(-radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(globalTopCentrepoint, new MyVector3(0, radius, 0), Color.green, seconds);
+        Debug.DrawRay(globalTopCentrepoint, new MyVector3(0, 0, radius), Color.green, seconds);
+        Debug.DrawRay(globalTopCentrepoint, new MyVector3(0, 0, -radius), Color.green, seconds);
     }
 }

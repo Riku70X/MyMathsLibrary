@@ -545,6 +545,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  lockScale: 0
   spinning: 0
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &672186346
@@ -1125,6 +1126,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  lockScale: 0
   spinning: 0
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1069377579
@@ -1248,6 +1250,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  lockScale: 0
   spinning: 0
   mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1334887083
@@ -1536,6 +1539,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  lockScale: 0
   spinning: 0
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1791584792
@@ -1709,6 +1713,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  lockScale: 0
   spinning: 0
   mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1881025668
@@ -1834,6 +1839,7 @@ MonoBehaviour:
     x: 1
     y: 1
     z: 1
+  lockScale: 0
   spinning: 0
   mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1954687391
