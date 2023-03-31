@@ -10,14 +10,34 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
     public MyVector3 getMinExtent => minExtent;
     public MyVector3 getMaxExtent => maxExtent;
 
+    public float type => 0;
+
     // Start is called before the first frame update
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
+        CalculateExtents();
     }
 
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
+    {
+        CalculateExtents();
+    }
+
+    public float top => maxExtent.y;
+
+    public float bottom => minExtent.y;
+
+    public float left => minExtent.x;
+
+    public float right => maxExtent.x;
+
+    public float front => maxExtent.z;
+
+    public float back => minExtent.z;
+
+    void CalculateExtents()
     {
         minExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
         maxExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
@@ -52,18 +72,6 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
             }
         };
     }
-
-    public float top => maxExtent.y;
-
-    public float bottom => minExtent.y;
-
-    public float left => minExtent.x;
-
-    public float right => maxExtent.x;
-
-    public float front => maxExtent.z;
-
-    public float back => minExtent.z;
 
     public bool IsOverlappingWith(MyAABBCollider otherBox)
     {

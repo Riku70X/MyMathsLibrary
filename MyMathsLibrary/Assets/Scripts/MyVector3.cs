@@ -51,7 +51,7 @@ public class MyVector3
 
     public static MyVector3 operator /(MyVector3 lhs, float rhs) => MyMathsLibrary.DivideVector(lhs, rhs);
 
-    public static MyVector3 operator /(float lhs, MyVector3 rhs) => MyMathsLibrary.DivideVector(rhs, lhs);
+    public static MyVector3 operator /(float lhs, MyVector3 rhs) => MyMathsLibrary.ReciprocalVector(lhs, rhs);
 
     public static bool operator ==(MyVector3 lhs, MyVector3 rhs) => MyMathsLibrary.CheckIfIdentical(lhs, rhs);
 

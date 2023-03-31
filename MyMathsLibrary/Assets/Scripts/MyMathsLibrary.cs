@@ -188,6 +188,17 @@ public class MyMathsLibrary
         return returnVector;
     }
 
+    public static MyVector3 ReciprocalVector(float number, MyVector3 vector)
+    {
+        MyVector3 returnVector = new(vector.x, vector.y, vector.z);
+
+        returnVector.x = returnVector.x == 0 ? returnVector.x = 0 : returnVector.x = number / returnVector.x;
+        returnVector.y = returnVector.y == 0 ? returnVector.y = 0 : returnVector.y = number / returnVector.y;
+        returnVector.z = returnVector.z == 0 ? returnVector.z = 0 : returnVector.z = number / returnVector.z;
+
+        return returnVector;
+    }
+
     public static bool CheckIfIdentical(MyVector3 vectorA, MyVector3 vectorB)
     {
         if (vectorA.x == vectorB.x && vectorA.y == vectorB.y && vectorA.z == vectorB.z)

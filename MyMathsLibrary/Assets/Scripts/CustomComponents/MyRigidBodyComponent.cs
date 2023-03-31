@@ -44,8 +44,8 @@ public class MyRigidBodyComponent : MonoBehaviour
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
-        if (usingGravity)
-            force.y = -9.81f * mass;
+        if (usingGravity && force.y > -9.81f)
+            force.y -= 9.81f * mass * Time.fixedDeltaTime;
 
         // Linear Motion
         acceleration = force / mass;

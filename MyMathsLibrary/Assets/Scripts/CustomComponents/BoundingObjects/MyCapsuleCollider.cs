@@ -21,6 +21,8 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
     public MyVector3 getBottomCentrepoint => globalBottomCentrepoint;
     public float getRadius => radius;
 
+    public float type => 2;
+
     MyCapsuleCollider()
     {
         localTopCentrepoint = MyVector3.zero;

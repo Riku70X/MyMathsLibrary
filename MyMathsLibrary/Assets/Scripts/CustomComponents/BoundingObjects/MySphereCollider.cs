@@ -11,13 +11,15 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
     float transformScale;
     [SerializeField] float scale;
     
-
     public MyVector3 getCentrepoint => centrepoint;
     public float getRadius => radius;
+
+    public float type => 1;
 
     MySphereCollider()
     {
         centrepoint = Vector3.zero;
+        transformScale = 1;
         scale = 1;
         radius = 0;
     }
@@ -26,7 +28,9 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
+        centrepoint = myTransform.position;
         startingRadius = (centrepoint - myTransform.getGlobalVerticesCoordinates[0]).GetVectorLength();
+        radius = startingRadius * transformScale * scale;
     }
 
     // Fixed Update is called once per physics frame (default .02 seconds)
@@ -78,10 +82,15 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 
     public bool IsOverlappingWith(MySphereCollider otherSphere)
     {
+        print("check");
+
         float radiusSumDistanceSq = radius + otherSphere.radius;
         radiusSumDistanceSq *= radiusSumDistanceSq;
 
         float centreDistanceSq = (centrepoint - otherSphere.centrepoint).GetVectorLengthSquared();
+
+        print($"{radius}, {otherSphere.centrepoint}");
+        print($"{centreDistanceSq} < {radiusSumDistanceSq}");
 
         return centreDistanceSq < radiusSumDistanceSq;
     }
