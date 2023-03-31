@@ -37,7 +37,6 @@ public class ExplosionBehaviour : MonoBehaviour
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            print($"{i}, {objects[i].name}, {colliders[i]}");
             if (colliders[i].IsOverlappingWith(boundingSphere))
             {
                 direction = transforms[i].position - myTransform.position;

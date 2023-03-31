@@ -82,15 +82,10 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 
     public bool IsOverlappingWith(MySphereCollider otherSphere)
     {
-        print("check");
-
         float radiusSumDistanceSq = radius + otherSphere.radius;
         radiusSumDistanceSq *= radiusSumDistanceSq;
 
         float centreDistanceSq = (centrepoint - otherSphere.centrepoint).GetVectorLengthSquared();
-
-        print($"{radius}, {otherSphere.centrepoint}");
-        print($"{centreDistanceSq} < {radiusSumDistanceSq}");
 
         return centreDistanceSq < radiusSumDistanceSq;
     }
