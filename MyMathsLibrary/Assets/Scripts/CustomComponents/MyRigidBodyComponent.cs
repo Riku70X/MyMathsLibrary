@@ -35,6 +35,11 @@ public class MyRigidBodyComponent : MonoBehaviour
         this.force += force;
     }
 
+    public void AddTorque(MyVector3 torque)
+    {
+        this.torque += torque;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
