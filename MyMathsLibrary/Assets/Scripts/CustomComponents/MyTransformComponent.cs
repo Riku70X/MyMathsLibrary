@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//[ExecuteInEditMode]
+[ExecuteInEditMode]
 public class MyTransformComponent : MonoBehaviour
 {
     public MyVector3 position;
@@ -67,7 +67,6 @@ public class MyTransformComponent : MonoBehaviour
         rotation = eulerAngles.ConvertEulerToQuaternion();
 
         // The angularVelocity will only increase on fixed frame updates
-        // put rotation + angularforce here
         CalculateAngularVelocity();
 
         transformMatrix = MyMathsLibrary.GetTransformationMatrixUsingQuat(scale, rotation, position);

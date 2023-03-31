@@ -30,6 +30,11 @@ public class MyRigidBodyComponent : MonoBehaviour
         angularVelocity = MyVector3.zero;
     }
 
+    public void AddForce(MyVector3 force)
+    {
+        this.force += force;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

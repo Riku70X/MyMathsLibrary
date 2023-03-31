@@ -1,14 +1,16 @@
 using UnityEngine;
 
-public class MySphereCollider : MonoBehaviour // Bounding Sphere
+public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 {
     MyTransformComponent myTransform;
 
     MyVector3 centrepoint;
-    [SerializeField] float scale;
     float radius;
 
     float startingRadius;
+    float transformScale;
+    [SerializeField] float scale;
+    
 
     public MyVector3 getCentrepoint => centrepoint;
     public float getRadius => radius;
@@ -20,16 +22,20 @@ public class MySphereCollider : MonoBehaviour // Bounding Sphere
         radius = 0;
     }
 
+    // Start is called before the first frame update
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
         startingRadius = (centrepoint - myTransform.getGlobalVerticesCoordinates[0]).GetVectorLength();
     }
 
+    // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
+        transformScale = Mathf.Max(myTransform.scale.x, Mathf.Max(myTransform.scale.y, myTransform.scale.z));
+
         centrepoint = myTransform.position;
-        radius = startingRadius * scale;
+        radius = startingRadius * transformScale * scale;
     }
 
     public bool IsOverlappingWith(MyAABBCollider box)

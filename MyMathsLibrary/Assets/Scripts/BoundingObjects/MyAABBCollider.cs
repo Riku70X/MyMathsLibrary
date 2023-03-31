@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MyAABBCollider : MonoBehaviour // Axis Alligned Bounding Box
+public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Bounding Box
 {
     MyTransformComponent myTransform;
 
@@ -10,11 +10,13 @@ public class MyAABBCollider : MonoBehaviour // Axis Alligned Bounding Box
     public MyVector3 getMinExtent => minExtent;
     public MyVector3 getMaxExtent => maxExtent;
 
+    // Start is called before the first frame update
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
     }
 
+    // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
         minExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
@@ -108,6 +110,12 @@ public class MyAABBCollider : MonoBehaviour // Axis Alligned Bounding Box
         }
 
         if (minDistanceSq <= sphere.getRadius * sphere.getRadius) return true;
+        return false;
+    }
+
+    public bool IsOverlappingWith(MyCapsuleCollider capsule)
+    {
+        // placeholder for IMyCollider
         return false;
     }
 

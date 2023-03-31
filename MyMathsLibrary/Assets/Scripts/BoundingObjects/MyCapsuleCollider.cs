@@ -1,17 +1,21 @@
 using UnityEngine;
 
-public class MyCapsuleCollider : MonoBehaviour // Bounding Capsule
+public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
 {
     MyTransformComponent myTransform;
 
     MyVector3 localTopCentrepoint;
     MyVector3 localBottomCentrepoint;
+    readonly float startingRadius;
 
     MyVector3 globalTopCentrepoint;
     MyVector3 globalBottomCentrepoint;
+    float radius;
 
-    public float height;
-    public float radius;
+    [SerializeField] float height;
+    [SerializeField] float scaleXZ;
+
+    float transformScaleXZ;
 
     public MyVector3 getTopCentrepoint => globalTopCentrepoint;
     public MyVector3 getBottomCentrepoint => globalBottomCentrepoint;
@@ -21,28 +25,44 @@ public class MyCapsuleCollider : MonoBehaviour // Bounding Capsule
     {
         localTopCentrepoint = MyVector3.zero;
         localBottomCentrepoint = MyVector3.zero;
+        startingRadius = .5f;
 
         globalTopCentrepoint = MyVector3.zero;
         globalBottomCentrepoint = MyVector3.zero;
+        radius = 0;
 
         height = 0;
-        radius = 0;
+        scaleXZ = 1;
+
+        transformScaleXZ = 1;
     }
 
+    // Start is called before the first frame update
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
 
-        float scalar = (height - 2 * radius) / 2; // returns the distance between the centre of the object and the centre of the circles
+        float scalar = (height - 2 * startingRadius) / 2; // returns the distance between the centre of the object and the centre of the circles
 
         localTopCentrepoint = scalar * MyVector3.up;
         localBottomCentrepoint = -scalar * MyVector3.up;
     }
 
+    // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
+        transformScaleXZ = Mathf.Max(myTransform.scale.x, myTransform.scale.z);
+
         globalTopCentrepoint = myTransform.getTransformMatrix * localTopCentrepoint;
         globalBottomCentrepoint = myTransform.getTransformMatrix * localBottomCentrepoint;
+
+        radius = startingRadius * transformScaleXZ * scaleXZ;
+    }
+
+    public bool IsOverlappingWith(MyAABBCollider box)
+    {
+        // placeholder for IMyCollider
+        return false;
     }
 
     public bool IsOverlappingWith(MySphereCollider sphere)
