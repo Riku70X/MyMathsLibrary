@@ -28,8 +28,7 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
-        centrepoint = myTransform.position;
-        startingRadius = (centrepoint - myTransform.getGlobalVerticesCoordinates[0]).GetVectorLength();
+        startingRadius = (MyVector3.zero - myTransform.getLocalVerticesCoordinates[0]).GetVectorLength();
         radius = startingRadius * transformScale * scale;
     }
 

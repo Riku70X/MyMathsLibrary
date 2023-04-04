@@ -22,6 +22,7 @@ public class MyTransformComponent : MonoBehaviour
     MyVector3[] globalVerticesCoordinates;
 
     public MyMatrix4x4 getTransformMatrix => transformMatrix;
+    public MyVector3[] getLocalVerticesCoordinates => localVerticesCoordinates;
     public MyVector3[] getGlobalVerticesCoordinates => globalVerticesCoordinates;
 
     MyTransformComponent()

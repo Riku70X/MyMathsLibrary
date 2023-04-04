@@ -104,10 +104,10 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
 
         closestPointOnThisCapsule = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnOtherCapsule, globalBottomCentrepoint, globalTopCentrepoint);
 
+        float closestDistanceSq = (closestPointOnThisCapsule - closestPointOnOtherCapsule).GetVectorLengthSquared();
+
         float radiusSumDistanceSq = radius + otherCapsule.radius;
         radiusSumDistanceSq *= radiusSumDistanceSq;
-
-        float closestDistanceSq = (closestPointOnThisCapsule - closestPointOnOtherCapsule).GetVectorLengthSquared();
 
         return closestDistanceSq < radiusSumDistanceSq;
     }

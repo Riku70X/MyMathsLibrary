@@ -9,7 +9,7 @@ public class LineTraceTest : MonoBehaviour
 
     GameObject Cube;
     MyTransformComponent cubeTransform;
-    //MyAABB localBox; The code pertaining to this variable can be restored once 
+    //MyAABB localBox; The code pertaining to this variable can be restored once OBBs are implemented
     MyAABBCollider globalBox;
 
     MyMatrix4x4 inverseTransformMatrix;
@@ -17,7 +17,10 @@ public class LineTraceTest : MonoBehaviour
     MyVector3 localEndPosition;
 
     GameObject Sphere;
-    MySphereCollider boundingSphere;
+    MySphereCollider sphereCollider;
+
+    GameObject Capsule;
+    MyCapsuleCollider capsuleCollider;
 
     LineTraceTest()
     {
@@ -34,15 +37,18 @@ public class LineTraceTest : MonoBehaviour
         globalBox = Cube.GetComponent<MyAABBCollider>();
 
         Sphere = GameObject.Find("Sphere1");
-        boundingSphere = Sphere.GetComponent<MySphereCollider>();
+        sphereCollider = Sphere.GetComponent<MySphereCollider>();
+
+        Capsule = GameObject.Find("Capsule1");
+        capsuleCollider = Capsule.GetComponent<MyCapsuleCollider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Fixed Update is called once per physics frame (default .02 seconds)
+    void FixedUpdate()
     {
         Debug.DrawLine(globalStartPosition, globalEndPosition);
 
-        #region Line/Box Test
+        // Line/Box Test
 
         //// Create a new AABB around the transformed Cube and check if the line intersects it
         //globalBox = new MyAABB(cubeTransform);
@@ -63,15 +69,18 @@ public class LineTraceTest : MonoBehaviour
             //}
         }
 
-        #endregion // Line/Box Test
+        // Line/Sphere Test
 
-        #region Line/Sphere Test
-
-        if (MyMathsLibrary.LineIntersectsBoundingSphere(boundingSphere, globalStartPosition, globalEndPosition, out intersectionPoint))
+        if (MyMathsLibrary.LineIntersectsBoundingSphere(sphereCollider, globalStartPosition, globalEndPosition, out intersectionPoint))
         {
             print($"Line/Sphere Intersection! Global point : {intersectionPoint}");
         }
 
-        #endregion // Line/Sphere Test
+        // Line/Capsule Test
+
+        if (MyMathsLibrary.LineIntersectsBoundingCapsule(capsuleCollider, globalStartPosition, globalEndPosition, out intersectionPoint))
+        {
+            print($"Capsule/Sphere Intersection! Global point : {intersectionPoint}");
+        }
     }
 }

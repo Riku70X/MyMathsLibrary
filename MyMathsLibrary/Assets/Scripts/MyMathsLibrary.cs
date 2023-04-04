@@ -688,5 +688,66 @@ public class MyMathsLibrary
         }
     }
 
+    public static bool LineIntersectsBoundingCapsule(MyCapsuleCollider capsule, MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    {
+        // Default value for intersection point is needed
+        intersectionPoint = MyVector3.zero;
+
+        // some code adapted from the capsule/capsule overlap test
+
+        MyVector3 startToBottom = capsule.getBottomCentrepoint - startPoint;
+        MyVector3 startToTop = capsule.getTopCentrepoint - startPoint;
+        MyVector3 endToBottom = capsule.getBottomCentrepoint - endPoint;
+        MyVector3 endToTop = capsule.getTopCentrepoint - endPoint;
+
+        float startToBottomDistanceSq = GetDotProduct(startToBottom, startToBottom);
+        float startToTopDistanceSq = GetDotProduct(startToTop, startToTop);
+        float endToBottomDistanceSq = GetDotProduct(endToBottom, endToBottom);
+        float endToTopDistanceSq = GetDotProduct(endToTop, endToTop);
+
+        MyVector3 closestPointOnTheLine;
+        if (endToBottomDistanceSq < startToBottomDistanceSq || endToBottomDistanceSq < startToTopDistanceSq || endToTopDistanceSq < startToBottomDistanceSq || endToTopDistanceSq < startToTopDistanceSq)
+        {
+            closestPointOnTheLine = endPoint;
+        }
+        else
+        {
+            closestPointOnTheLine = startPoint;
+        }
+
+        MyVector3 closestPointOnTheCapsule = GetClosestPointOnLineSegment(closestPointOnTheLine, capsule.getBottomCentrepoint, capsule.getTopCentrepoint);
+
+        closestPointOnTheLine = GetClosestPointOnLineSegment(closestPointOnTheCapsule, startPoint, endPoint);
+
+        float closestDistance = (closestPointOnTheLine - closestPointOnTheCapsule).GetVectorLength();
+
+        float radius = capsule.getRadius;
+
+        if (closestDistance < radius)
+        {
+            float a = radius - closestDistance;
+
+            MyVector3 line = endPoint - startPoint;
+            MyVector3 capsuleDirection = capsule.getTopCentrepoint - capsule.getBottomCentrepoint;
+            float angle = Mathf.Acos(GetDotProduct(line, capsuleDirection, true));
+
+            // angle will either be acute or obtuse, but we need the acute version
+            if (angle > Mathf.PI / 2) { angle = Mathf.PI - angle; }
+
+            float x = a / Mathf.Sin(angle);
+
+            float scalar = x / line.GetVectorLength();
+            MyVector3 scalarVector = line * scalar * -1;
+
+            intersectionPoint = endPoint + scalarVector;
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     #endregion // Static Bounding Intersect functions
 }
