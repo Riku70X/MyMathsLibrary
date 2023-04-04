@@ -98,6 +98,13 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         return closestDistanceSq < radiusSumDistanceSq;
     }
 
+    public MyVector3 GetClosestPointOn(MySphereCollider otherSphere)
+    {
+        MyMathsLibrary.LineIntersectsBoundingSphere(otherSphere, centrepoint, otherSphere.centrepoint, out MyVector3 closestPoint);
+
+        return closestPoint;
+    }
+
     public void ShowForSeconds(float seconds)
     {
         Debug.DrawLine(new MyVector3(centrepoint.x - radius, centrepoint.y, centrepoint.z), new MyVector3(centrepoint.x + radius, centrepoint.y, centrepoint.z), Color.green, seconds);
