@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class ExplosionBehaviour : MonoBehaviour
@@ -12,6 +11,7 @@ public class ExplosionBehaviour : MonoBehaviour
     MyRigidBodyComponent[] rigidBodies;
 
     MyVector3 direction;
+    MyVector3 pointOfImpact;
     MyVector3 force;
     [SerializeField] float explosivePower;
 
@@ -23,6 +23,7 @@ public class ExplosionBehaviour : MonoBehaviour
 
         boundingSphere.ShowForSeconds(5);
 
+        // Get a list of all the explodable objects in the scene
         objects = GameObject.FindGameObjectsWithTag("explodable");
         transforms = new MyTransformComponent[objects.Length];
         colliders = new IMyCollider[objects.Length];

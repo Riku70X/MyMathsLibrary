@@ -73,6 +73,31 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
         };
     }
 
+    public bool IsOverlappingWith(MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    {
+        // Define our initial lowest and highest
+        float lowest = 0.0f;
+        float highest = 1.0f;
+
+        // Default value for intersection point is needed
+        intersectionPoint = MyVector3.zero;
+
+        // We do an intersection check on every axis (we're reusing the AABBIsIntersectingAxis function)
+        if (!MyMathsLibrary.AxisIntersectsAABB(MyVector3.right, this, startPoint, endPoint, ref lowest, ref highest))
+            return false;
+
+        if (!MyMathsLibrary.AxisIntersectsAABB(MyVector3.up, this, startPoint, endPoint, ref lowest, ref highest))
+            return false;
+
+        if (!MyMathsLibrary.AxisIntersectsAABB(MyVector3.forward, this, startPoint, endPoint, ref lowest, ref highest))
+            return false;
+
+        // Calculate our intersection point through interpolation
+        intersectionPoint = MyMathsLibrary.GetLerp(startPoint, endPoint, lowest);
+
+        return true;
+    }
+
     public bool IsOverlappingWith(MyAABBCollider otherBox)
     {
         return !(otherBox.left > right
