@@ -53,7 +53,7 @@ public class LineTraceTest : MonoBehaviour
         //// Create a new AABB around the transformed Cube and check if the line intersects it
         //globalBox = new MyAABB(cubeTransform);
 
-        if (MyMathsLibrary.LineIntersectsAABB(globalBox, globalStartPosition, globalEndPosition, out intersectionPoint))
+        if (globalBox.IsOverlappingWith(globalStartPosition, globalEndPosition, out intersectionPoint))
         {
             print($"Line/Box Intersection! Global point : {intersectionPoint}");
 
@@ -71,14 +71,14 @@ public class LineTraceTest : MonoBehaviour
 
         // Line/Sphere Test
 
-        if (MyMathsLibrary.LineIntersectsBoundingSphere(sphereCollider, globalStartPosition, globalEndPosition, out intersectionPoint))
+        if (sphereCollider.IsOverlappingWith(globalStartPosition, globalEndPosition, out intersectionPoint))
         {
             print($"Line/Sphere Intersection! Global point : {intersectionPoint}");
         }
 
         // Line/Capsule Test
 
-        if (MyMathsLibrary.LineIntersectsBoundingCapsule(capsuleCollider, globalStartPosition, globalEndPosition, out intersectionPoint))
+        if (capsuleCollider.IsOverlappingWith(globalStartPosition, globalEndPosition, out intersectionPoint))
         {
             print($"Capsule/Sphere Intersection! Global point : {intersectionPoint}");
         }

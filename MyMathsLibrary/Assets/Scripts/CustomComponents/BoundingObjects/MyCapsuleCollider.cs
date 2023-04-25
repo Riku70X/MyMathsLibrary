@@ -61,6 +61,65 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
         radius = startingRadius * transformScaleXZ * scaleXZ;
     }
 
+    public bool IsOverlappingWith(MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    {
+        // Default value for intersection point is needed
+        intersectionPoint = MyVector3.zero;
+
+        // some code adapted from the capsule/capsule overlap test
+
+        MyVector3 startToBottom = globalBottomCentrepoint - startPoint;
+        MyVector3 startToTop = globalTopCentrepoint - startPoint;
+        MyVector3 endToBottom = globalBottomCentrepoint - endPoint;
+        MyVector3 endToTop = globalTopCentrepoint - endPoint;
+
+        float startToBottomDistanceSq = MyMathsLibrary.GetDotProduct(startToBottom, startToBottom);
+        float startToTopDistanceSq = MyMathsLibrary.GetDotProduct(startToTop, startToTop);
+        float endToBottomDistanceSq = MyMathsLibrary.GetDotProduct(endToBottom, endToBottom);
+        float endToTopDistanceSq = MyMathsLibrary.GetDotProduct(endToTop, endToTop);
+
+        MyVector3 closestPointOnTheLine;
+        if (endToBottomDistanceSq < startToBottomDistanceSq || endToBottomDistanceSq < startToTopDistanceSq || endToTopDistanceSq < startToBottomDistanceSq || endToTopDistanceSq < startToTopDistanceSq)
+        {
+            closestPointOnTheLine = endPoint;
+        }
+        else
+        {
+            closestPointOnTheLine = startPoint;
+        }
+
+        MyVector3 closestPointOnTheCapsule = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnTheLine, globalBottomCentrepoint, globalTopCentrepoint);
+
+        closestPointOnTheLine = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnTheCapsule, startPoint, endPoint);
+
+        float closestDistance = (closestPointOnTheLine - closestPointOnTheCapsule).GetVectorLength();
+
+        if (closestDistance < radius)
+        {
+            float a = radius - closestDistance;
+
+            MyVector3 line = endPoint - startPoint;
+            MyVector3 capsuleDirection = globalTopCentrepoint - globalBottomCentrepoint;
+            float angle = Mathf.Acos(MyMathsLibrary.GetDotProduct(line, capsuleDirection, true));
+
+            // angle will either be acute or obtuse, but we need the acute version
+            if (angle > Mathf.PI / 2) { angle = Mathf.PI - angle; }
+
+            float x = a / Mathf.Sin(angle);
+
+            float scalar = x / line.GetVectorLength();
+            MyVector3 scalarVector = line * scalar * -1;
+
+            intersectionPoint = endPoint + scalarVector;
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public bool IsOverlappingWith(MyAABBCollider box)
     {
         // placeholder for IMyCollider
@@ -118,6 +177,7 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
 
         Debug.DrawRay(globalBottomCentrepoint, new MyVector3(radius, 0, 0), Color.green, seconds);
         Debug.DrawRay(globalBottomCentrepoint, new MyVector3(-radius, 0, 0), Color.green, seconds);
+        Debug.DrawRay(globalBottomCentrepoint, new MyVector3(0, radius, 0), Color.green, seconds);
         Debug.DrawRay(globalBottomCentrepoint, new MyVector3(0, -radius, 0), Color.green, seconds);
         Debug.DrawRay(globalBottomCentrepoint, new MyVector3(0, 0, radius), Color.green, seconds);
         Debug.DrawRay(globalBottomCentrepoint, new MyVector3(0, 0, -radius), Color.green, seconds);
@@ -125,6 +185,7 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
         Debug.DrawRay(globalTopCentrepoint, new MyVector3(radius, 0, 0), Color.green, seconds);
         Debug.DrawRay(globalTopCentrepoint, new MyVector3(-radius, 0, 0), Color.green, seconds);
         Debug.DrawRay(globalTopCentrepoint, new MyVector3(0, radius, 0), Color.green, seconds);
+        Debug.DrawRay(globalTopCentrepoint, new MyVector3(0, -radius, 0), Color.green, seconds);
         Debug.DrawRay(globalTopCentrepoint, new MyVector3(0, 0, radius), Color.green, seconds);
         Debug.DrawRay(globalTopCentrepoint, new MyVector3(0, 0, -radius), Color.green, seconds);
     }

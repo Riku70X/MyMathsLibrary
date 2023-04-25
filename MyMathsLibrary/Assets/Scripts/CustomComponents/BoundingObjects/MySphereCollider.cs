@@ -41,6 +41,40 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         radius = startingRadius * transformScale * scale;
     }
 
+    public bool IsOverlappingWith(MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
+    {
+        // Default value for intersection point is needed
+        intersectionPoint = MyVector3.zero;
+
+        // Check if the line starts from within the sphere
+        if ((startPoint - getCentrepoint).GetVectorLength() < getRadius)
+        {
+            intersectionPoint = startPoint;
+            return true;
+        }
+        else
+        {
+            float sphereLineDistanceSq = MyMathsLibrary.GetShortestDistanceSq(startPoint, endPoint, centrepoint);
+            float radiusSq = radius * radius;
+
+            if (sphereLineDistanceSq < radiusSq)
+            {
+                MyVector3 sphereProjection = MyMathsLibrary.GetClosestPointOnLineSegment(centrepoint, startPoint, endPoint);
+                float projectionToIntersectionLengthSq = radiusSq - sphereLineDistanceSq;
+                MyVector3 projectionToStart = startPoint - sphereProjection;
+                float scalar = projectionToIntersectionLengthSq / projectionToStart.GetVectorLengthSquared();
+                scalar = Mathf.Sqrt(scalar);
+
+                intersectionPoint = sphereProjection + (projectionToStart * scalar);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
     public bool IsOverlappingWith(MyAABBCollider box)
     {
         // Code adapted from Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
@@ -96,13 +130,6 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         float radiusSumDistanceSq = (capsule.getRadius + radius) * (capsule.getRadius + radius);
 
         return closestDistanceSq < radiusSumDistanceSq;
-    }
-
-    public MyVector3 GetClosestPointOn(MySphereCollider otherSphere)
-    {
-        MyMathsLibrary.LineIntersectsBoundingSphere(otherSphere, centrepoint, otherSphere.centrepoint, out MyVector3 closestPoint);
-
-        return closestPoint;
     }
 
     public void ShowForSeconds(float seconds)
