@@ -40,6 +40,16 @@ public class MyRigidBodyComponent : MonoBehaviour
         this.torque += torque;
     }
 
+    public void AddForceAtLocation(MyVector3 force, MyVector3 pointOfImpact)
+    {
+        MyVector3 centreOfMass = myTransform.position;
+        MyVector3 impactToCentre = centreOfMass - pointOfImpact;
+        MyVector3 torque = MyMathsLibrary.GetCrossProduct(force, impactToCentre);
+
+        this.force += force;
+        this.torque += torque;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -40,10 +40,13 @@ public class ExplosionBehaviour : MonoBehaviour
         {
             if (colliders[i].IsOverlappingWith(boundingSphere))
             {
-                direction = transforms[i].position - myTransform.position;
-                force = explosivePower * direction / direction.GetVectorLength();
-                rigidBodies[i].AddForce(force);
-                rigidBodies[i].AddTorque(new MyVector3(1, 0, 0));
+                if (colliders[i].IsOverlappingWith(myTransform.position, transforms[i].position, out pointOfImpact))
+                {
+                    direction = transforms[i].position - myTransform.position;
+                    force = explosivePower * direction / direction.GetVectorLength();
+                    rigidBodies[i].AddForce(force);
+                    rigidBodies[i].AddTorque(new MyVector3(1, 0, 0));
+                }
             }
         }
     }

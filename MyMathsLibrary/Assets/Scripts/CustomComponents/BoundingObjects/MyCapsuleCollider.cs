@@ -94,6 +94,8 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
 
         float closestDistance = (closestPointOnTheLine - closestPointOnTheCapsule).GetVectorLength();
 
+        Debug.Log($"{closestDistance} < {radius}");
+
         if (closestDistance < radius)
         {
             float a = radius - closestDistance;
