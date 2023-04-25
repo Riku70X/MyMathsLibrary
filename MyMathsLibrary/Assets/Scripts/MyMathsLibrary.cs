@@ -214,6 +214,8 @@ public class MyMathsLibrary
     public static MyVector3 GetLerp(MyVector3 vectorA, MyVector3 vectorB, float t)
     {
         MyVector3 returnVector;
+
+        t = Mathf.Clamp(t, 0, 1);
         vectorA *= (1 - t);
         vectorB *= (t);
         returnVector = vectorA + vectorB;
