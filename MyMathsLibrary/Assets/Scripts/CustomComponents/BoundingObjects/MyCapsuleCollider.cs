@@ -39,6 +39,16 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
         transformScaleXZ = 1;
     }
 
+    void CalculateTransform()
+    {
+        transformScaleXZ = Mathf.Max(myTransform.scale.x, myTransform.scale.z);
+
+        globalTopCentrepoint = myTransform.getTransformMatrix * localTopCentrepoint;
+        globalBottomCentrepoint = myTransform.getTransformMatrix * localBottomCentrepoint;
+
+        radius = startingRadius * transformScaleXZ * scaleXZ;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,17 +58,23 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
 
         localTopCentrepoint = scalar * MyVector3.up;
         localBottomCentrepoint = -scalar * MyVector3.up;
+
+        CalculateTransform();
     }
 
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
-        transformScaleXZ = Mathf.Max(myTransform.scale.x, myTransform.scale.z);
+        CalculateTransform();
+    }
 
-        globalTopCentrepoint = myTransform.getTransformMatrix * localTopCentrepoint;
-        globalBottomCentrepoint = myTransform.getTransformMatrix * localBottomCentrepoint;
+    public MyVector3 GetClosestPointTo(MyVector3 point)
+    {
+        // placeholder for IMyCollider, just uses same logic as sphere for now
+        MyVector3 nearestPoint;
 
-        radius = startingRadius * transformScaleXZ * scaleXZ;
+        IsOverlappingWith(point, myTransform.position, out nearestPoint);
+        return nearestPoint;
     }
 
     public bool IsOverlappingWith(MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)
@@ -93,8 +109,6 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
         closestPointOnTheLine = MyMathsLibrary.GetClosestPointOnLineSegment(closestPointOnTheCapsule, startPoint, endPoint);
 
         float closestDistance = (closestPointOnTheLine - closestPointOnTheCapsule).GetVectorLength();
-
-        Debug.Log($"{closestDistance} < {radius}");
 
         if (closestDistance < radius)
         {

@@ -6,7 +6,7 @@ public class LinearInterpolation : MonoBehaviour
     MyVector3 currentPosition;
     MyVector3 destination;
 
-    float slerpTime;
+    //float slerpTime;
 
     // Start is called before the first frame update
     void Start()
@@ -14,7 +14,7 @@ public class LinearInterpolation : MonoBehaviour
         startingPosition = transform.position;
         destination = new MyVector3(5, 2, 0);
 
-        slerpTime = 0;
+        //slerpTime = 0;
     }
 
     // Update is called once per frame

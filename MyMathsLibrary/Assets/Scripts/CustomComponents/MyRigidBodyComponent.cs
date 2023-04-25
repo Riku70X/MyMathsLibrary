@@ -46,6 +46,8 @@ public class MyRigidBodyComponent : MonoBehaviour
         MyVector3 impactToCentre = centreOfMass - pointOfImpact;
         MyVector3 torque = MyMathsLibrary.GetCrossProduct(force, impactToCentre);
 
+        Debug.Log($"{torque} = {force} X {impactToCentre}");
+
         this.force += force;
         this.torque += torque;
     }

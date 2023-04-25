@@ -12,19 +12,6 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
 
     public float type => 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        myTransform = GetComponent<MyTransformComponent>();
-        CalculateExtents();
-    }
-
-    // Fixed Update is called once per physics frame (default .02 seconds)
-    void FixedUpdate()
-    {
-        CalculateExtents();
-    }
-
     public float top => maxExtent.y;
 
     public float bottom => minExtent.y;
@@ -37,7 +24,7 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
 
     public float back => minExtent.z;
 
-    void CalculateExtents()
+    void CalculateTransform()
     {
         minExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
         maxExtent = new MyVector3(myTransform.getGlobalVerticesCoordinates[0].x, myTransform.getGlobalVerticesCoordinates[0].y, myTransform.getGlobalVerticesCoordinates[0].z);
@@ -71,6 +58,31 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
                 maxExtent.z = myTransform.getGlobalVerticesCoordinates[i].z;
             }
         };
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        myTransform = GetComponent<MyTransformComponent>();
+        CalculateTransform();
+    }
+
+    // Fixed Update is called once per physics frame (default .02 seconds)
+    void FixedUpdate()
+    {
+        CalculateTransform();
+    }
+
+    public MyVector3 GetClosestPointTo(MyVector3 point)
+    {
+        MyVector3 nearestPoint = MyVector3.zero;
+
+        MyVector3 vectorToPoint = point - myTransform.position;
+        nearestPoint.x = Mathf.Clamp(vectorToPoint.x, left, right);
+        nearestPoint.y = Mathf.Clamp(vectorToPoint.y, bottom, top);
+        nearestPoint.z = Mathf.Clamp(vectorToPoint.z, back, front);
+
+        return nearestPoint;
     }
 
     public bool IsOverlappingWith(MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)

@@ -24,21 +24,36 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         radius = 0;
     }
 
+    void CalculateTransform()
+    {
+        transformScale = Mathf.Max(myTransform.scale.x, Mathf.Max(myTransform.scale.y, myTransform.scale.z));
+
+        centrepoint = myTransform.position;
+        radius = startingRadius * transformScale * scale;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
         startingRadius = (MyVector3.zero - myTransform.getLocalVerticesCoordinates[0]).GetVectorLength();
         radius = startingRadius * transformScale * scale;
+
+        CalculateTransform();
     }
 
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
-        transformScale = Mathf.Max(myTransform.scale.x, Mathf.Max(myTransform.scale.y, myTransform.scale.z));
+        CalculateTransform();
+    }
 
-        centrepoint = myTransform.position;
-        radius = startingRadius * transformScale * scale;
+    public MyVector3 GetClosestPointTo(MyVector3 point)
+    {
+        MyVector3 nearestPoint;
+
+        IsOverlappingWith(point, centrepoint, out nearestPoint);
+        return nearestPoint;
     }
 
     public bool IsOverlappingWith(MyVector3 startPoint, MyVector3 endPoint, out MyVector3 intersectionPoint)

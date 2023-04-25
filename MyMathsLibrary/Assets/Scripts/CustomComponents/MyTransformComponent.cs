@@ -48,20 +48,7 @@ public class MyTransformComponent : MonoBehaviour
         }
     }
 
-    // Awake is called before any Start functions
-    void Awake()
-    {
-        meshFilter = GetComponent<MeshFilter>();
-
-        // make a copy of the shared Mesh to prevent corrupting Unity's pre-made meshes
-        meshFilter.sharedMesh = Instantiate(mesh);
-
-        localVerticesCoordinates = MyMathsLibrary.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
-        globalVerticesCoordinates = MyMathsLibrary.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
-    }
-
-    // Update is called once per frame
-    void Update()
+    void CalculateTransform()
     {
         if (lockScale)
         { scale.y = scale.x; scale.z = scale.x; }
@@ -85,5 +72,25 @@ public class MyTransformComponent : MonoBehaviour
 
         // fix dirty variables (currently prevents manually rotating on the y-axis)
         eulerAngles = rotation.ConvertToEulerAngles();
+    }
+
+    // Awake is called before any Start functions
+    void Awake()
+    {
+        meshFilter = GetComponent<MeshFilter>();
+
+        // make a copy of the shared Mesh to prevent corrupting Unity's pre-made meshes
+        meshFilter.sharedMesh = Instantiate(mesh);
+
+        localVerticesCoordinates = MyMathsLibrary.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
+        globalVerticesCoordinates = MyMathsLibrary.ConvertToCustomVectorArray(meshFilter.sharedMesh.vertices);
+
+        CalculateTransform();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        CalculateTransform();
     }
 }
