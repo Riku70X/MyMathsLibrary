@@ -18,6 +18,9 @@ public class MyRigidBodyComponent : MonoBehaviour
     public float inertia = 1;
 
     public bool usingGravity = true;
+    public bool usingAirResistance = true;
+
+    const float airDensity = 1.293f; // 1.293 kg / m^3
 
     MyRigidBodyComponent()
     {
@@ -46,8 +49,6 @@ public class MyRigidBodyComponent : MonoBehaviour
         MyVector3 impactToCentre = centreOfMass - pointOfImpact;
         MyVector3 torque = MyMathsLibrary.GetCrossProduct(force, impactToCentre);
 
-        Debug.Log($"{torque} = {force} X {impactToCentre}");
-
         this.force += force;
         this.torque += torque;
     }
@@ -63,6 +64,15 @@ public class MyRigidBodyComponent : MonoBehaviour
     {
         if (usingGravity && force.y > -9.81f)
             force.y -= 9.81f * mass * Time.fixedDeltaTime;
+
+        if (usingAirResistance)
+        {
+            float speedSquared = velocity.GetVectorLengthSquared();
+            MyVector3 dragDirection = -velocity.GetNormalisedVector();
+            force += 0.5f * airDensity * speedSquared * dragDirection;
+
+            Debug.Log($"{0.5f} * {airDensity} * {speedSquared} * {dragDirection}");
+        }
 
         // Linear Motion
         acceleration = force / mass;

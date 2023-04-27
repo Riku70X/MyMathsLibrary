@@ -64,6 +64,7 @@ public class MyVector3
     public MyVector3 GetNormalisedVector()
     {
         MyVector3 returnVector = new(x, y, z);
+        if (returnVector == zero) return zero;
         returnVector /= GetVectorLength();
         return returnVector;
     }
