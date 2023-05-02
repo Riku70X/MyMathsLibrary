@@ -17,6 +17,9 @@ public class MyRigidBodyComponent : MonoBehaviour
     MyVector3 angularVelocity;
     public float inertia = 1;
 
+    // External Forces
+    MyVector3 externa
+
     public bool usingGravity = true;
     public bool usingAirResistance = true;
 
@@ -69,10 +72,24 @@ public class MyRigidBodyComponent : MonoBehaviour
         {
             float speedSquared = velocity.GetVectorLengthSquared();
             MyVector3 dragDirection = -velocity.GetNormalisedVector();
-            force += 0.5f * airDensity * speedSquared * dragDirection;
 
-            Debug.Log($"{0.5f} * {airDensity} * {speedSquared} * {dragDirection}");
+            MyVector3 dragForce = 0.5f * airDensity * speedSquared * dragDirection;
+            MyVector3 newVelocity = velocity + dragForce / mass;
+
+            if (dragForce.x * newVelocity.x < 0)
+                dragForce.x = 0;
+            if (dragForce.y * newVelocity.y < 0)
+                dragForce.y = 0;
+            if (dragForce.z * newVelocity.z < 0)
+                dragForce.z = 0;
+
+            Debug.LogWarning($"{dragForce.x} * {newVelocity.x}, {dragForce}");
+            Debug.Log(dragForce);
+
+            force += dragForce /* * Time.fixedDeltaTime*/;
         }
+
+        Debug.LogError(force);
 
         // Linear Motion
         acceleration = force / mass;

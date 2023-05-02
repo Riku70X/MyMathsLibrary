@@ -43,7 +43,8 @@ public class ExplosionBehaviour : MonoBehaviour
                 pointOfImpact = colliders[i].GetClosestPointTo(myTransform.position);
                 direction = transforms[i].position - myTransform.position;
                 force = explosivePower * direction / direction.GetVectorLength();
-                rigidBodies[i].AddForceAtLocation(force, pointOfImpact);
+                //rigidBodies[i].AddForceAtLocation(force, pointOfImpact);
+                rigidBodies[i].AddForce(force);
             }
         }
     }
