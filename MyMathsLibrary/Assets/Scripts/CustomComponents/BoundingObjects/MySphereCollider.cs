@@ -149,19 +149,21 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 
     public void SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
     {
-        MyVector3 directionA = velocity.GetNormalisedVector() * 100;
-        MyVector3 directionB = otherVelocity.GetNormalisedVector() * 100;
-        float separationDistance = radius + otherSphere.getRadius;
-        float distance = (centrepoint - otherSphere.centrepoint).GetVectorLength();
+        MyVector3 directionA = velocity.GetNormalisedVector();
+        MyVector3 directionB = otherVelocity.GetNormalisedVector();
+        float radiusDistance = radius + otherSphere.getRadius;
+        float centrePointDistance = (centrepoint - otherSphere.centrepoint).GetVectorLength();
 
-        // Slowly inch each sphere back in the direction they came from until they are separated
-        while (distance < separationDistance)
-        {
-            myTransform.position -= directionA;
-            otherSphere.myTransform.position -= directionB;
-        }
+        // Calculate the distance that it needs to be moved back by
+        float theta = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionA, true));
+        float alpha = Mathf.Asin(centrePointDistance * (Mathf.Sin(theta) / radiusDistance));
+        float beta = Mathf.PI - theta - alpha;
+        float separationDistance = Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta));
+        MyVector3 separationVector = directionA * -separationDistance;
 
-        print("Separated :)");
+        Debug.Log($"A: {directionA}, rad {radiusDistance}, cen {centrePointDistance}, t {theta}, a {alpha}, b {beta}, dis {separationDistance}");
+
+        myTransform.position += separationVector;
     }
 
     public void ShowForSeconds(float seconds)

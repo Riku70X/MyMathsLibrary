@@ -86,6 +86,9 @@ public class MyRigidBodyComponent : MonoBehaviour
             if (colliders[i].IsOverlappingWith(myCollider) && rigidBodies[i] != this)
             {
                 myCollider.SeparateFrom(colliders[i], velocity, rigidBodies[i].velocity);
+                velocity = MyVector3.zero;
+                rigidBodies[i].velocity = MyVector3.zero;
+
             }
         }
     }
