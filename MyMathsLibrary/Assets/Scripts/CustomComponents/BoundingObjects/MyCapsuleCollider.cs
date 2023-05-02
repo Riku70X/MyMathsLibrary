@@ -136,12 +136,6 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
         }
     }
 
-    public bool IsOverlappingWith(MyAABBCollider box)
-    {
-        // placeholder for IMyCollider
-        return false;
-    }
-
     public bool IsOverlappingWith(MySphereCollider sphere)
     {
         float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(globalBottomCentrepoint, globalTopCentrepoint, sphere.getCentrepoint);
@@ -149,6 +143,17 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
         float radiusSumDistanceSq = (radius + sphere.getRadius) * (radius + sphere.getRadius);
 
         return closestDistanceSq < radiusSumDistanceSq;
+    }
+
+    public bool IsOverlappingWith(MyAABBCollider box)
+    {
+        // placeholder for IMyCollider
+        return false;
+    }
+
+    public void SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
+    {
+        // placeholder for IMyCollider
     }
 
     public bool IsOverlappingWith(MyCapsuleCollider otherCapsule)

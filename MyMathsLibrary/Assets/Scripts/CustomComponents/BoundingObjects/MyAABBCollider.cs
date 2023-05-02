@@ -110,16 +110,6 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
         return true;
     }
 
-    public bool IsOverlappingWith(MyAABBCollider otherBox)
-    {
-        return !(otherBox.left > right
-            || otherBox.right < left
-            || otherBox.top < bottom
-            || otherBox.bottom > top
-            || otherBox.back > front
-            || otherBox.front < back);
-    }
-
     public bool IsOverlappingWith(MySphereCollider sphere)
     {
         // Code adapted from Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
@@ -158,10 +148,24 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
         return false;
     }
 
+    public bool IsOverlappingWith(MyAABBCollider otherBox)
+    {
+        return !(otherBox.left > right
+            || otherBox.right < left
+            || otherBox.top < bottom
+            || otherBox.bottom > top
+            || otherBox.back > front
+            || otherBox.front < back);
+    }
+
     public bool IsOverlappingWith(MyCapsuleCollider capsule)
     {
         // placeholder for IMyCollider
         return false;
+    }
+    public void SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
+    {
+        // placeholder for IMyCollider
     }
 
     public void ShowForSeconds(float seconds)

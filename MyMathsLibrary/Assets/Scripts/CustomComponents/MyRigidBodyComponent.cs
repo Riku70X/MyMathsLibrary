@@ -5,18 +5,20 @@ public class MyRigidBodyComponent : MonoBehaviour
     // An object with this component NEEDS a custom transform component attatched to it
     MyTransformComponent myTransform;
 
-    IMyCollider myICollider;
-    MySphereCollider mySphereCollider;
+    bool hasCollision = false;
+    IMyCollider myCollider;
 
     // Linear Motion
-    public MyVector3 force;
+    MyVector3 force;
     MyVector3 acceleration;
+    [SerializeField]
     MyVector3 velocity;
     public float mass = 1;
 
     // Angular Motion
-    public MyVector3 torque;
+    MyVector3 torque;
     MyVector3 angularAcceleration;
+    [SerializeField]
     MyVector3 angularVelocity;
     public float inertia = 1;
 
@@ -81,12 +83,9 @@ public class MyRigidBodyComponent : MonoBehaviour
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (myICollider.type == 0)
+            if (colliders[i].IsOverlappingWith(myCollider) && rigidBodies[i] != this)
             {
-                if (colliders[i].IsOverlappingWith(mySphereCollider))
-                {
-
-                }
+                myCollider.SeparateFrom(colliders[i], velocity, rigidBodies[i].velocity);
             }
         }
     }
@@ -95,15 +94,14 @@ public class MyRigidBodyComponent : MonoBehaviour
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
-        myICollider = GetComponent<IMyCollider>();
-        switch (myICollider.type)
+        myCollider = GetComponent<IMyCollider>();
+        if (myCollider == null)
         {
-            case 0:
-                mySphereCollider = GetComponent<MySphereCollider>();
-                break;
-            default:
-                Debug.LogError("ERROR invalid collider type");
-                break;
+            hasCollision = false;
+        }
+        else
+        {
+            hasCollision = true;
         }
     }
 
@@ -126,7 +124,8 @@ public class MyRigidBodyComponent : MonoBehaviour
             force += dragForce;
         }
 
-        CalculateCollisions();
+        if (hasCollision)
+            CalculateCollisions();
 
         // Calculate external forces
         force += externalForces;

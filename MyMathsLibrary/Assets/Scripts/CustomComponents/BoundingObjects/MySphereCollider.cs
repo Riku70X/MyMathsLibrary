@@ -90,6 +90,16 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         }
     }
 
+    public bool IsOverlappingWith(MySphereCollider otherSphere)
+    {
+        float radiusSumDistanceSq = radius + otherSphere.radius;
+        radiusSumDistanceSq *= radiusSumDistanceSq;
+
+        float centreDistanceSq = (centrepoint - otherSphere.centrepoint).GetVectorLengthSquared();
+
+        return centreDistanceSq < radiusSumDistanceSq;
+    }
+
     public bool IsOverlappingWith(MyAABBCollider box)
     {
         // Code adapted from Graphics Gems 1, V.8 "A simple method for box-sphere intersection testing" page 335-339 by James Arvo. Algorithm on page 336 (Fig. 1)
@@ -128,16 +138,6 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         return false;
     }
 
-    public bool IsOverlappingWith(MySphereCollider otherSphere)
-    {
-        float radiusSumDistanceSq = radius + otherSphere.radius;
-        radiusSumDistanceSq *= radiusSumDistanceSq;
-
-        float centreDistanceSq = (centrepoint - otherSphere.centrepoint).GetVectorLengthSquared();
-
-        return centreDistanceSq < radiusSumDistanceSq;
-    }
-
     public bool IsOverlappingWith(MyCapsuleCollider capsule)
     {
         float closestDistanceSq = MyMathsLibrary.GetShortestDistanceSq(capsule.getBottomCentrepoint, capsule.getTopCentrepoint, centrepoint);
@@ -147,13 +147,22 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         return closestDistanceSq < radiusSumDistanceSq;
     }
 
-    //public bool IsOverlappingWith(IMyCollider otherCollider)
-    //{
-    //    if (otherCollider.type == 0)
-    //    {
+    public void SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
+    {
+        MyVector3 directionA = velocity.GetNormalisedVector() * 100;
+        MyVector3 directionB = otherVelocity.GetNormalisedVector() * 100;
+        float separationDistance = radius + otherSphere.getRadius;
+        float distance = (centrepoint - otherSphere.centrepoint).GetVectorLength();
 
-    //    }
-    //}
+        // Slowly inch each sphere back in the direction they came from until they are separated
+        while (distance < separationDistance)
+        {
+            myTransform.position -= directionA;
+            otherSphere.myTransform.position -= directionB;
+        }
+
+        print("Separated :)");
+    }
 
     public void ShowForSeconds(float seconds)
     {
