@@ -149,6 +149,8 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 
     public void SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
     {
+        float separationDistance;
+
         MyVector3 directionA = velocity.GetNormalisedVector();
         MyVector3 directionB = otherVelocity.GetNormalisedVector();
         float radiusDistance = radius + otherSphere.getRadius;
@@ -156,14 +158,22 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 
         // Calculate the distance that it needs to be moved back by
         float theta = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionA, true));
-        float alpha = Mathf.Asin(centrePointDistance * (Mathf.Sin(theta) / radiusDistance));
-        float beta = Mathf.PI - theta - alpha;
-        float separationDistance = Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta));
-        MyVector3 separationVector = directionA * -separationDistance;
-
-        Debug.Log($"A: {directionA}, rad {radiusDistance}, cen {centrePointDistance}, t {theta}, a {alpha}, b {beta}, dis {separationDistance}");
-
-        myTransform.position += separationVector;
+        if (theta == 0) // 1D collision
+        {
+            separationDistance = radiusDistance - centrePointDistance;
+            print(separationDistance);
+        }
+        else // 2D or 3D collision
+        {
+            float alpha = Mathf.Asin(centrePointDistance * (Mathf.Sin(theta) / radiusDistance));
+            float beta = Mathf.PI - theta - alpha;
+            separationDistance = Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta));
+        }
+        
+        MyVector3 separationVectorA = directionA * -separationDistance;
+        MyVector3 separationVectorB = directionB * -separationDistance;
+        myTransform.position += separationVectorA / 2;
+        otherSphere.myTransform.position += separationVectorB / 2;
     }
 
     public void ShowForSeconds(float seconds)
