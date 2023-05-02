@@ -15,12 +15,8 @@ public class ExplosionBehaviour : MonoBehaviour
     MyVector3 force;
     [SerializeField] float explosivePower;
 
-    // Start is called before the first frame update
-    void Start()
+    void Explode()
     {
-        myTransform = GetComponent<MyTransformComponent>();
-        boundingSphere = GetComponent<MySphereCollider>();
-
         boundingSphere.ShowForSeconds(5);
 
         // Get a list of all the explodable objects in the scene
@@ -45,13 +41,24 @@ public class ExplosionBehaviour : MonoBehaviour
                 force = explosivePower * direction / direction.GetVectorLength();
                 //rigidBodies[i].AddForceAtLocation(force, pointOfImpact);
                 rigidBodies[i].AddForce(force);
+                Debug.Log("addedforce");
             }
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        myTransform = GetComponent<MyTransformComponent>();
+        boundingSphere = GetComponent<MySphereCollider>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        boundingSphere.ShowForSeconds(Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Explode();
+        }
     }
 }

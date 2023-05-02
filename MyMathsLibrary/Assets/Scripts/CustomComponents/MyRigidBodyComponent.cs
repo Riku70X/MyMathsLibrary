@@ -18,11 +18,13 @@ public class MyRigidBodyComponent : MonoBehaviour
     public float inertia = 1;
 
     // External Forces
-    MyVector3 externa
+    MyVector3 externalForces;
+    MyVector3 externalTorques;
 
     public bool usingGravity = true;
-    public bool usingAirResistance = true;
 
+    public bool usingAirResistance = true;
+    public float dragCoefficient = 1; // Also contains the surface Area of the object
     const float airDensity = 1.293f; // 1.293 kg / m^3
 
     MyRigidBodyComponent()
@@ -34,16 +36,19 @@ public class MyRigidBodyComponent : MonoBehaviour
         torque = MyVector3.zero;
         angularAcceleration = MyVector3.zero;
         angularVelocity = MyVector3.zero;
+
+        externalForces = MyVector3.zero;
+        externalTorques = MyVector3.zero;
     }
 
     public void AddForce(MyVector3 force)
     {
-        this.force += force;
+        externalForces += force;
     }
 
     public void AddTorque(MyVector3 torque)
     {
-        this.torque += torque;
+        externalTorques += torque;
     }
 
     public void AddForceAtLocation(MyVector3 force, MyVector3 pointOfImpact)
@@ -52,8 +57,8 @@ public class MyRigidBodyComponent : MonoBehaviour
         MyVector3 impactToCentre = centreOfMass - pointOfImpact;
         MyVector3 torque = MyMathsLibrary.GetCrossProduct(force, impactToCentre);
 
-        this.force += force;
-        this.torque += torque;
+        externalForces += force;
+        externalTorques += torque;
     }
 
     // Start is called before the first frame update
@@ -65,31 +70,27 @@ public class MyRigidBodyComponent : MonoBehaviour
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
-        if (usingGravity && force.y > -9.81f)
-            force.y -= 9.81f * mass * Time.fixedDeltaTime;
+        force = MyVector3.zero;
+        torque = MyVector3.zero;
+
+        if (usingGravity)
+            force.y -= 9.81f * mass;
 
         if (usingAirResistance)
         {
             float speedSquared = velocity.GetVectorLengthSquared();
             MyVector3 dragDirection = -velocity.GetNormalisedVector();
 
-            MyVector3 dragForce = 0.5f * airDensity * speedSquared * dragDirection;
-            MyVector3 newVelocity = velocity + dragForce / mass;
+            MyVector3 dragForce = 0.5f * airDensity * speedSquared * dragCoefficient * dragDirection;
 
-            if (dragForce.x * newVelocity.x < 0)
-                dragForce.x = 0;
-            if (dragForce.y * newVelocity.y < 0)
-                dragForce.y = 0;
-            if (dragForce.z * newVelocity.z < 0)
-                dragForce.z = 0;
-
-            Debug.LogWarning($"{dragForce.x} * {newVelocity.x}, {dragForce}");
-            Debug.Log(dragForce);
-
-            force += dragForce /* * Time.fixedDeltaTime*/;
+            force += dragForce;
         }
 
-        Debug.LogError(force);
+        // Calculate external forces
+        force += externalForces;
+        torque += externalTorques;
+        externalForces = MyVector3.zero;
+        externalTorques = MyVector3.zero;
 
         // Linear Motion
         acceleration = force / mass;
@@ -99,7 +100,7 @@ public class MyRigidBodyComponent : MonoBehaviour
         // Angular Motion
         angularAcceleration = torque / inertia;
         angularVelocity += angularAcceleration * Time.fixedDeltaTime;
-        MyQuat quaternionVelocity = (angularVelocity * Time.fixedDeltaTime).ConvertEulerToQuaternion();
+        MyQuat quaternionVelocity = (angularVelocity * Time.fixedDeltaTime).ConvertEulerToQuaternion(); //quaternionVelocity moreso represents the vector, rather than the velocity.
         myTransform.newRotation = quaternionVelocity * myTransform.rotation;
         if (myTransform.newRotation != myTransform.rotation)
             myTransform.spinning = true;
