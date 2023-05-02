@@ -10,7 +10,7 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
     public MyVector3 getMinExtent => minExtent;
     public MyVector3 getMaxExtent => maxExtent;
 
-    public float type => 0;
+    public float type => 1;
 
     public float top => maxExtent.y;
 

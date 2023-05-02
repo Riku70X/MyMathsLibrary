@@ -14,7 +14,7 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
     public MyVector3 getCentrepoint => centrepoint;
     public float getRadius => radius;
 
-    public float type => 1;
+    public float type => 0;
 
     MySphereCollider()
     {
@@ -146,6 +146,14 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 
         return closestDistanceSq < radiusSumDistanceSq;
     }
+
+    //public bool IsOverlappingWith(IMyCollider otherCollider)
+    //{
+    //    if (otherCollider.type == 0)
+    //    {
+
+    //    }
+    //}
 
     public void ShowForSeconds(float seconds)
     {

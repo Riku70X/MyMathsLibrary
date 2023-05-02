@@ -5,6 +5,9 @@ public class MyRigidBodyComponent : MonoBehaviour
     // An object with this component NEEDS a custom transform component attatched to it
     MyTransformComponent myTransform;
 
+    IMyCollider myICollider;
+    MySphereCollider mySphereCollider;
+
     // Linear Motion
     public MyVector3 force;
     MyVector3 acceleration;
@@ -61,10 +64,47 @@ public class MyRigidBodyComponent : MonoBehaviour
         externalTorques += torque;
     }
 
+    public void CalculateCollisions()
+    {
+        // Get a list of all the collidable objects in the scene (VERY suboptimal, implement spacial partitioning later)
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("collidable");
+        MyTransformComponent[] transforms = new MyTransformComponent[objects.Length];
+        IMyCollider[] colliders = new IMyCollider[objects.Length];
+        MyRigidBodyComponent[] rigidBodies = new MyRigidBodyComponent[objects.Length];
+
+        for (int i = 0; i < objects.Length; i++)
+        {
+            transforms[i] = objects[i].GetComponent<MyTransformComponent>();
+            colliders[i] = objects[i].GetComponent<IMyCollider>();
+            rigidBodies[i] = objects[i].GetComponent<MyRigidBodyComponent>();
+        }
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (myICollider.type == 0)
+            {
+                if (colliders[i].IsOverlappingWith(mySphereCollider))
+                {
+
+                }
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         myTransform = GetComponent<MyTransformComponent>();
+        myICollider = GetComponent<IMyCollider>();
+        switch (myICollider.type)
+        {
+            case 0:
+                mySphereCollider = GetComponent<MySphereCollider>();
+                break;
+            default:
+                Debug.LogError("ERROR invalid collider type");
+                break;
+        }
     }
 
     // Fixed Update is called once per physics frame (default .02 seconds)
@@ -85,6 +125,8 @@ public class MyRigidBodyComponent : MonoBehaviour
 
             force += dragForce;
         }
+
+        CalculateCollisions();
 
         // Calculate external forces
         force += externalForces;

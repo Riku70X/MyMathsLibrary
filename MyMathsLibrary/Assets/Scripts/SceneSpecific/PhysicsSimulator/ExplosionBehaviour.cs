@@ -19,8 +19,8 @@ public class ExplosionBehaviour : MonoBehaviour
     {
         boundingSphere.ShowForSeconds(5);
 
-        // Get a list of all the explodable objects in the scene
-        objects = GameObject.FindGameObjectsWithTag("explodable");
+        // Get a list of all the collidable objects in the scene
+        objects = GameObject.FindGameObjectsWithTag("collidable");
         transforms = new MyTransformComponent[objects.Length];
         colliders = new IMyCollider[objects.Length];
         rigidBodies = new MyRigidBodyComponent[objects.Length];
@@ -38,10 +38,8 @@ public class ExplosionBehaviour : MonoBehaviour
             {
                 pointOfImpact = colliders[i].GetClosestPointTo(myTransform.position);
                 direction = transforms[i].position - myTransform.position;
-                force = explosivePower * direction / direction.GetVectorLength();
-                //rigidBodies[i].AddForceAtLocation(force, pointOfImpact);
-                rigidBodies[i].AddForce(force);
-                Debug.Log("addedforce");
+                force = direction * explosivePower / direction.GetVectorLength();
+                rigidBodies[i].AddForceAtLocation(force, pointOfImpact);
             }
         }
     }

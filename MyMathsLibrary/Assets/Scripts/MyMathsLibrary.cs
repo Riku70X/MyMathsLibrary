@@ -580,7 +580,7 @@ public class MyMathsLibrary
 
     #endregion // Static Quaternion functions
 
-    #region Static Bounding Intersect functions
+    #region Static Collider functions
 
     public static bool AxisIntersectsAABB(MyVector3 axis, MyAABBCollider box, MyVector3 startPoint, MyVector3 endPoint, ref float lowest, ref float highest)
     {
@@ -631,5 +631,10 @@ public class MyMathsLibrary
         return true;
     }
 
-    #endregion // Static Bounding Intersect functions
+    public static void Separate(MySphereCollider sphereA, MySphereCollider sphereB)
+    {
+
+    }
+
+    #endregion // Static Collider functions
 }
