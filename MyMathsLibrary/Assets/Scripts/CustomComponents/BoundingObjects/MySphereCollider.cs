@@ -168,11 +168,28 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
             float beta = Mathf.PI - theta - alpha;
             separationDistance = Mathf.Abs(Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta)));
         }
-        
-        MyVector3 separationVectorA = directionA * -separationDistance;
-        MyVector3 separationVectorB = directionB * -separationDistance;
-        myTransform.position += separationVectorA / 2;
-        otherSphere.myTransform.position += separationVectorB / 2;
+
+        MyVector3 separationVectorA;
+        MyVector3 separationVectorB;
+
+        // If an object is stationary, it should not move at this phase.
+        if (directionA == MyVector3.zero)
+        {
+            separationVectorA = MyVector3.zero;
+            separationVectorB = directionB * -separationDistance;
+        }
+        else if (directionB == MyVector3.zero)
+        {
+            separationVectorA = directionA * -separationDistance;
+            separationVectorB = MyVector3.zero;
+        }
+        else
+        {
+            separationVectorA = directionA * -separationDistance * 0.5f;
+            separationVectorB = directionB * -separationDistance * 0.5f;
+        }
+        myTransform.position += separationVectorA;
+        otherSphere.myTransform.position += separationVectorB;
     }
 
     public void ShowForSeconds(float seconds)

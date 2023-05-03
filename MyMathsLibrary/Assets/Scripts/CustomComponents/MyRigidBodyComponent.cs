@@ -89,9 +89,9 @@ public class MyRigidBodyComponent : MonoBehaviour
                 MyVector3 momentum = velocity * mass;
                 MyVector3 otherMomentum = rigidBodies[i].velocity * rigidBodies[i].mass;
                 MyVector3 totalMomentum = momentum + otherMomentum;
-                velocity = totalMomentum / mass;
-                rigidBodies[i].velocity = totalMomentum / rigidBodies[i].mass;
-                //velocity = rigidBodies[i].velocity = MyVector3.zero;
+                //velocity = totalMomentum / mass;
+                //rigidBodies[i].velocity = totalMomentum / rigidBodies[i].mass;
+                velocity = -velocity;
 
             }
         }
