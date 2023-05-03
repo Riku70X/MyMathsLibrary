@@ -158,16 +158,15 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 
         // Calculate the distance that it needs to be moved back by
         float theta = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionA, true));
-        if (theta == 0) // 1D collision
+        if (theta == 0 || theta == Mathf.PI) // 1D collision
         {
             separationDistance = radiusDistance - centrePointDistance;
-            print(separationDistance);
         }
         else // 2D or 3D collision
         {
             float alpha = Mathf.Asin(centrePointDistance * (Mathf.Sin(theta) / radiusDistance));
             float beta = Mathf.PI - theta - alpha;
-            separationDistance = Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta));
+            separationDistance = Mathf.Abs(Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta)));
         }
         
         MyVector3 separationVectorA = directionA * -separationDistance;

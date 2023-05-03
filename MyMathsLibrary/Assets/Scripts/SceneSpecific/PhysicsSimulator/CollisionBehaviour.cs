@@ -22,7 +22,7 @@ public class CollisionBehaviour : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            rigidBody1.AddForce(new(10, 0, 0));
+            rigidBody1.AddForce(new(50, 0, 0));
             rigidBody2.AddForce(new(-10, 0, 0));
         }
     }
