@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 0
+    x: 1920
     y: 43
     width: 1920
     height: 997
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 38
+  controlID: 21
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 46
+  controlID: 50
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 47
+  controlID: 51
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -296,9 +296,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
+    x: 1920
     y: 634
-    width: 1608
+    width: 1609
     height: 365
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -317,22 +317,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: D:\up2060082\MyMathsLibrary\MyMathsLibrary
+  m_LastProjectPath: D:\up2060082\UnityProjects\MyMathsLibrary\MyMathsLibrary
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: f2800000
-    m_LastClickedID: 33010
-    m_ExpandedIDs: 00000000ee80000000ca9a3bffffff7f
+    m_SelectedIDs: f0800000
+    m_LastClickedID: 33008
+    m_ExpandedIDs: 00000000ee800000f280000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -385,8 +385,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 363e0000
-    m_LastClickedInstanceID: 15926
+    m_SelectedInstanceIDs: 328a0000
+    m_LastClickedInstanceID: 35378
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -436,7 +436,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1610
+    x: 3530
     y: 73
     width: 309
     height: 926
@@ -477,7 +477,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
+    x: 1920
     y: 73
     width: 358
     height: 540
@@ -490,7 +490,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f0d2ffff
+      m_ExpandedIDs: ee9dffff3ca5fffff0d2ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -534,7 +534,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 359
+    x: 2279
     y: 73
     width: 1249
     height: 540
@@ -739,9 +739,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.6970705, y: -1.2440389, z: 23.65947}
+    m_Target: {x: 10.843207, y: -9.665321, z: 15.932757}
     speed: 2
-    m_Value: {x: 0.6970705, y: -1.2440389, z: 23.65947}
+    m_Value: {x: 10.843207, y: -9.665321, z: 15.932757}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -788,9 +788,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.06476362, y: -0.0113843065, z: 0.0006032057, w: -0.9978935}
+    m_Target: {x: -0.2442348, y: -0.22532889, z: 0.058343433, w: -0.9414318}
     speed: 2
-    m_Value: {x: -0.06475987, y: -0.011383648, z: 0.00060317083, w: -0.9978358}
+    m_Value: {x: -0.24421996, y: -0.2253152, z: 0.058339886, w: -0.9413746}
   m_Size:
     m_Target: 15.981399
     speed: 2
@@ -839,7 +839,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 359
+    x: 2279
     y: 73
     width: 1249
     height: 540
@@ -931,7 +931,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 0
+    x: 1920
     y: 634
     width: 1609
     height: 365

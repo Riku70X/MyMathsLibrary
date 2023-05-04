@@ -1,4 +1,5 @@
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
 {
@@ -157,13 +158,16 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         float centrePointDistance = (centrepoint - otherSphere.centrepoint).GetVectorLength();
 
         // Calculate the distance that it needs to be moved back by
-        float theta = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionA, true));
-        if (theta == 0 || theta == Mathf.PI) // 1D collision
+        float angle1 = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, directionA, true));
+        float angle2 = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionB, true));
+
+        if (angle1 == 0 && angle2 == 0 || directionA == MyVector3.zero && angle2 == 0 || directionB == MyVector3.zero && angle1 == 0) // 1D collision
         {
             separationDistance = radiusDistance - centrePointDistance;
         }
         else // 2D or 3D collision
         {
+            float theta = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionA, true));
             float alpha = Mathf.Asin(centrePointDistance * (Mathf.Sin(theta) / radiusDistance));
             float beta = Mathf.PI - theta - alpha;
             separationDistance = Mathf.Abs(Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta)));
@@ -188,8 +192,12 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
             separationVectorA = directionA * -separationDistance * 0.5f;
             separationVectorB = directionB * -separationDistance * 0.5f;
         }
+
         myTransform.position += separationVectorA;
         otherSphere.myTransform.position += separationVectorB;
+
+        CalculateTransform();
+        otherSphere.CalculateTransform();
     }
 
     public void ShowForSeconds(float seconds)
