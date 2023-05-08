@@ -26,13 +26,13 @@ public class MyRigidBodyComponent : MonoBehaviour
     MyVector3 externalForces;
     MyVector3 externalTorques;
 
+    public bool isImmovable;
+
     public bool usingGravity;
 
     public bool usingAirResistance;
     public float dragCoefficient = 1; // Also contains the surface Area of the object
     const float airDensity = 1.293f; // 1.293 kg / m^3
-
-    public bool isImmovable;
 
     public float restitutionCoefficient; // Used for ball/wall colisions. For ball/ball, the lower restitution is used. Should be between 0 and 1.
 
@@ -111,13 +111,13 @@ public class MyRigidBodyComponent : MonoBehaviour
 
                     // code derived from a mathematical formula found here https://en.wikipedia.org/wiki/Elastic_collision
 
-                    //velocity = (u1 * ((mass - rigidBodies[i].mass) / combinedMass)) +
-                    //           (u2 * (2 * rigidBodies[i].mass / combinedMass));
+                    velocity = ((u1 * ((mass - rigidBodies[i].mass) / combinedMass)) +
+                              (u2 * (2 * rigidBodies[i].mass / combinedMass))) *
+                              coefficientOfRestitution;
 
-                    //rigidBodies[i].velocity = (u1 * (2 * mass / combinedMass)) +
-                    //                          (u2 * ((rigidBodies[i].mass - mass) / combinedMass));
-
-
+                    rigidBodies[i].velocity = ((u1 * (2 * mass / combinedMass)) +
+                                              (u2 * ((rigidBodies[i].mass - mass) / combinedMass))) *
+                                              coefficientOfRestitution;
                 }
             }
         }
@@ -178,10 +178,5 @@ public class MyRigidBodyComponent : MonoBehaviour
         myTransform.newRotation = quaternionVelocity * myTransform.rotation;
         if (myTransform.newRotation != myTransform.rotation)
             myTransform.spinning = true;
-
-        if (velocity.y < 0.001 && velocity.y > -0.001 && isImmovable == false)
-        {
-            print(myTransform.position);
-        }
     }
 }
