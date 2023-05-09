@@ -163,9 +163,10 @@ public class MyAABBCollider : MonoBehaviour, IMyCollider // Axis Alligned Boundi
         // placeholder for IMyCollider
         return false;
     }
-    public void SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
+    public bool SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
     {
         // placeholder for IMyCollider
+        return false;
     }
 
     public void ShowForSeconds(float seconds)

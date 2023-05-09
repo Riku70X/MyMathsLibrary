@@ -89,49 +89,33 @@ public class MyRigidBodyComponent : MonoBehaviour
         {
             if (colliders[i].IsOverlappingWith(myCollider) && rigidBodies[i] != this)
             {
-                myCollider.SeparateFrom(colliders[i], velocity, rigidBodies[i].velocity);
-
-                if (this.isImmovable)
+                bool separated = myCollider.SeparateFrom(colliders[i], velocity, rigidBodies[i].velocity);
+                if (separated)
                 {
-                    MyVector3 toImmovable = myTransform.position - transforms[i].position;
-                    MyVector3 pointOfImpact = transforms[i].position + (0.5f * toImmovable);
-                    MyVector3 impulseDirection = (-toImmovable).GetNormalisedVector();
-                    float speed = rigidBodies[i].velocity.GetVectorLength();
-                    float impulseMagnitude = (2 * rigidBodies[i].mass * speed) / Time.deltaTime;
-                    MyVector3 impulse = impulseDirection * impulseMagnitude;
-                    rigidBodies[i].AddForceAtLocation(impulse, pointOfImpact);
+                    MyVector3 toOther = transforms[i].position - myTransform.position;
+                    MyVector3 pointOfImpact = myTransform.position + (0.5f * toOther);
+                    MyVector3 impulseDirection = (-toOther).GetNormalisedVector();
+                    if (rigidBodies[i].isImmovable)
+                    {
+                        float speed = velocity.GetVectorLength();
+                        float impulseMagnitude = 2 * mass * speed / Time.deltaTime;
+                        MyVector3 impulse = impulseDirection * impulseMagnitude;
+                        AddForceAtLocation(impulse, pointOfImpact);
+                    }
+                    else
+                    {
+                        float speed = (velocity - rigidBodies[i].velocity).GetVectorLength();
+                        float impulseMagnitudeA = 2 * mass * speed / Time.deltaTime;
+                        float impulseMagnitudeB = 2 * rigidBodies[i].mass * speed / Time.deltaTime;
+                        MyVector3 impulseA = impulseDirection * impulseMagnitudeA;
+                        MyVector3 impulseB = -impulseDirection * impulseMagnitudeB;
+                        AddForceAtLocation(impulseA, pointOfImpact);
+                        rigidBodies[i].AddForceAtLocation(impulseB, pointOfImpact);
+                        Debug.Log($"impulseA {impulseA}, impulseB {impulseB}");
+                    }
                 }
-                else if (rigidBodies[i].isImmovable)
-                {
-                    MyVector3 toImmovable = transforms[i].position - myTransform.position;
-                    MyVector3 pointOfImpact = myTransform.position + (0.5f * toImmovable);
-                    MyVector3 impulseDirection = (-toImmovable).GetNormalisedVector();
-                    float speed = velocity.GetVectorLength();
-                    float impulseMagnitude = (-2 * mass * speed) / Time.deltaTime;
-                    MyVector3 impulse = impulseDirection * impulseMagnitude;
-                    AddForceAtLocation(impulse, pointOfImpact);
-                    Debug.Log($"Force {impulse} at {pointOfImpact}");
-                }
-                else
-                {
-                    float combinedMass = mass + rigidBodies[i].mass;
-                    MyVector3 u1 = velocity;
-                    MyVector3 u2 = rigidBodies[i].velocity;
-                    float coefficientOfRestitution = Mathf.Min(restitutionCoefficient, rigidBodies[i].restitutionCoefficient);
 
-                    MyVector3 momentum1 = velocity * mass;
-                    MyVector3 momentum2 = rigidBodies[i].velocity * rigidBodies[i].mass;
 
-                    // code derived from a mathematical formula found here https://en.wikipedia.org/wiki/Elastic_collision
-
-                    velocity = ((u1 * ((mass - rigidBodies[i].mass) / combinedMass)) +
-                              (u2 * (2 * rigidBodies[i].mass / combinedMass))) *
-                              coefficientOfRestitution;
-
-                    rigidBodies[i].velocity = ((u1 * (2 * mass / combinedMass)) +
-                                              (u2 * ((rigidBodies[i].mass - mass) / combinedMass))) *
-                                              coefficientOfRestitution;
-                }
             }
         }
     }
@@ -183,6 +167,9 @@ public class MyRigidBodyComponent : MonoBehaviour
         acceleration = force / mass;
         velocity += acceleration * Time.fixedDeltaTime;
         myTransform.position += velocity * Time.fixedDeltaTime;
+
+        if (myTransform.position.y < 0)
+            myTransform.position.y = 0;
 
         // Angular Motion
         angularAcceleration = torque / inertia;

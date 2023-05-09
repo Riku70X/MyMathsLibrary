@@ -148,56 +148,71 @@ public class MySphereCollider : MonoBehaviour, IMyCollider // Bounding Sphere
         return closestDistanceSq < radiusSumDistanceSq;
     }
 
-    public void SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
+    public bool SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity)
     {
-        float separationDistance;
-
-        MyVector3 directionA = velocity.GetNormalisedVector();
-        MyVector3 directionB = otherVelocity.GetNormalisedVector();
-        float radiusDistance = radius + otherSphere.getRadius;
-        float centrePointDistance = (centrepoint - otherSphere.centrepoint).GetVectorLength();
-
-        // Calculate the distance that it needs to be moved back by
-        float angle1 = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, directionA, true));
-        float angle2 = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionB, true));
-
-        if (angle1 == 0 && angle2 == 0 || directionA == MyVector3.zero && angle2 == 0 || directionB == MyVector3.zero && angle1 == 0) // 1D collision
+        if (velocity != MyVector3.zero) // if two spheres collide and one is stationary, only run the code on the moving ball
         {
-            separationDistance = radiusDistance - centrePointDistance;
-        }
-        else // 2D or 3D collision
-        {
-            float theta = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionA, true));
-            float alpha = Mathf.Asin(centrePointDistance * (Mathf.Sin(theta) / radiusDistance));
-            float beta = Mathf.PI - theta - alpha;
-            separationDistance = Mathf.Abs(Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta)));
-        }
+            float separationDistance;
 
-        MyVector3 separationVectorA;
-        MyVector3 separationVectorB;
+            MyVector3 directionA = velocity.GetNormalisedVector();
+            MyVector3 directionB = otherVelocity.GetNormalisedVector();
+            float radiusDistance = radius + otherSphere.getRadius;
+            float centrePointDistance = (centrepoint - otherSphere.centrepoint).GetVectorLength();
 
-        // If an object is stationary, it should not move at this phase.
-        if (directionA == MyVector3.zero)
-        {
-            separationVectorA = MyVector3.zero;
-            separationVectorB = directionB * -separationDistance;
-        }
-        else if (directionB == MyVector3.zero)
-        {
-            separationVectorA = directionA * -separationDistance;
-            separationVectorB = MyVector3.zero;
+            // Calculate the distance that it needs to be moved back by
+            float angle1 = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, directionA, true));
+            float angle2 = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, -directionB, true));
+
+            if ((angle1 == 0 || angle1 == Mathf.PI) && (angle2 == 0 || angle2 == Mathf.PI) ||
+                directionA == MyVector3.zero && (angle2 == 0 || angle2 == Mathf.PI) ||
+                directionB == MyVector3.zero && (angle1 == 0 || angle1 == Mathf.PI)) // 1D collision
+            {
+                separationDistance = radiusDistance - centrePointDistance;
+            }
+            else // 2D or 3D collision
+            {
+                float theta = Mathf.Acos(MyMathsLibrary.GetDotProduct(otherSphere.centrepoint - centrepoint, directionA, true));
+                if (theta < Mathf.PI / 2)
+                {
+                    theta = Mathf.PI - theta;
+                }
+                float alpha = Mathf.Asin(centrePointDistance * (Mathf.Sin(theta) / radiusDistance));
+                float beta = Mathf.PI - theta - alpha;
+                separationDistance = Mathf.Abs(Mathf.Sin(beta) * (radiusDistance / Mathf.Sin(theta)));
+            }
+
+            MyVector3 separationVectorA;
+            MyVector3 separationVectorB;
+
+            // If an object is stationary, it should not move at this phase.
+            if (directionA == MyVector3.zero)
+            {
+                separationVectorA = MyVector3.zero;
+                separationVectorB = directionB * -separationDistance;
+            }
+            else if (directionB == MyVector3.zero)
+            {
+                separationVectorA = directionA * -separationDistance;
+                separationVectorB = MyVector3.zero;
+            }
+            else
+            {
+                separationVectorA = directionA * -separationDistance * 0.51f;
+                separationVectorB = directionB * -separationDistance * 0.51f;
+            }
+
+            myTransform.position += separationVectorA;
+            otherSphere.myTransform.position += separationVectorB;
+
+            CalculateTransform();
+            otherSphere.CalculateTransform();
+
+            return true;
         }
         else
         {
-            separationVectorA = directionA * -separationDistance * 0.5f;
-            separationVectorB = directionB * -separationDistance * 0.5f;
+            return false;
         }
-
-        myTransform.position += separationVectorA;
-        otherSphere.myTransform.position += separationVectorB;
-
-        CalculateTransform();
-        otherSphere.CalculateTransform();
     }
 
     public void ShowForSeconds(float seconds)

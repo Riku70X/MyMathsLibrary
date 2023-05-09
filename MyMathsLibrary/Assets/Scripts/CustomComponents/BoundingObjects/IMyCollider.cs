@@ -27,24 +27,23 @@ public interface IMyCollider
         }
     }
 
-    public void SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity);
-    public void SeparateFrom(IMyCollider otherCollider, MyVector3 velocity, MyVector3 otherVelocity)
+    public bool SeparateFrom(MySphereCollider otherSphere, MyVector3 velocity, MyVector3 otherVelocity);
+    public bool SeparateFrom(IMyCollider otherCollider, MyVector3 velocity, MyVector3 otherVelocity)
     {
         switch(otherCollider.type)
         {
             case 0:
                 MySphereCollider otherSphere = otherCollider as MySphereCollider;
-                SeparateFrom(otherSphere, velocity, otherVelocity);
-                break;
+                return SeparateFrom(otherSphere, velocity, otherVelocity);
             case 1:
                 Debug.LogWarning("Box separation not yet implemented");
-                break;
+                return false;
             case 2:
                 Debug.LogWarning("Capsule separation not yet implemented");
-                break;
+                return false;
             default:
                 Debug.LogError("ERROR: Invalid Collider Type");
-                break;
+                return false;
         }
     }
 }
