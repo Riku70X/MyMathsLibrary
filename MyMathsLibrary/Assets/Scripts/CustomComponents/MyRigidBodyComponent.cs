@@ -35,6 +35,7 @@ public class MyRigidBodyComponent : MonoBehaviour
     const float airDensity = 1.293f; // 1.293 kg / m^3
 
     public float restitutionCoefficient; // Used for ball/wall colisions. For ball/ball, the lower restitution is used. Should be between 0 and 1.
+    bool applyRestitution = false;
 
     MyRigidBodyComponent()
     {
@@ -98,25 +99,38 @@ public class MyRigidBodyComponent : MonoBehaviour
                     if (rigidBodies[i].isImmovable)
                     {
                         float speed = velocity.GetVectorLength();
-                        float impulseMagnitude = 2 * mass * speed / Time.deltaTime;
+                        float impulseMagnitude = 2 * mass * speed / Time.fixedDeltaTime;
                         MyVector3 impulse = impulseDirection * impulseMagnitude;
                         AddForceAtLocation(impulse, pointOfImpact);
+                        applyRestitution = true;
+                        Debug.Log($"impulse {impulse}");
                     }
                     else
                     {
                         float speed = (velocity - rigidBodies[i].velocity).GetVectorLength();
-                        float impulseMagnitudeA = 2 * mass * speed / Time.deltaTime;
-                        float impulseMagnitudeB = 2 * rigidBodies[i].mass * speed / Time.deltaTime;
+                        float impulseMagnitudeA = mass * speed / Time.fixedDeltaTime;
+                        float impulseMagnitudeB = rigidBodies[i].mass * speed / Time.fixedDeltaTime;
                         MyVector3 impulseA = impulseDirection * impulseMagnitudeA;
                         MyVector3 impulseB = -impulseDirection * impulseMagnitudeB;
                         AddForceAtLocation(impulseA, pointOfImpact);
                         rigidBodies[i].AddForceAtLocation(impulseB, pointOfImpact);
+                        applyRestitution = true;
+                        rigidBodies[i].applyRestitution = true;
                         Debug.Log($"impulseA {impulseA}, impulseB {impulseB}");
                     }
                 }
 
 
             }
+        }
+    }
+
+    public void CalculateRestitution()
+    {
+        if (applyRestitution)
+        {
+            velocity *= restitutionCoefficient;
+            applyRestitution = false;
         }
     }
 
@@ -157,6 +171,17 @@ public class MyRigidBodyComponent : MonoBehaviour
         if (hasCollision)
             CalculateCollisions();
 
+        if (myTransform.position.y < 0)
+        {
+            myTransform.position.y = 0;
+            float speed = velocity.GetVectorLength();
+            float impulseMagnitude = 2 * mass * speed / Time.fixedDeltaTime;
+            MyVector3 impulse = new MyVector3(0, 1, 0) * impulseMagnitude;
+            externalForces += impulse;
+            applyRestitution = true;
+            Debug.Log($"ground impulse {impulse}");
+        }
+
         // Calculate external forces
         force += externalForces;
         torque += externalTorques;
@@ -166,10 +191,8 @@ public class MyRigidBodyComponent : MonoBehaviour
         // Linear Motion
         acceleration = force / mass;
         velocity += acceleration * Time.fixedDeltaTime;
+        CalculateRestitution();
         myTransform.position += velocity * Time.fixedDeltaTime;
-
-        if (myTransform.position.y < 0)
-            myTransform.position.y = 0;
 
         // Angular Motion
         angularAcceleration = torque / inertia;
