@@ -93,11 +93,37 @@ public class MyRigidBodyComponent : MonoBehaviour
 
                 if (this.isImmovable)
                 {
-                    rigidBodies[i].velocity *= rigidBodies[i].restitutionCoefficient * -1;
+                    MyVector3 toImmovable = myTransform.position - transforms[i].position;
+                    MyVector3 pointOfImpact = transforms[i].position + (0.5f * toImmovable);
+                    MyVector3 impulseDirection = (-toImmovable).GetNormalisedVector();
+                    float speed = rigidBodies[i].velocity.GetVectorLength();
+                    float impulseMagnitude = (2 * rigidBodies[i].mass * speed) / Time.deltaTime;
+                    MyVector3 impulse = impulseDirection * impulseMagnitude;
+                    rigidBodies[i].AddForceAtLocation(impulse, pointOfImpact);
+
+                    Debug.LogWarning($"toImmovable {toImmovable}, impulse direction = {impulseDirection}");
+
+                    Debug.Log($"Force {impulse} at {pointOfImpact}");
+
+                    //rigidBodies[i].velocity *= rigidBodies[i].restitutionCoefficient * -1;
                 }
                 else if (rigidBodies[i].isImmovable)
                 {
-                    velocity *= restitutionCoefficient * -1;
+                    MyVector3 toImmovable = transforms[i].position - myTransform.position;
+                    MyVector3 pointOfImpact = myTransform.position + (0.5f * toImmovable);
+                    MyVector3 impulseDirection = (-toImmovable).GetNormalisedVector();
+                    float speed = velocity.GetVectorLength();
+                    float impulseMagnitude = (-2 * mass * speed) / Time.deltaTime;
+                    MyVector3 impulse = impulseDirection * impulseMagnitude;
+                    AddForceAtLocation(impulse, pointOfImpact);
+                    Debug.Log($"Force {impulse} at {pointOfImpact}");
+
+                    //float angle = Mathf.Acos(MyMathsLibrary.GetDotProduct(velocity, ToImmovable, true));
+                    //MyVector3 relativeXComponent = speed * Mathf.Cos(angle) * ToImmovable.GetNormalisedVector();
+                    //float relativeYComponent = speed * Mathf.Sin(angle);
+                    //relativeXComponent *= restitutionCoefficient * -1;
+
+                    //velocity *= restitutionCoefficient * -1;
                 }
                 else
                 {
