@@ -36,7 +36,7 @@ public class MyRigidBodyComponent : MonoBehaviour
 
     public float restitutionCoefficient; // Used for ball/wall colisions. For ball/ball, the lower restitution is used. Should be between 0 and 1 inclusive.
     float restitutionToApply = 1;
-    float restittutionAngle;
+    MyVector3 restitutionDirection = MyVector3.zero;
 
     MyRigidBodyComponent()
     {
@@ -104,7 +104,8 @@ public class MyRigidBodyComponent : MonoBehaviour
                         MyVector3 impulse = impulseDirection * impulseMagnitude;
                         AddForceAtLocation(impulse, pointOfImpact);
                         restitutionToApply = restitutionCoefficient;
-                        Debug.Log($"impulse {impulse}");
+                        restitutionDirection = toOther.GetNormalisedVector();
+                        Debug.Log($"Impulse: {impulse}");
                     }
                     else
                     {
@@ -118,18 +119,21 @@ public class MyRigidBodyComponent : MonoBehaviour
                         AddForceAtLocation(impulseA, pointOfImpact);
                         rigidBodies[i].AddForceAtLocation(impulseB, pointOfImpact);
                         restitutionToApply = rigidBodies[i].restitutionToApply = Mathf.Min(restitutionCoefficient, rigidBodies[i].restitutionCoefficient);
-                        Debug.Log($"impulseA {impulseA}, impulseB {impulseB}");
+                        restitutionDirection = toOther.GetNormalisedVector();
+                        rigidBodies[i].restitutionDirection = -restitutionDirection;
+                        Debug.Log($"Impulse A: {impulseA}, Impulse B: {impulseB}");
                     }
                 }
-
-
             }
         }
     }
 
     public void CalculateRestitution()
     {
-        velocity *= restitutionToApply;
+        float restitutionAngle = Mathf.Acos(MyMathsLibrary.GetDotProduct(velocity, restitutionDirection, true));
+        float speed = velocity.GetVectorLength();
+        MyVector3 restitutionVelocity = -restitutionDirection * (speed * Mathf.Cos(restitutionAngle) * (1 - restitutionToApply));
+        velocity += restitutionVelocity;
         if (restitutionToApply != 1)
             restitutionToApply = 1;
     }
@@ -166,6 +170,8 @@ public class MyRigidBodyComponent : MonoBehaviour
             MyVector3 dragForce = 0.5f * airDensity * speedSquared * dragCoefficient * dragDirection;
 
             force += dragForce;
+
+            Debug.LogWarning(dragForce);
         }
 
         if (hasCollision)
@@ -174,12 +180,13 @@ public class MyRigidBodyComponent : MonoBehaviour
         if (myTransform.position.y < 0)
         {
             myTransform.position.y = 0;
-            float speed = velocity.GetVectorLength();
-            float impulseMagnitude = 2 * mass * speed / Time.fixedDeltaTime;
-            MyVector3 impulse = new MyVector3(0, 1, 0) * impulseMagnitude;
+            float relativeSpeed = -velocity.y;
+            float impulseMagnitude = 2 * mass * relativeSpeed / Time.fixedDeltaTime;
+            MyVector3 impulse = MyVector3.up * impulseMagnitude;
             externalForces += impulse;
             restitutionToApply = restitutionCoefficient;
-            Debug.Log($"ground impulse {impulse}");
+            restitutionDirection = MyVector3.down;
+            //Debug.Log($"Ground Impulse {impulse}");
         }
 
         // Calculate external forces

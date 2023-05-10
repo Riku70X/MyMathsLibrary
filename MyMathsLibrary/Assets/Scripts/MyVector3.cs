@@ -23,6 +23,12 @@ public class MyVector3
 
     public static MyVector3 forward => new(0, 0, 1);
 
+    public static MyVector3 left => new(-1, 0, 0);
+
+    public static MyVector3 down => new(0, -1, 0);
+
+    public static MyVector3 back => new(0, 0, -1);
+
     public override string ToString() => $"({x}, {y}, {z})";
 
     public static implicit operator Vector3(MyVector3 vector) => new(vector.x, vector.y, vector.z);

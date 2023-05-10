@@ -20,6 +20,10 @@ public class MyVector2
 
     public static MyVector2 up => new(0, 1);
 
+    public static MyVector2 left => new(-1, 0);
+
+    public static MyVector2 down => new(0, -1);
+
     public override string ToString() => $"({x}, {y})";
 
     public static implicit operator Vector2(MyVector2 vector) => new(vector.x, vector.y);
