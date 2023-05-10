@@ -98,8 +98,8 @@ public class MyRigidBodyComponent : MonoBehaviour
                     MyVector3 impulseDirection = (-toOther).GetNormalisedVector();
                     if (rigidBodies[i].isImmovable)
                     {
-                        float speed = velocity.GetVectorLength();
-                        float impulseMagnitude = 2 * mass * speed / Time.fixedDeltaTime;
+                        float relativeSpeed = velocity.GetVectorLength() * MyMathsLibrary.GetDotProduct(velocity, toOther, true);
+                        float impulseMagnitude = 2 * mass * relativeSpeed / Time.fixedDeltaTime;
                         MyVector3 impulse = impulseDirection * impulseMagnitude;
                         AddForceAtLocation(impulse, pointOfImpact);
                         applyRestitution = true;
@@ -107,9 +107,11 @@ public class MyRigidBodyComponent : MonoBehaviour
                     }
                     else
                     {
-                        float speed = (velocity - rigidBodies[i].velocity).GetVectorLength();
-                        float impulseMagnitudeA = mass * speed / Time.fixedDeltaTime;
-                        float impulseMagnitudeB = rigidBodies[i].mass * speed / Time.fixedDeltaTime;
+                        float relativeSpeedA = velocity.GetVectorLength() * MyMathsLibrary.GetDotProduct(velocity, toOther, true);
+                        float relativeSpeedB = rigidBodies[i].velocity.GetVectorLength() * MyMathsLibrary.GetDotProduct(rigidBodies[i].velocity, toOther, true);
+                        float relativeSpeed = Mathf.Abs(relativeSpeedA - relativeSpeedB);
+                        float impulseMagnitudeA = mass * relativeSpeed / Time.fixedDeltaTime;
+                        float impulseMagnitudeB = rigidBodies[i].mass * relativeSpeed / Time.fixedDeltaTime;
                         MyVector3 impulseA = impulseDirection * impulseMagnitudeA;
                         MyVector3 impulseB = -impulseDirection * impulseMagnitudeB;
                         AddForceAtLocation(impulseA, pointOfImpact);
