@@ -34,8 +34,9 @@ public class MyRigidBodyComponent : MonoBehaviour
     public float dragCoefficient = 1; // Also contains the surface Area of the object
     const float airDensity = 1.293f; // 1.293 kg / m^3
 
-    public float restitutionCoefficient; // Used for ball/wall colisions. For ball/ball, the lower restitution is used. Should be between 0 and 1.
-    bool applyRestitution = false;
+    public float restitutionCoefficient; // Used for ball/wall colisions. For ball/ball, the lower restitution is used. Should be between 0 and 1 inclusive.
+    float restitutionToApply = 1;
+    float restittutionAngle;
 
     MyRigidBodyComponent()
     {
@@ -102,7 +103,7 @@ public class MyRigidBodyComponent : MonoBehaviour
                         float impulseMagnitude = 2 * mass * relativeSpeed / Time.fixedDeltaTime;
                         MyVector3 impulse = impulseDirection * impulseMagnitude;
                         AddForceAtLocation(impulse, pointOfImpact);
-                        applyRestitution = true;
+                        restitutionToApply = restitutionCoefficient;
                         Debug.Log($"impulse {impulse}");
                     }
                     else
@@ -116,8 +117,7 @@ public class MyRigidBodyComponent : MonoBehaviour
                         MyVector3 impulseB = -impulseDirection * impulseMagnitudeB;
                         AddForceAtLocation(impulseA, pointOfImpact);
                         rigidBodies[i].AddForceAtLocation(impulseB, pointOfImpact);
-                        applyRestitution = true;
-                        rigidBodies[i].applyRestitution = true;
+                        restitutionToApply = rigidBodies[i].restitutionToApply = Mathf.Min(restitutionCoefficient, rigidBodies[i].restitutionCoefficient);
                         Debug.Log($"impulseA {impulseA}, impulseB {impulseB}");
                     }
                 }
@@ -129,11 +129,9 @@ public class MyRigidBodyComponent : MonoBehaviour
 
     public void CalculateRestitution()
     {
-        if (applyRestitution)
-        {
-            velocity *= restitutionCoefficient;
-            applyRestitution = false;
-        }
+        velocity *= restitutionToApply;
+        if (restitutionToApply != 1)
+            restitutionToApply = 1;
     }
 
     // Start is called before the first frame update
@@ -180,7 +178,7 @@ public class MyRigidBodyComponent : MonoBehaviour
             float impulseMagnitude = 2 * mass * speed / Time.fixedDeltaTime;
             MyVector3 impulse = new MyVector3(0, 1, 0) * impulseMagnitude;
             externalForces += impulse;
-            applyRestitution = true;
+            restitutionToApply = restitutionCoefficient;
             Debug.Log($"ground impulse {impulse}");
         }
 
