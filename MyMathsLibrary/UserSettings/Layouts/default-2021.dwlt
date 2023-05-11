@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 16
+  controlID: 49
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 17
+  controlID: 50
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 18
+  controlID: 51
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -317,22 +317,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/SceneSpecific/PhysicsSimulator
+    - Assets/Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/SceneSpecific/PhysicsSimulator
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\up2060082\MyMathsLibrary\MyMathsLibrary
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ee5b0000
-    m_LastClickedID: 23534
-    m_ExpandedIDs: 00000000c05b0000cc5b0000f05b000000ca9a3bffffff7f
+    m_SelectedIDs: 32820000
+    m_LastClickedID: 33330
+    m_ExpandedIDs: 000000002e820000328200005682000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -360,7 +360,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c05b0000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -385,8 +385,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 5a5b0000
-    m_LastClickedInstanceID: 23386
+    m_SelectedInstanceIDs: 90cbffff
+    m_LastClickedInstanceID: -13424
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
@@ -490,7 +490,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 36fbffff
+      m_ExpandedIDs: f0d2ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -739,9 +739,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 5.915415, y: 27.392273, z: -9.805063}
+    m_Target: {x: 2.1618207, y: 1.6695414, z: -3.8231523}
     speed: 2
-    m_Value: {x: 5.915415, y: 27.392273, z: -9.805063}
+    m_Value: {x: 2.1618207, y: 1.6695414, z: -3.8231523}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -788,9 +788,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.34179154, y: -0.16926017, z: 0.06272872, w: 0.92229915}
+    m_Target: {x: 0.18202417, y: -0.094240755, z: 0.017527213, w: 0.9786374}
     speed: 2
-    m_Value: {x: 0.34040073, y: -0.16935061, z: 0.062473454, w: 0.9227919}
+    m_Value: {x: 0.1820194, y: -0.09423828, z: 0.017526753, w: 0.9786117}
   m_Size:
     m_Target: 3.3132877
     speed: 2

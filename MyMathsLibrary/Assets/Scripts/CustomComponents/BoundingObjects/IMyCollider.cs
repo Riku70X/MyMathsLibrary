@@ -46,4 +46,5 @@ public interface IMyCollider
                 return false;
         }
     }
+    public void ShowForSeconds(float seconds);
 }

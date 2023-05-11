@@ -22,8 +22,8 @@ public class CollisionBehaviour : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            rigidBody1.AddForce(new(1000, 1000, 0));
-            //rigidBody2.AddForce(new(-50, 50, 0));
+            rigidBody1.AddForce(new(100, 50, 0));
+            rigidBody2.AddForce(new(-50, 100, 0));
         }
     }
 }

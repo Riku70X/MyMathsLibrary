@@ -33,7 +33,7 @@ public class MyCapsuleCollider : MonoBehaviour, IMyCollider // Bounding Capsule
         globalBottomCentrepoint = MyVector3.zero;
         radius = 0;
 
-        height = 0;
+        height = 2;
         scaleXZ = 1;
 
         transformScaleXZ = 1;

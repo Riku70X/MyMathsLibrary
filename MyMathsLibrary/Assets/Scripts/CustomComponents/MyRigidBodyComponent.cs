@@ -34,7 +34,7 @@ public class MyRigidBodyComponent : MonoBehaviour
     public float dragCoefficient = 1; // Also contains the surface Area of the object
     const float airDensity = 1.293f; // 1.293 kg / m^3
 
-    public float restitutionCoefficient; // Used for ball/wall colisions. For ball/ball, the lower restitution is used. Should be between 0 and 1 inclusive.
+    public float restitutionCoefficient = 1; // Used for ball/wall colisions. For ball/ball, the lower restitution is used. Should be between 0 and 1 inclusive.
     float restitutionToApply = 1;
     MyVector3 restitutionDirection = MyVector3.zero;
 
@@ -156,6 +156,8 @@ public class MyRigidBodyComponent : MonoBehaviour
     // Fixed Update is called once per physics frame (default .02 seconds)
     void FixedUpdate()
     {
+        myCollider.ShowForSeconds(Time.fixedDeltaTime);
+
         force = MyVector3.zero;
         torque = MyVector3.zero;
 
@@ -199,7 +201,10 @@ public class MyRigidBodyComponent : MonoBehaviour
         acceleration = force / mass;
         velocity += acceleration * Time.fixedDeltaTime;
         CalculateRestitution();
-        myTransform.position += velocity * Time.fixedDeltaTime;
+        if (!isImmovable)
+        {
+            myTransform.position += velocity * Time.fixedDeltaTime;
+        }
 
         // Angular Motion
         angularAcceleration = torque / inertia;

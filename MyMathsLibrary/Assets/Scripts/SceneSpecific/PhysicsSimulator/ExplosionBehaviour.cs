@@ -27,6 +27,7 @@ public class ExplosionBehaviour : MonoBehaviour
 
         for (int i = 0; i < objects.Length; i++)
         {
+            print(i);
             transforms[i] = objects[i].GetComponent<MyTransformComponent>();
             colliders[i] = objects[i].GetComponent<IMyCollider>();
             rigidBodies[i] = objects[i].GetComponent<MyRigidBodyComponent>();

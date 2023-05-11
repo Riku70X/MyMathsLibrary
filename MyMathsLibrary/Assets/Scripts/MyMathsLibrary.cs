@@ -631,10 +631,5 @@ public class MyMathsLibrary
         return true;
     }
 
-    public static void Separate(MySphereCollider sphereA, MySphereCollider sphereB)
-    {
-
-    }
-
     #endregion // Static Collider functions
 }
